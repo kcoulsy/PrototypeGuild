@@ -1,0 +1,98 @@
+$panel-black: #1e1f26;
+@import '~normalize-scss';
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(https://wow.zamimg.com/uploads/screenshots/normal/151056-explore-duskwood.jpg);
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.main {
+    max-width: 960px;
+    margin: 5px auto;
+    background: $panel-black;
+    padding-bottom: 20px;
+    .row {
+        display: flex;
+    }
+}
+
+.create-post-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    * {
+        font-size: 18px;
+        padding: 5px;
+        margin: 5px 15px;
+    }
+    button {
+        width: 25%;
+        align-self: flex-end;
+    }
+    h2 {
+        color: white;
+    }
+    span.feature {
+        color: white;
+    }
+}
+
+.apply-form {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 15px auto;
+    * {
+        font-size: 18px;
+        padding: 5px;
+        margin: 5px 15px;
+    }
+    button {
+        width: 25%;
+        align-self: flex-end;
+    }
+    select {
+        width: 25%;
+    }
+    .inline {
+        padding: 0;
+        margin: 0;
+    }
+    h2, h3 {
+        color: white;
+        margin-bottom: 0px;
+    }
+    h2 {
+        font-size: 28px;
+    }
+    span.divider {
+        width: calc(100% - 40px);
+        border-bottom: 1px solid white;
+    }
+    span.required {
+        margin: 0;
+        &::before {
+            content: "*";
+            color: red;
+            margin: 0;
+        }
+    }
+}
+
+.main-post {
+    width: 700px;
+    max-width: 700px;
+    padding: 15px;
+    h2, p {
+        color: white;
+    }
+    img {
+        width: 100%;
+    }
+}
+.about {
+    color: white;
+    padding: 15px;
+}
