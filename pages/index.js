@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { BASE_URL } from '../config/constants';
+
 import Link from 'next/link';
 import Head from '../components/head';
 import Nav from '../components/Nav';
@@ -12,7 +14,8 @@ import DiscordEmbed from '../components/DiscordEmbed';
 class Home extends Component {
   static async getInitialProps({ req }) {
     const res = await axios({
-      url: 'http://localhost:3001/home'
+      url: `/home`,
+      baseURL: BASE_URL
     });
     return res.data;
   }

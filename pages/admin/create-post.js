@@ -3,6 +3,7 @@ import axios from 'axios';
 import Router from 'next/router'
 
 import Nav from '../../components/Nav';
+import { BASE_URL } from '../../config/constants';
 
 export default class CreatePost extends Component {
   state = {
@@ -23,7 +24,8 @@ export default class CreatePost extends Component {
     ev.preventDefault();
     const res = await axios({
       method: 'post',
-      url: 'http://localhost:3001/post',
+      url: '/post',
+      baseURL: BASE_URL,
       data: this.state
     });
     if (res.status === 200) {

@@ -70,17 +70,17 @@ router.get('/recruitment', (req, res) => {
     });
 })
 
-// router.post('/recruitment', (req, res) => {
-//     const recruitment = new Recruitment({
-//         playerClass: req.body.playerClass,
-//         recruiting: req.body.recruiting
-//     })
-//     recruitment.save().then(doc => {
-//         res.send(doc);
-//     }, e => {
-//         res.status(400).send(e);
-//     })
-// });
+router.post('/recruitment', (req, res) => {
+    const recruitment = new Recruitment({
+        playerClass: req.body.playerClass,
+        recruiting: req.body.recruiting
+    })
+    recruitment.save().then(doc => {
+        res.send(doc);
+    }, e => {
+        res.status(400).send(e);
+    })
+});
 
 router.patch('/recruitment', (req, res) => {
     Recruitment.findOneAndUpdate({

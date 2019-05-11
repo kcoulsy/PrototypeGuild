@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { BASE_URL } from '../config/constants';
+
 import Head from '../components/head';
 import Nav from '../components/Nav';
 import SidebarBlogPosts from '../components/SidebarBlogPosts';
@@ -8,10 +10,12 @@ import SidebarBlogPosts from '../components/SidebarBlogPosts';
 class Post extends Component {
   static async getInitialProps({ query }) {
     const res = await axios({
-      url: `http://localhost:3001/posts/${query.id}`
+      url: `/posts/${query.id}`,
+      baseURL: BASE_URL
     });
     const all = await axios({
-      url: `http://localhost:3001/posts`
+      url: `/posts`,
+      baseURL: BASE_URL
     });
     return {post : res.data[0], posts: all.data}
   }

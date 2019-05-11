@@ -5,7 +5,7 @@
     },
     "development": {
       "PORT": 3001,
-      "MONGODB_URI": "mongodb://localhost:27017/GuildSite"
+      "MONGODB_URI": "mongodb://coulsy:pass123@ds155396.mlab.com:55396/guildsite"
     }
   }
   

@@ -4,11 +4,13 @@ import Router from "next/router";
 
 import Nav from "../../components/Nav";
 import Recruitment from '../../components/Recruitment';
+import { BASE_URL } from '../../config/constants';
 
 export default class RecruitmentSettings extends Component {
   static async getInitialProps({ req }) {
     const res = await axios({
-      url: "http://localhost:3001/recruitment"
+      url: "/recruitment",
+      baseURL: BASE_URL
     });
     return { playerClasses: res.data };
   }
