@@ -1,0 +1,81 @@
+$panel-black: #1e1f26;
+
+.dash-nav {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 15px auto;
+    height: 40px;
+    background: $panel-black;
+    color: white;
+    a {
+        text-decoration: none;
+        color: white;
+        &:hover {
+            color: darken(white, 20%);
+        }
+    }
+    .nav-items {
+        position: absolute;
+        top: 100%;
+        min-height: 30px;
+        width: 100%;
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            background: #676873;
+            border-bottom: 1px solid darken(#676873, 20%);
+            padding: 10px;
+            &.guild-name {
+                display: none;
+                font-size: 30px;
+                line-height: 15px;
+                z-index: 1000;
+                img {
+                    transform: translateY(-10px);
+                    width: 250px;
+                    &:hover {
+                        transform: translate(1px, -9px);
+                    }
+                }
+                a {
+                    color: #0ebeff;
+                    &:hover {
+                        color: darken(#0ebeff, 10%);
+                    }
+                }
+            }
+        }
+
+        &.hide {
+            display: none;
+        }
+    }
+    .fas {
+        padding: 5px 10px;
+        font-size: 25px;
+        color: white;
+    }
+    @media (min-width: 450px) {
+        .fas {
+            display: none;
+        }
+        display: flex;
+        .nav-items {
+            position: relative;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            .nav-item {
+                background: transparent;
+            }
+        }
+    }
+    @media (min-width: 600px) {
+        .nav-items .nav-item.guild-name {
+            display: block;
+        }
+    }
+}
