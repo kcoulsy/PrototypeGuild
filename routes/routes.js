@@ -5,6 +5,10 @@ const router = express.Router();
 const { Post } = require('../models/Post');
 const { Recruitment } = require('../models/Recruitment');
 
+const User = require('./User');
+
+router.post('/users', User.create);
+
 
 router.get('/home', (req, res) => {
     Recruitment.find().then(playerClasses => {
