@@ -11,7 +11,7 @@ export default () => {
             <div className="nav-item"><Link href="/login"><a>Login</a></Link></div>
             <div className="nav-item"><Link href="/members"><a>Members</a></Link></div>
             <div className="nav-item"><Link href="/admin/applications"><a>applications</a></Link></div>
-            <div className="nav-item"><Link href="/admin/applicant"><a>applicant</a></Link></div>
+            <div className="nav-item"><Link href="/admin/applicant/"><a>applicant</a></Link></div>
             <div className="nav-item"><Link href="/admin/edit-profile"><a>edit profile</a></Link></div>
             <div className="nav-item"><Link href="/upcoming-events"><a>Events</a></Link></div>
             <div className="nav-item"><Link href="/profile"><a>My Profile</a></Link></div>
