@@ -8,7 +8,6 @@ export default () => {
   return (
     <div >
       <Nav />
-      <DashboardNav />
         <div className="main">
         <div className="login">
         <h2>Login</h2>

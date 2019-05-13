@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import "./styles.scss";
 
 export default () => {
@@ -14,18 +15,23 @@ export default () => {
       </thead>
 
       <tbody>
-        <tr>
-          <td>Syth</td>
-          <td>Warrior</td>
-          <td>Tank</td>
-          <td>Guild Master</td>
-        </tr>
-        <tr>
-          <td>Kiccpe</td>
-          <td>Rogue</td>
-          <td>Melee DPS</td>
-          <td>Officer</td>
-        </tr>
+        <Link href="/profile">
+          <tr>
+            <td>Syth</td>
+            <td>Warrior</td>
+            <td>Tank</td>
+            <td>Guild Master</td>
+          </tr>
+        </Link>
+
+        <Link href="/profile">
+          <tr>
+            <td>Kiccpe</td>
+            <td>Rogue</td>
+            <td>Melee DPS</td>
+            <td>Officer</td>
+          </tr>
+        </Link>
       </tbody>
     </table>
   );

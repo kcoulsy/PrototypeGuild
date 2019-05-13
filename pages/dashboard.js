@@ -8,8 +8,8 @@ export default () => {
       <Nav />
       <DashboardNav />
         <div className="main">
-        <div className="row">
-        test
+        <div className="profile">
+        <h4>Click on a link above</h4>
         </div>
       </div>
     </div>

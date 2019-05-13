@@ -8,14 +8,12 @@ export default () => {
     <div className="dash-nav">
     <i className="fas fa-bars"></i>
         <div className="nav-items">
-            <div className="nav-item"><Link href="/login"><a>Login</a></Link></div>
-            <div className="nav-item"><Link href="/members"><a>Members</a></Link></div>
-            <div className="nav-item"><Link href="/admin/applications"><a>applications</a></Link></div>
-            <div className="nav-item"><Link href="/admin/applicant/"><a>applicant</a></Link></div>
-            <div className="nav-item"><Link href="/admin/edit-profile"><a>edit profile</a></Link></div>
-            <div className="nav-item"><Link href="/upcoming-events"><a>Events</a></Link></div>
-            <div className="nav-item"><Link href="/profile"><a>My Profile</a></Link></div>
-            <div className="nav-item"><Link href="/settings"><a>Settings</a></Link></div>
+            <Link href="/members"><div className="nav-item">Members</div></Link>
+            <Link href="/admin/applications"><div className="nav-item">Applications(Admin)</div></Link>
+            <Link href="/admin/edit-profile"><div className="nav-item">Edit User(Admin)</div></Link>
+            <Link href="/upcoming-events"><div className="nav-item">Events</div></Link>
+            <Link href="/profile"><div className="nav-item">My Profile</div></Link>
+            <Link href="/settings"><div className="nav-item">Settings</div></Link>
         </div>
     </div>
   )

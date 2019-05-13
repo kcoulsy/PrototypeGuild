@@ -10,7 +10,7 @@ const Nav = () => (
             <div className="nav-item"><Link href="/about"><a>About</a></Link></div>
             <div className="nav-item"><Link href="/media"><a>Media</a></Link></div>
             <div className="nav-item guild-name"><Link href="/"><a><img src="https://i.imgur.com/cCsagAI.png"/></a></Link></div>
-            <div className="nav-item"><Link href="/dashboard"><a>Members Area</a></Link></div>
+            <div className="nav-item"><Link href="/login"><a>Members Area</a></Link></div>
             <div className="nav-item"><Link href="/apply"><a>Apply</a></Link></div>
         </div>
     </div>

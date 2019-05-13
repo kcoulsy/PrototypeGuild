@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import './styles.scss';
 
 export default () => {
@@ -14,7 +15,7 @@ export default () => {
                 <td><input type="password" /></td>
             </tr>
             <tr>
-                <td></td><td><button className="btn btn-success">Login</button></td>
+                <td></td><td><Link href="/dashboard"><button className="btn btn-success">Login</button></Link></td>
             </tr>
         </tbody>
     </table>
