@@ -44,11 +44,14 @@ body {
 .apply,
 .members,
 .applicant,
-.profile {
+.profile,
+.events {
   color: white;
   padding: 15px;
 }
-
+.events h4 a {
+  color: white;
+}
 .btn {
   padding: 5px;
   cursor: pointer;
