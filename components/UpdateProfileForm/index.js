@@ -2,7 +2,7 @@ import React from "react";
 
 export default () => {
   return (
-    <table class="form">
+    <table className="form">
       <tbody>
         <tr>
           <td>Name</td>
@@ -45,8 +45,8 @@ export default () => {
         <tr>
           <td />
           <td>
-            <button class="btn btn-success">Save</button>
-            <button class="btn btn-danger">Delete</button>
+            <button className="btn btn-success">Save</button>
+            <button className="btn btn-danger">Delete</button>
           </td>
         </tr>
       </tbody>

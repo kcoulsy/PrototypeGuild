@@ -5,7 +5,7 @@ import "./styles.scss";
 
 export default () => {
   return (
-    <table class="selector">
+    <table className="selector">
       <thead>
         <tr>
           <td>Player</td>

@@ -53,8 +53,8 @@ export default () => {
         <tr>
           <td />
           <td>
-            <button class="btn btn-success">Save</button>
-            <button class="btn btn-danger">Delete</button>
+            <button className="btn btn-success">Save</button>
+            <button className="btn btn-danger">Delete</button>
           </td>
         </tr>
       </tbody>

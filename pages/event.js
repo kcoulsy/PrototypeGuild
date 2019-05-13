@@ -10,7 +10,7 @@ export default () => {
         <div className="main">
         <div className="events">
         <h2>Event</h2>
-        <table class="info">
+        <table className="info">
             <tbody>
                 <tr>
                     <td>Name</td>
@@ -23,7 +23,7 @@ export default () => {
             </tbody>
         </table>
         <h4>Accepted</h4>
-        <table class="accepted">
+        <table className="accepted">
             <thead>
                 <tr>
                     <td>Tanks</td>
@@ -41,9 +41,9 @@ export default () => {
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-success">Accept</button>
-        <button class="btn btn-primary">Maybe</button>
-        <button class="btn btn-danger">Decline</button>
+        <button className="btn btn-success">Accept</button>
+        <button className="btn btn-primary">Maybe</button>
+        <button className="btn btn-danger">Decline</button>
         </div>
       </div>
     </div>

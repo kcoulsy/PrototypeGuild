@@ -2,7 +2,7 @@ import React from "react";
 
 export default () => {
   return (
-    <table class="info">
+    <table className="info">
       <tbody>
         <tr>
           <td>Name</td>

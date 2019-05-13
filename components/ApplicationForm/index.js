@@ -110,7 +110,7 @@ export default () => {
         <tr>
           <td />
           <td>
-            <button class="btn btn-success">Apply</button>
+            <button className="btn btn-success">Apply</button>
           </td>
         </tr>
       </tbody>
