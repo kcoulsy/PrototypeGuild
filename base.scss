@@ -42,7 +42,8 @@ body {
 .about,
 .login,
 .apply,
-.members {
+.members,
+.applicant {
   color: white;
   padding: 15px;
 }
@@ -96,4 +97,18 @@ table.selector {
       background: lighten($panel-black, 20%);
     }
   }
+}
+table.info  {
+    color: white;
+    margin-bottom: 15px;
+    border-collapse: collapse;
+    td {
+        padding: 5px 15px;
+        border: 2px solid $panel-black;
+        background: lighten($panel-black, 5%);
+        margin: 1px;
+        &:first-child {
+            background: lighten($panel-black, 10%);
+        }
+    }
 }
