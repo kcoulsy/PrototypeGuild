@@ -92,7 +92,38 @@ body {
         width: 100%;
     }
 }
-.about {
+.about, .login {
     color: white;
     padding: 15px;
+}
+
+
+.btn {
+    padding: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    &.btn-primary {
+        border: 1px solid darken(#087bc1, 5%);
+        background: #087bc1;
+        color: white;
+        &:hover {
+            background: darken(#087bc1, 5%)
+        }
+    }
+    &.btn-danger {
+        border: 1px solid darken(#e83030, 5%);
+        background: #e83030;
+        color: white;
+        &:hover {
+            background:darken(#e83030, 10%);
+        }
+    }
+    &.btn-success {
+        border: 1px solid darken(#248c46, 5%);
+        background: #248c46;
+        color: white;
+        &:hover {
+            background: darken(#248c46, 5%);
+        }
+    }
 }
