@@ -155,3 +155,17 @@ table.form  {
         }
     }
 }
+table.accepted {
+  width: 100%;
+  color: white;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  thead {
+      background: lighten($panel-black, 10%)
+  }
+  td {
+      padding: 5px 10px;
+      border: 1px solid $panel-black;
+      text-align: center;
+  }
+}
