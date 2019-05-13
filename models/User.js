@@ -47,6 +47,9 @@ const UserSchema = new mongoose.Schema({
   professionTwo: {
     type: String
   },
+  enabled: {
+      type: Boolean
+  },
   applicationJSON: {
     type: String
   }

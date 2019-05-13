@@ -8,6 +8,11 @@ const { Recruitment } = require('../models/Recruitment');
 const User = require('./User');
 
 router.post('/users', User.create);
+router.post('/users/find', User.find);
+// router.get('/users/me', Authentication, User.findSelf);
+router.post('/users/login', User.login);
+// router.delete('/users/me/token', Authentication, User.logout);
+
 
 
 router.get('/home', (req, res) => {
