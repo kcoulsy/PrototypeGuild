@@ -1,8 +1,10 @@
+@import '../constants';
+
 .proto-panel {
     margin: 15px auto;
-    border-top: 1px solid hsla(0, 0%, 100%, 0.1);
+    border-top: $proto-border-standard;
     max-width: 960px;
-    background-color: rgba(99, 132, 154, 0.2);
+    background-color: $proto-transparent-blue;
 
     &.panel-sm {
         max-width: 400px;
@@ -11,17 +13,18 @@
     &.panel-md {
         max-width: 650px;
     }
-    
+
     .panel-header {
         padding: 20px 40px;
-        background-color: rgba(99, 132, 154, 0.2);
-        border-bottom: 1px solid #627284;
-        color: #dcdcdc;
+        background-color: $proto-transparent-blue;
+        border-bottom: $proto-border-standard;
+        color: $proto-white;
         font-size: 26px;
         font-weight: normal;
     }
     .panel-content {
         margin: 0 30px;
         padding: 35px 20px;
+        color: $proto-white;
     }
 }

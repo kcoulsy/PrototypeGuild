@@ -1,0 +1,26 @@
+@import '../constants';
+
+table.proto-table {
+    border-collapse: collapse;
+    width: 100%;
+
+    tr {
+        cursor: pointer;
+        &:not(:last-child) {
+            border-bottom: $proto-border-standard;
+        }
+        td {
+            padding: 15px;
+            color: $proto-off-white;
+            text-decoration: none;
+            margin: 15px auto 0;
+            font-weight: normal;
+            text-align: center;
+        }
+        &:hover {
+            td {
+                color: $proto-white;
+            }
+        }
+    }
+}

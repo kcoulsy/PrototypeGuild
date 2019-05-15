@@ -1,5 +1,15 @@
-
 // colors
+$proto-white: #dcdcdc;
+$proto-off-white: #c0d1d4;
+$proto-light-grey: #9fafbd;
+$proto-grey-blue: #627284;
 
+$proto-dark-blue: #1b1c23;
+$proto-border-color: rgba(255, 255, 255, 0.15);
+$proto-transparent-white: rgba(255, 255, 255, 0.15);
+$proto-transparent-black: hsla(0, 0%, 100%, 0.05);
+$proto-transparent-blue: rgba(99, 132, 154, 0.2);
+$proto-transparent-dark-blue: rgba(30, 31, 38, 0.78);
 
-// border widths
+// border
+$proto-border-standard: 1px solid $proto-transparent-white;

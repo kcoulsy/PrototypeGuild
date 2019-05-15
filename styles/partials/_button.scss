@@ -1,12 +1,14 @@
+@import '../constants';
+
 .proto-btn {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: #1b1c23;
-    color: #dcdcdc;
+    border: $proto-border-standard;
+    background: $proto-dark-blue;
+    color: $proto-white;
     margin: 5px 0;
     padding: 5px;
     font-size: 18px;
     cursor: pointer;
     &:hover {
-        background: lighten(#1b1c23, 5%);
+        background: lighten($proto-dark-blue, 5%);
     }
 }
