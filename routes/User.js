@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.find = (req, res) => {
-  let q = pick(req.body, ["username", "_id"]);
+  let q = pick(req.body, ["username", "_id", "enabled"]);
 
   if (q.username) {
     q.username = { $regex: `^${q.username}` };
