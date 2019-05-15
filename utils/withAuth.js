@@ -1,11 +1,17 @@
 // utils/withAuth.js - a HOC for protected pages
 import React, {Component} from 'react'
 import Router from 'next/router'
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import AuthService from './AuthService'
 
 export default function withAuth(AuthComponent) {
     const Auth = new AuthService()
-    return class Authenticated extends Component {
+    
+    class Authenticated extends Component {
+      static getInitialProps(ctx) {
+        // console.log(ctx);
+        return AuthComponent.getInitialProps(ctx)
+      }
       constructor(props) {
         super(props)
         this.state = {
@@ -32,4 +38,5 @@ export default function withAuth(AuthComponent) {
         )
       }
     }
+    return hoistNonReactStatics(Authenticated,AuthComponent);
 }

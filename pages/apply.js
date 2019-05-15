@@ -7,7 +7,7 @@ export default () => {
             <Navbar />
             <div className="content">
                 <Panel title="Apply to the guild" styleName="panel-md">
-                    <div class="proto-form form-apply">
+                    <div className="proto-form form-apply">
                         <input type="text" placeholder="Discord Tag" />
                         <input type="text" placeholder="Character Name" />
 

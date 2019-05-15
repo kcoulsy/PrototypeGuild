@@ -2,9 +2,9 @@ import React from 'react'
 
 export default props => {
     return (
-        <div class={`proto-panel ${props.styleName}`}>
-            {props.title && <div class="panel-header">{props.title}</div>}
-            <div class="panel-content">{props.children}</div>
+        <div className={`proto-panel ${props.styleName}`}>
+            {props.title && <div className="panel-header">{props.title}</div>}
+            <div className="panel-content">{props.children}</div>
         </div>
     )
 }
