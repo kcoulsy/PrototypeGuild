@@ -51,7 +51,7 @@ exports.findSelf = (req, res) => {
 
 exports.login = (req, res) => {
   const body = pick(req.body, ["username", "password"]);
-
+  
   User.findByCredentials(body.username, body.password)
     .then(user => {
       user.createToken("x-auth").then(token => {

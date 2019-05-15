@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Router from 'next/router'
+import withAuth from  '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
-export default () => {
+
+class Members extends Component {
+  render() {
     return (
         <div>
-            <Navbar />
+            <Navbar loggedIn={this.props.auth.loggedIn()} />
             <div className="content">
                 <Panel title="Members" styleName="panel-md">
                     <table class="proto-table">
@@ -25,4 +29,7 @@ export default () => {
             </div>
         </div>
     )
+  }
 }
+
+export default withAuth(Members);
