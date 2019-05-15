@@ -1,0 +1,30 @@
+
+
+.proto-form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+    &.form-apply {
+        max-width: 600px;
+    }
+    a {
+        color: #9fafbd;
+        text-decoration: none;
+        margin: 15px auto 0;
+        font-weight: normal;
+        &:hover {
+            color: #c0d1d4;
+        }
+    }
+    input, select, textarea {
+        padding: 10px;
+        color:  #a09e9e;
+        font-size: 20px;
+        background: rgba(30, 31, 38, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-sizing: border-box;
+        margin: 5px 0;
+    }
+}

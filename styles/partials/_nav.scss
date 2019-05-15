@@ -1,0 +1,27 @@
+.proto-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 3px 20px;
+    height: 50px;
+    border-bottom: 1px solid #627284;
+    background-color: hsla(0, 0%, 100%, 0.05);
+    box-sizing: border-box;
+    .nav-container {
+    display: flex;
+    justify-content: space-between;
+        max-width: 960px;
+        margin: 0 auto;
+    }
+    .nav-item {
+        color: hsla(0, 0%, 100%, 0.7);
+        font-size: 20px;
+        padding: 10px;
+        display: inline-block;
+        cursor: pointer;
+        &:hover {
+            color: hsla(0, 0%, 100%, 0.9);
+        }
+    }
+}

@@ -1,12 +1,14 @@
 $panel-black: #1e1f26;
 @import "~normalize-scss";
 
-body {
-  margin: 0;
-  padding: 0;
-  background-image: url(https://wow.zamimg.com/uploads/screenshots/normal/151056-explore-duskwood.jpg);
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
+@import './styles/index';
+
+// body {
+//   margin: 0;
+//   padding: 0;
+//   background-image: url(https://wow.zamimg.com/uploads/screenshots/normal/151056-explore-duskwood.jpg);
+//   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+// }
 
 .main {
   max-width: 960px;

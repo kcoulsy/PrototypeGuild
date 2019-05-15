@@ -1,19 +1,20 @@
 import React from 'react'
-
-import Nav from '../components/Nav';
-import LoginForm from '../components/LoginForm'
-import DashboardNav from '../components/DashboardNav'
-
+import Navbar from '../components/Navbar'
+import Panel from '../components/Panel'
 export default () => {
-  return (
-    <div >
-      <Nav />
-        <div className="main">
-        <div className="login">
-        <h2>Login</h2>
-        <LoginForm />
+    return (
+        <div>
+            <Navbar />
+            <div className="content">
+                <Panel styleName="panel-sm">
+                    <div class="proto-form">
+                        <input type="text" placeholder="Username" />
+                        <input type="password" placeholder="Password" />
+                        <button className="proto-btn">Login</button>
+                        <a href="">Click here to Apply</a>
+                    </div>
+                </Panel>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
