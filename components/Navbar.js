@@ -40,6 +40,9 @@ export default class Navbar extends Component {
                         <Link href="/">
                             <div className="nav-item">Home</div>
                         </Link>
+                        <Link href="/about">
+                            <div className="nav-item">About</div>
+                        </Link>
                     </div>
                     <div className="nav-right">
                     {links}
