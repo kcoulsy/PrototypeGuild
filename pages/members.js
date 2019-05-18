@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import upperFirst from 'lodash/upperFirst';
 import axios from 'axios'
 import Link from 'next/link'
 import withAuth from '../utils/withAuth'
@@ -26,6 +27,7 @@ class Members extends Component {
                         <table className="proto-table">
                             <tbody>
                                 {this.props.members.map(member => {
+                                    console.log(member);
                                     return (
                                         <Link
                                             key={member._id}
@@ -33,8 +35,8 @@ class Members extends Component {
                                         >
                                             <tr>
                                                 <td>{member.characterName}</td>
-                                                <td>{member.playerClass}</td>
-                                                <td>{member.playerRole}</td>
+                                                <td>{upperFirst(member.playerClass)}</td>
+                                                <td>{upperFirst(member.playerRole)}</td>
                                             </tr>
                                         </Link>
                                     )

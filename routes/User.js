@@ -10,7 +10,7 @@ exports.create = (req, res) => {
         'characterName',
         'discordTag',
         'playerClass',
-        'playerSpec',
+        'playerRole',
         'professionOne',
         'professionTwo',
         'applicationJSON'
@@ -19,6 +19,7 @@ exports.create = (req, res) => {
     body.enabled = false;
     body.deleted = false;
     body.username = body.username.toLowerCase();
+
     const user = new User(body)
     user.save()
         .then(() => {
@@ -56,6 +57,7 @@ exports.login = (req, res) => {
 
     User.findByCredentials(body.username, body.password)
         .then(user => {
+            user.removeToken();
             user.createToken('x-auth').then(token => {
                 res.header('x-auth', token).send(user)
             })

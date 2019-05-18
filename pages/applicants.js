@@ -18,6 +18,20 @@ class Applicants extends Component {
     }
 
     render() {
+        if (!this.props.members.length) {
+            return (
+                <div>
+                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <div className="content">
+                        <Panel styleName="panel-sm">
+                            <Link href="/applicants">
+                                <a>Currently no applications!</a>
+                            </Link>
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div>
                 <Navbar loggedIn={this.props.auth.loggedIn()} />

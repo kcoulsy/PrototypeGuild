@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import upperFirst from 'lodash/upperFirst'
 
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
@@ -27,23 +28,23 @@ class Profile extends Component {
                             <tbody>
                                 <tr>
                                     <td>Character Name</td>
-                                    <td>{user.characterName}</td>
+                                    <td>{upperFirst(user.characterName)}</td>
                                 </tr>
                                 <tr>
                                     <td>Class</td>
-                                    <td>{user.playerClass}</td>
+                                    <td>{upperFirst(user.playerClass)}</td>
                                 </tr>
                                 <tr>
                                     <td>Role</td>
-                                    <td>{user.playerRole}</td>
+                                    <td>{upperFirst(user.playerRole)}</td>
                                 </tr>
                                 <tr>
                                     <td>Rank</td>
-                                    <td>{user.rank}</td>
+                                    <td>{upperFirst(user.rank)}</td>
                                 </tr>
                                 <tr>
                                     <td>Professions</td>
-                                    <td>{user.professionOne}/{user.professionTwo}</td>
+                                    <td>{upperFirst(user.professionOne)}/{upperFirst(user.professionTwo)}</td>
                                 </tr>
                             </tbody>
                         </table>

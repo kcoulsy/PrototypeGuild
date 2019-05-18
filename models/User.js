@@ -74,6 +74,7 @@ UserSchema.methods.toJSON = function() {
         'username',
         'characterName',
         'discordTag',
+        'playerRole',
         'playerClass',
         'rank',
         'professionOne',

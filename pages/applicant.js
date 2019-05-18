@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import upperFirst from 'lodash/upperFirst';
 import axios from 'axios'
 import Link from 'next/link'
 
@@ -104,29 +105,29 @@ class Applicant extends Component {
                             <tbody>
                                 <tr>
                                     <td>Username</td>
-                                    <td>{user.username}</td>
+                                    <td>{upperFirst(user.username)}</td>
                                 </tr>
                                 <tr>
                                     <td>Discord Tag</td>
-                                    <td>{user.discordTag}</td>
+                                    <td>{upperFirst(user.discordTag)}</td>
                                 </tr>
                                 <tr>
                                     <td>Character Name</td>
-                                    <td>{user.characterName}</td>
+                                    <td>{upperFirst(user.characterName)}</td>
                                 </tr>
                                 <tr>
                                     <td>Class</td>
-                                    <td>{user.playerClass}</td>
+                                    <td>{upperFirst(user.playerClass)}</td>
                                 </tr>
                                 <tr>
                                     <td>Role</td>
-                                    <td>{user.playerRole}</td>
+                                    <td>{upperFirst(user.playerRole)}</td>
                                 </tr>
                                 <tr>
                                     <td>Professions</td>
                                     <td>
-                                        {user.professionOne}/
-                                        {user.professionTwo}
+                                        {upperFirst(user.professionOne)}/
+                                        {upperFirst(user.professionTwo)}
                                     </td>
                                 </tr>
                                 {Object.keys(application).map(key => {
