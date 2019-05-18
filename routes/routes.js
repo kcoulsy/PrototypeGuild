@@ -11,13 +11,9 @@ const User = require('./User');
 
 
 router.post('/users', User.create);
-
 router.post('/users/login', User.login);
-
 router.post('/users/find', Auth, User.find);
-
-// router.delete('/users/me/token', Authentication, User.logout);
-
+router.delete('/users/logout', Auth, User.logout);
 
 router.post('/applicants', AdminAuth, User.findApplicants);
 router.patch('/applicants/accept/:id', AdminAuth, User.acceptApplicant); 

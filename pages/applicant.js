@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import upperFirst from 'lodash/upperFirst';
-import axios from 'axios'
+import upperFirst from 'lodash/upperFirst'
 import Link from 'next/link'
 
 import withAuth from '../utils/withAuth'
@@ -9,57 +8,72 @@ import Panel from '../components/Panel'
 
 class Applicant extends Component {
     static async getInitialProps({ query }) {
-        const res = await axios({
-            method: 'post',
-            url: `http://localhost:3001/applicants`,
-            data: {
-                _id: query.id
-            }
-        })
-        return { user: res.data[0] }
+        return { id: query.id }
     }
+
     state = {
         accepted: false,
         declined: false
     }
+
+    componentDidMount() {
+        this.props.auth
+            .api('post', '/applicants', {
+                data: {
+                    _id: this.props.id
+                }
+            })
+            .then(res => {
+                this.setState({ user: res[0] })
+            })
+    }
+
     handleAccept = e => {
         e.preventDefault()
         if (confirm('Are you sure?')) {
-            axios({
-                method: 'patch',
-                url: `http://localhost:3001/applicants/accept/${this.props.user._id}`,
-                data: {
-                    enabled: true
-                }
-            }).then(res => {
-                this.setState({ accepted: true })
-            })
+            this.props.auth
+                .api('patch', `applicants/accept/${this.state.user._id}`, {
+                    data: {
+                        enabled: true
+                    }
+                })
+                .then(res => {
+                    this.setState({ accepted: true })
+                })
         }
     }
     handleDecline = e => {
         e.preventDefault()
         if (confirm('Are you sure?')) {
-            axios({
-                method: 'patch',
-                url: `http://localhost:3001/applicants/decline/${this.props.user._id}`,
-                data: {
-                    deleted: true
-                }
-            }).then(res => {
-                this.setState({ declined: true })
-            })
+            this.props.auth
+                .api('patch', `applicants/decline/${this.state.user._id}`, {
+                    data: {
+                        deleted: true
+                    }
+                })
+                .then(res => {
+                    this.setState({ accepted: true })
+                })
         }
     }
     render() {
-        const { user } = this.props
-        const application =
-            user && user.applicationJSON && JSON.parse(user.applicationJSON)
+        const { user } = this.state
+        const applicationJSON = (user && user.applicationJSON) || ''
+        let application = applicationJSON.length && JSON.parse(applicationJSON)
+
+        if (typeof application === 'string') {
+            application = JSON.parse(application)
+        }
+
         if (!user) {
             return (
                 <div>
                     <Navbar loggedIn={this.props.auth.loggedIn()} />
                     <div className="content">
-                        <Panel title="Applicant not found!" styleName="panel-sm">
+                        <Panel
+                            title="Applicant not found!"
+                            styleName="panel-sm"
+                        >
                             <Link href="/applicants">
                                 <a>Click here to see more applicants</a>
                             </Link>

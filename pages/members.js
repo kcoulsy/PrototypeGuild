@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
 import upperFirst from 'lodash/upperFirst';
-import axios from 'axios'
 import Link from 'next/link'
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
 
 class Members extends Component {
-    static async getInitialProps({ query }) {
-        const res = await axios({
-            method: 'post',
-            url: `http://localhost:3001/users/find`,
+    static async getInitialProps() {}
+
+    state = {
+        members: []
+    }
+
+    componentDidMount() {
+        this.props.auth.api('post', '/users/find', {
             data: {
                 enabled: true
             }
+        }).then(res => {
+            this.setState({ members: res });
         })
-        return { members: res.data }
     }
 
     render() {
+
         return (
             <div>
                 <Navbar auth={this.props.auth} />
@@ -26,7 +31,7 @@ class Members extends Component {
                     <Panel title="Members" styleName="panel-md">
                         <table className="proto-table">
                             <tbody>
-                                {this.props.members.map(member => {
+                                {this.state.members && this.state.members.map(member => {
                                     console.log(member);
                                     return (
                                         <Link

@@ -1,24 +1,30 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Link from 'next/link'
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
 
 class Applicants extends Component {
-    static async getInitialProps({ query }) {
-        const res = await axios({
-            method: 'post',
-            url: `http://localhost:3001/applicants`,
-            data: {
-                enabled: false
-            }
-        })
-        return { members: res.data }
+    static async getInitialProps() {}
+
+    state = {
+        members: []
+    }
+
+    componentDidMount() {
+        this.props.auth
+            .api('post', '/applicants', {
+                data: {
+                    enabled: true
+                }
+            })
+            .then(res => {
+                this.setState({ members: res })
+            })
     }
 
     render() {
-        if (!this.props.members.length) {
+        if (!this.state.members.length) {
             return (
                 <div>
                     <Navbar auth={this.props.auth} />
@@ -39,7 +45,7 @@ class Applicants extends Component {
                     <Panel title="Applications" styleName="panel-md">
                         <table className="proto-table">
                             <tbody>
-                                {this.props.members.map(member => {
+                                {this.state.members.map(member => {
                                     return (
                                         <Link
                                             key={member._id}

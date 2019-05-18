@@ -1,19 +1,19 @@
+import axios from 'axios';
 export default class AuthService {
     constructor(domain) {
       this.domain = domain || 'http://localhost:3001'
-      this.fetch = this.fetch.bind(this)
+      this.api = this.api.bind(this)
       this.login = this.login.bind(this)
       this.getProfile = this.getProfile.bind(this)
     }
   
     login(username, password) {
       // Get a token
-      return this.fetch(`${this.domain}/users/login`, {
-        method: 'POST',
-        body: JSON.stringify({
+      return this.api('post', '/users/login', {
+        data:{
           username,
           password
-        })
+        }
       }).then(res => {
         this.setToken(res.tokens[0])
         this.setProfile(res)
@@ -71,22 +71,25 @@ export default class AuthService {
       }
     }
   
-    fetch(url, options){
+    async api(method, endpoint, options){
       // performs api calls sending the required authentication headers
       const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-  
+
       if (this.loggedIn()){
         headers['x-auth'] = this.getToken()
       }
-  
-      return fetch(url, {
-        headers,
+
+      return axios({
+        method,
+        url: endpoint,
+        baseUrl: 'http://localhost:3001/',
+        headers: headers,
         ...options
-      })
-      .then(this._checkStatus)
-      .then(response => response.json())
+      }).then(res => {
+        return Promise.resolve(res.data)
+      });
     }
   }

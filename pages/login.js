@@ -25,17 +25,15 @@ export default class Login extends Component {
             Router.push('http://localhost:3001/members')
         }
       }
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         e.preventDefault()
         auth.login(this.state.username, this.state.password).then(res => {
             Router.push('http://localhost:3001/members')
-            console.log(res)
         }).catch(e => {
             this.setState({error: 'Unable to login'})
         })
     }
     render() {
-        console.log(this.state)
         return (
             <div>
                 <Navbar loggedIn={false}/>

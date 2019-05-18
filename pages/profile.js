@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import upperFirst from 'lodash/upperFirst'
 
 import withAuth from '../utils/withAuth'
@@ -7,18 +6,29 @@ import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
 
 class Profile extends Component {
-    static async getInitialProps({query}) {
-        const res = await axios({
-            method: 'post',
-          url: `http://localhost:3001/users/find`,
-          data: {
-              _id: query.id
-          }
-        });
-        return {user: res.data[0]}
-      }
+    static async getInitialProps({ query }) {
+        return { id: query.id }
+    }
+
+    state = {
+        user: {}
+    }
+
+    componentDidMount() {
+        this.props.auth
+            .api('post', '/users/find', {
+                data: {
+                    _id: this.props.id
+                }
+            })
+            .then(res => {
+                this.setState({ user: res[0] })
+            })
+    }
+
     render() {
-        const {user} = this.props;
+        const { user } = this.state
+
         return (
             <div>
                 <Navbar auth={this.props.auth} />
@@ -44,7 +54,10 @@ class Profile extends Component {
                                 </tr>
                                 <tr>
                                     <td>Professions</td>
-                                    <td>{upperFirst(user.professionOne)}/{upperFirst(user.professionTwo)}</td>
+                                    <td>
+                                        {upperFirst(user.professionOne)}/
+                                        {upperFirst(user.professionTwo)}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
