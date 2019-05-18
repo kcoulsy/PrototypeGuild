@@ -93,11 +93,11 @@ exports.findApplicants = (req, res) => {
 exports.acceptApplicant = (req, res) => {
   const { id } = req.params
   const body = pick(req.body, ['enabled'])
+  body.enabledBy = req.user._id;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send({error: 'User ID is not valid'});
   }
-
   User.findByIdAndUpdate(id,
       { $set: body },
       { new: true,
@@ -115,8 +115,9 @@ exports.acceptApplicant = (req, res) => {
 }
 
 exports.declineApplicant = (req, res) => {
-  const { id } = req.params
-  const body = pick(req.body, ['deleted'])
+  const { id } = req.params;
+  const body = pick(req.body, ['deleted']);
+  body.enabledBy = req.user._id;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send({error: 'User ID is not valid'});

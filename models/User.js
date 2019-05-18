@@ -49,18 +49,26 @@ const UserSchema = new mongoose.Schema({
         type: String
     },
     enabled: {
-        // 0 if applicant 1 if accepted
-        type: Boolean
+        type: Boolean,
+        default: false
     },
-    admin: {
-        type: Boolean
+    enabledBy: {
+        type: mongoose.Schema.Types.ObjectId,
     },
     deleted: {
-        type: Boolean
+        type: Boolean,
+        default: false
+    },
+    admin: {
+        type: Boolean,
+        default: false
     },
     applicationJSON: {
         type: String
     }
+},
+{
+    timestamps: true
 })
 
 UserSchema.methods.toJSON = function() {
