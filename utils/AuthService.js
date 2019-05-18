@@ -56,8 +56,10 @@ export default class AuthService {
   
     logout(){
       // Clear user token and profile data from localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('profile');
+      this.api('delete', '/users/logout').then(res => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('profile');
+      })
     }
   
     _checkStatus(response) {

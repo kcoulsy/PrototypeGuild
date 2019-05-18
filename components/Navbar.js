@@ -8,7 +8,6 @@ const auth = new AuthService();
 
 export default class Navbar extends Component {
     handleLogout = () => {
-        console.log('hello')
         auth.logout();
         Router.push('http://localhost:3001/')
     }

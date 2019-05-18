@@ -9,7 +9,6 @@ export default function withAuth(AuthComponent) {
     
     class Authenticated extends Component {
       static getInitialProps(ctx) {
-        // console.log(ctx);
         return AuthComponent.getInitialProps(ctx)
       }
       constructor(props) {
