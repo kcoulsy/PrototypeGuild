@@ -32,7 +32,6 @@ class Members extends Component {
                         <table className="proto-table">
                             <tbody>
                                 {this.state.members && this.state.members.map(member => {
-                                    console.log(member);
                                     return (
                                         <Link
                                             key={member._id}

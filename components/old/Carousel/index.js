@@ -6,7 +6,6 @@ import './styles.scss';
 class Carousel extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       slides: props.featured.length,
       currentCount: 1
@@ -28,7 +27,6 @@ timer = () =>  {
   } else {
     this.setState({ currentCount: 1 });
   }
-  // console.log(this.state);
 }
   render() {
     return (

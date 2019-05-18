@@ -22,7 +22,6 @@ class Home extends Component {
 
   render() {
     const {posts, playerClasses, featured} = this.props;
-    console.log(this.props);
     return <div >
       <Nav />
         <div className="main">

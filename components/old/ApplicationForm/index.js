@@ -41,7 +41,6 @@ export default class componentName extends Component {
   }
   handleSubmit = (ev) => {
     if (this.validate()) {
-      console.log('valid');
     }
   }
 
@@ -90,7 +89,6 @@ export default class componentName extends Component {
   }
 
   render() {
-    // console.log(this.state);
     return (
       <div>
 

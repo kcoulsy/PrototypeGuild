@@ -19,8 +19,6 @@ exports.create = (req, res) => {
     body.enabled = false;
     body.deleted = false;
     body.username = body.username.toLowerCase();
-    console.log(body);
-    console.log(JSON.parse(body.applicationJSON))
 
     const user = new User(body)
     user.save()
