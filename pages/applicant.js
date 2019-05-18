@@ -10,7 +10,7 @@ class Applicant extends Component {
     static async getInitialProps({ query }) {
         const res = await axios({
             method: 'post',
-            url: `http://localhost:3001/users/find`,
+            url: `http://localhost:3001/applicants`,
             data: {
                 _id: query.id
             }
@@ -24,19 +24,49 @@ class Applicant extends Component {
     handleAccept = e => {
         e.preventDefault()
         if (confirm('Are you sure?')) {
-            this.setState({ accepted: true })
+            axios({
+                method: 'patch',
+                url: `http://localhost:3001/applicants/accept/${this.props.user._id}`,
+                data: {
+                    enabled: true
+                }
+            }).then(res => {
+                this.setState({ accepted: true })
+            })
         }
     }
     handleDecline = e => {
         e.preventDefault()
         if (confirm('Are you sure?')) {
-            this.setState({ declined: true })
+            axios({
+                method: 'patch',
+                url: `http://localhost:3001/applicants/decline/${this.props.user._id}`,
+                data: {
+                    deleted: true
+                }
+            }).then(res => {
+                this.setState({ declined: true })
+            })
         }
     }
     render() {
         const { user } = this.props
         const application =
-            user.applicationJSON && JSON.parse(user.applicationJSON)
+            user && user.applicationJSON && JSON.parse(user.applicationJSON)
+        if (!user) {
+            return (
+                <div>
+                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <div className="content">
+                        <Panel title="Applicant not found!" styleName="panel-sm">
+                            <Link href="/applicants">
+                                <a>Click here to see more applicants</a>
+                            </Link>
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
         if (this.state.accepted) {
             return (
                 <div>

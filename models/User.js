@@ -48,10 +48,14 @@ const UserSchema = new mongoose.Schema({
     professionTwo: {
         type: String
     },
-    enabled: { // 0 if applicant 1 if accepted
+    enabled: {
+        // 0 if applicant 1 if accepted
         type: Boolean
     },
     admin: {
+        type: Boolean
+    },
+    deleted: {
         type: Boolean
     },
     applicationJSON: {
@@ -127,7 +131,8 @@ UserSchema.statics.findByToken = function(token) {
 }
 
 UserSchema.statics.findByCredentials = function(username, password) {
-    return this.findOne({ username }).then(user => {
+    username = username.toLowerCase();
+    return this.findOne({ username}).then(user => {
         if (!user) {
             return Promise.reject()
         }
@@ -143,22 +148,22 @@ UserSchema.statics.findByCredentials = function(username, password) {
     })
 }
 
-UserSchema.pre('save', function(next){
-  var user = this;
-
-  //we don't want to rehash our hashed password.
-  //in this case isModified is going from nothing to something = modified.
-  if(user.isModified('password')){
-    bcrypt.genSalt(10, (err,salt) => {
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        user.password = hash;
-        next();
-      });
-    });
-  } else {
-    next();
-  }
-});
+UserSchema.pre('save', function(next) {
+    var user = this
+    user.username = user.username.toLowerCase()
+    //we don't want to rehash our hashed password.
+    //in this case isModified is going from nothing to something = modified.
+    if (user.isModified('password')) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                user.password = hash
+                next()
+            })
+        })
+    } else {
+        next()
+    }
+})
 
 const User = mongoose.model('User', UserSchema)
 

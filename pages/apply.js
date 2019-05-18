@@ -94,17 +94,16 @@ export default class Apply extends Component {
           this.setError('Your passwords must match!');
           return false;
         }
-        if (!this.state.captcha) {
-          this.setError('You must prove you\'re not a robot!');
-          return false;
-        }
+        // if (!this.state.captcha) {
+        //   this.setError('You must prove you\'re not a robot!');
+        //   return false;
+        // }
         return true;
       }
       setError = (msg) => {
         this.setState({error: msg});
       }
     render() {
-        console.log(this.state)
         return (
             <div>
                 <Navbar />

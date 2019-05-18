@@ -14,9 +14,14 @@ router.post('/users/login', User.login);
 // find, used for applications, members, applicant, profile
 router.post('/users/find', User.find);
 
-// accecpt application 
+
+router.post('/applicants', User.findApplicants);
+
+// accecpt application
+router.patch('/applicants/accept/:id', User.acceptApplicant); 
 
 // delete application
+router.patch('/applicants/decline/:id', User.declineApplicant); 
 
 
 // router.get('/users/me', Authentication, User.findSelf);

@@ -9,7 +9,7 @@ class Applicants extends Component {
     static async getInitialProps({ query }) {
         const res = await axios({
             method: 'post',
-            url: `http://localhost:3001/users/find`,
+            url: `http://localhost:3001/applicants`,
             data: {
                 enabled: false
             }
