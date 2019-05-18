@@ -4,6 +4,7 @@ import upperFirst from 'lodash/upperFirst'
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
+import Loader from '../components/Loader'
 
 class Profile extends Component {
     static async getInitialProps({ query }) {
@@ -11,7 +12,8 @@ class Profile extends Component {
     }
 
     state = {
-        user: {}
+        user: {},
+        isLoading: true
     }
 
     componentDidMount() {
@@ -22,7 +24,10 @@ class Profile extends Component {
                 }
             })
             .then(res => {
-                this.setState({ user: res[0] })
+                this.setState({
+                    user: res[0],
+                    isLoading: false
+                })
             })
     }
 
@@ -34,33 +39,39 @@ class Profile extends Component {
                 <Navbar auth={this.props.auth} />
                 <div className="content">
                     <Panel title="Profile" styleName="panel-sm">
-                        <table className="proto-table">
-                            <tbody>
-                                <tr>
-                                    <td>Character Name</td>
-                                    <td>{upperFirst(user.characterName)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Class</td>
-                                    <td>{upperFirst(user.playerClass)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Role</td>
-                                    <td>{upperFirst(user.playerRole)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Rank</td>
-                                    <td>{upperFirst(user.rank)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Professions</td>
-                                    <td>
-                                        {upperFirst(user.professionOne)}/
-                                        {upperFirst(user.professionTwo)}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        {this.state.isLoading ? (
+                            <Loader />
+                        ) : (
+                            <table className="proto-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Character Name</td>
+                                        <td>
+                                            {upperFirst(user.characterName)}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Class</td>
+                                        <td>{upperFirst(user.playerClass)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Role</td>
+                                        <td>{upperFirst(user.playerRole)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rank</td>
+                                        <td>{upperFirst(user.rank)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Professions</td>
+                                        <td>
+                                            {upperFirst(user.professionOne)}/
+                                            {upperFirst(user.professionTwo)}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        )}
                     </Panel>
                 </div>
             </div>

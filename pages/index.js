@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
+import Loader from '../components/Loader';
 
 class Home extends Component {
   render() {
@@ -8,7 +9,8 @@ class Home extends Component {
         <div>
             <Navbar loggedIn={false} />
             <div className="content">
-            <Panel title="hello" className="">Test</Panel>
+            <Panel title="hello" className="">
+            <Loader /></Panel>
             </div>
         </div>
     )

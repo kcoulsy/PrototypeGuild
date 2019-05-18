@@ -4,11 +4,14 @@ import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
 
+import Loader from '../components/Loader'
+
 class Applicants extends Component {
     static async getInitialProps() {}
 
     state = {
-        members: []
+        members: [],
+        isLoading: true
     }
 
     componentDidMount() {
@@ -19,11 +22,23 @@ class Applicants extends Component {
                 }
             })
             .then(res => {
-                this.setState({ members: res })
+                this.setState({ members: res, isLoading: false })
             })
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <div>
+                    <Navbar auth={this.props.auth} />
+                    <div className="content">
+                        <Panel title="Applications" styleName="panel-md">
+                            <Loader />
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
         if (!this.state.members.length) {
             return (
                 <div>

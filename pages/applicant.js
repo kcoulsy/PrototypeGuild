@@ -5,6 +5,7 @@ import Link from 'next/link'
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
 import Panel from '../components/Panel'
+import Loader from '../components/Loader'
 
 class Applicant extends Component {
     static async getInitialProps({ query }) {
@@ -13,10 +14,14 @@ class Applicant extends Component {
 
     state = {
         accepted: false,
-        declined: false
+        declined: false,
+        isLoading: true
     }
 
     componentDidMount() {
+        if (!this.props.id) {
+            this.setState({ user: null, isLoading: false })
+        }
         this.props.auth
             .api('post', '/applicants', {
                 data: {
@@ -24,7 +29,7 @@ class Applicant extends Component {
                 }
             })
             .then(res => {
-                this.setState({ user: res[0] })
+                this.setState({ user: res[0], isLoading: false })
             })
     }
 
@@ -65,10 +70,23 @@ class Applicant extends Component {
             application = JSON.parse(application)
         }
 
+        if (this.state.isLoading) {
+            return (
+                <div>
+                    <Navbar auth={this.props.auth} />
+                    <div className="content">
+                        <Panel title="Applicant" styleName="panel-md">
+                            <Loader />
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
+
         if (!user) {
             return (
                 <div>
-                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <Navbar auth={this.props.auth} />
                     <div className="content">
                         <Panel
                             title="Applicant not found!"
@@ -85,7 +103,7 @@ class Applicant extends Component {
         if (this.state.accepted) {
             return (
                 <div>
-                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <Navbar auth={this.props.auth} />
                     <div className="content">
                         <Panel title="Applicant Accepted!" styleName="panel-sm">
                             <Link href="/applicants">
@@ -99,7 +117,7 @@ class Applicant extends Component {
         if (this.state.declined) {
             return (
                 <div>
-                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <Navbar auth={this.props.auth} />
                     <div className="content">
                         <Panel title="Applicant Declined!" styleName="panel-sm">
                             <Link href="/applicants">
