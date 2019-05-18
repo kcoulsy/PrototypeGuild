@@ -7,10 +7,19 @@ const { Recruitment } = require('../models/Recruitment');
 
 const User = require('./User');
 
+// apply to the guild
 router.post('/users', User.create);
-router.post('/users/find', User.find);
-// router.get('/users/me', Authentication, User.findSelf);
+// user login
 router.post('/users/login', User.login);
+// find, used for applications, members, applicant, profile
+router.post('/users/find', User.find);
+
+// accecpt application 
+
+// delete application
+
+
+// router.get('/users/me', Authentication, User.findSelf);
 // router.delete('/users/me/token', Authentication, User.logout);
 
 

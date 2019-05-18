@@ -22,7 +22,7 @@ class Applicants extends Component {
             <div>
                 <Navbar loggedIn={this.props.auth.loggedIn()} />
                 <div className="content">
-                    <Panel title="Members" styleName="panel-md">
+                    <Panel title="Applications" styleName="panel-md">
                         <table className="proto-table">
                             <tbody>
                                 {this.props.members.map(member => {

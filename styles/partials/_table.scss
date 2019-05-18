@@ -23,4 +23,22 @@ table.proto-table {
             }
         }
     }
+    &.applicant-table {
+        td:first-child {
+            max-width: 100px;
+            width: 100px;
+            text-align: right;
+            padding-right: 10px;
+            border-right: $proto-border-standard;
+        }
+        tr {
+            cursor: default;
+            color: $proto-off-white;
+            &:hover {
+                td {
+                    color: $proto-off-white;
+                }
+            }
+        }
+    }
 }

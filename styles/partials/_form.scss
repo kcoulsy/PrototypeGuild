@@ -9,15 +9,6 @@
     &.form-apply {
         max-width: 600px;
     }
-    a {
-        color: $proto-light-grey;
-        text-decoration: none;
-        margin: 15px auto 0;
-        font-weight: normal;
-        &:hover {
-            color: $proto-off-white;
-        }
-    }
     input,
     select,
     textarea {

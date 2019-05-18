@@ -26,6 +26,9 @@ export default class Navbar extends Component {
         )
         const loggedInLinks = (
             <div>
+                <Link href="/applicants">
+                    <div className="nav-item right">Applications</div>
+                </Link>
                 <Link href="/members">
                     <div className="nav-item right">Members</div>
                 </Link>

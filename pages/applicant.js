@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import Link from 'next/link'
 
 import withAuth from '../utils/withAuth'
 import Navbar from '../components/Navbar'
@@ -16,17 +17,69 @@ class Applicant extends Component {
         })
         return { user: res.data[0] }
     }
+    state = {
+        accepted: false,
+        declined: false
+    }
+    handleAccept = e => {
+        e.preventDefault()
+        if (confirm('Are you sure?')) {
+            this.setState({ accepted: true })
+        }
+    }
+    handleDecline = e => {
+        e.preventDefault()
+        if (confirm('Are you sure?')) {
+            this.setState({ declined: true })
+        }
+    }
     render() {
         const { user } = this.props
-        const application = user.applicationJSON && SON.parse(user.applicationJSON);
-        console.log(user);
+        const application =
+            user.applicationJSON && JSON.parse(user.applicationJSON)
+        if (this.state.accepted) {
+            return (
+                <div>
+                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <div className="content">
+                        <Panel title="Applicant Accepted!" styleName="panel-sm">
+                            <Link href="/applicants">
+                                <a>Click here to see more applicants</a>
+                            </Link>
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
+        if (this.state.declined) {
+            return (
+                <div>
+                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <div className="content">
+                        <Panel title="Applicant Declined!" styleName="panel-sm">
+                            <Link href="/applicants">
+                                <a>Click here to see more applicants</a>
+                            </Link>
+                        </Panel>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div>
                 <Navbar loggedIn={this.props.auth.loggedIn()} />
                 <div className="content">
-                    <Panel title="Applicant" styleName="panel-sm">
-                        <table className="proto-table">
+                    <Panel title="Applicant" styleName="panel-md">
+                        <table className="proto-table applicant-table">
                             <tbody>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>{user.username}</td>
+                                </tr>
+                                <tr>
+                                    <td>Discord Tag</td>
+                                    <td>{user.discordTag}</td>
+                                </tr>
                                 <tr>
                                     <td>Character Name</td>
                                     <td>{user.characterName}</td>
@@ -40,34 +93,36 @@ class Applicant extends Component {
                                     <td>{user.playerRole}</td>
                                 </tr>
                                 <tr>
-                                    <td>Rank</td>
-                                    <td>{user.rank}</td>
-                                </tr>
-                                <tr>
                                     <td>Professions</td>
                                     <td>
                                         {user.professionOne}/
                                         {user.professionTwo}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Discord Tag</td>
-                                    <td>{user.discordTag}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button className="proto-btn">
-                                            Decline
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button className="proto-btn">
-                                            Accept
-                                        </button>
-                                    </td>
-                                </tr>
+                                {Object.keys(application).map(key => {
+                                    return (
+                                        <tr key={key}>
+                                            <td>{key}</td>
+                                            <td>{application[key]}</td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table>
+                        <div className="application-buttons">
+                            <button
+                                className="proto-btn"
+                                onClick={this.handleDecline}
+                            >
+                                Decline
+                            </button>
+                            <button
+                                className="proto-btn"
+                                onClick={this.handleAccept}
+                            >
+                                Accept
+                            </button>
+                        </div>
                     </Panel>
                 </div>
             </div>

@@ -48,7 +48,10 @@ const UserSchema = new mongoose.Schema({
     professionTwo: {
         type: String
     },
-    enabled: {
+    enabled: { // 0 if applicant 1 if accepted
+        type: Boolean
+    },
+    admin: {
         type: Boolean
     },
     applicationJSON: {
@@ -74,6 +77,7 @@ UserSchema.methods.toJSON = function() {
         'enabled',
         'applicationJSON',
         'tokens',
+        'admin'
     ])
 }
 

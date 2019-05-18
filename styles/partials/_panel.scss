@@ -30,4 +30,23 @@
             font-weight: normal;
         }
     }
+    
+    a {
+        color: $proto-light-grey;
+        text-decoration: none;
+        margin: 15px auto 0;
+        font-weight: normal;
+        &:hover {
+            color: $proto-off-white;
+        }
+    }
+    .application-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 20px;
+        button.proto-btn {
+            flex-basis: 30%;
+        }
+    }
 }
