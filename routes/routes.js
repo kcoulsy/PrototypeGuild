@@ -4,25 +4,24 @@ const router = express.Router();
 
 const { Post } = require('../models/Post');
 const { Recruitment } = require('../models/Recruitment');
+const { Auth } = require('./../middleware/Auth');
+const { AdminAuth } = require('./../middleware/AdminAuth');
 
 const User = require('./User');
 
-// apply to the guild
+
 router.post('/users', User.create);
-// user login
+
 router.post('/users/login', User.login);
-// find, used for applications, members, applicant, profile
-router.post('/users/find', User.find);
+
+router.post('/users/find', Auth, User.find);
 
 // router.delete('/users/me/token', Authentication, User.logout);
 
-router.post('/applicants', User.findApplicants);
 
-// accecpt application
-router.patch('/applicants/accept/:id', User.acceptApplicant); 
-
-// delete application
-router.patch('/applicants/decline/:id', User.declineApplicant); 
+router.post('/applicants', AdminAuth, User.findApplicants);
+router.patch('/applicants/accept/:id', AdminAuth, User.acceptApplicant); 
+router.patch('/applicants/decline/:id', AdminAuth, User.declineApplicant); 
 
 
 // router.get('/users/me', Authentication, User.findSelf);
