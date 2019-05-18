@@ -21,7 +21,7 @@ class Profile extends Component {
         const {user} = this.props;
         return (
             <div>
-                <Navbar loggedIn={this.props.auth.loggedIn()} />
+                <Navbar auth={this.props.auth} />
                 <div className="content">
                     <Panel title="Profile" styleName="panel-sm">
                         <table className="proto-table">

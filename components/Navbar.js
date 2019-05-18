@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 
@@ -14,28 +14,38 @@ export default class Navbar extends Component {
     }
 
     render() {
+        const { auth } = this.props;
+        const isAdmin = auth && auth.isAdmin();
+        const loggedIn = auth && auth.loggedIn();
+
         const loggedOutLinks = (
-            <div>
+            <Fragment>
                 <Link href="/login">
                     <div className="nav-item right">Login</div>
                 </Link>
                 <Link href="/apply">
                     <div className="nav-item right">Apply</div>
                 </Link>
-            </div>
+            </Fragment>
         )
         const loggedInLinks = (
-            <div>
-                <Link href="/applicants">
-                    <div className="nav-item right">Applications</div>
-                </Link>
+            <Fragment>
                 <Link href="/members">
                     <div className="nav-item right">Members</div>
                 </Link>
                 <div className="nav-item right" onClick={this.handleLogout}>Logout</div>
-            </div>
+            </Fragment>
         )
-        const links = this.props.loggedIn ? loggedInLinks : loggedOutLinks
+        const links = loggedIn ? loggedInLinks : loggedOutLinks;
+
+        const adminLinks = (
+            <Fragment>
+                <Link href="/applicants">
+                    <div className="nav-item right">Applications</div>
+                </Link>
+            </Fragment>
+        );
+
         return (
             <div className="proto-nav">
                 <div className="nav-container">
@@ -48,6 +58,7 @@ export default class Navbar extends Component {
                         </Link>
                     </div>
                     <div className="nav-right">
+                    {isAdmin && adminLinks}
                     {links}
                     </div>
                 </div>

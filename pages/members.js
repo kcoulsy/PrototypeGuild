@@ -21,7 +21,7 @@ class Members extends Component {
     render() {
         return (
             <div>
-                <Navbar loggedIn={this.props.auth.loggedIn()} />
+                <Navbar auth={this.props.auth} />
                 <div className="content">
                     <Panel title="Members" styleName="panel-md">
                         <table className="proto-table">

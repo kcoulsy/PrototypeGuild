@@ -14,6 +14,7 @@ router.post('/users/login', User.login);
 // find, used for applications, members, applicant, profile
 router.post('/users/find', User.find);
 
+// router.delete('/users/me/token', Authentication, User.logout);
 
 router.post('/applicants', User.findApplicants);
 
@@ -25,7 +26,6 @@ router.patch('/applicants/decline/:id', User.declineApplicant);
 
 
 // router.get('/users/me', Authentication, User.findSelf);
-// router.delete('/users/me/token', Authentication, User.logout);
 
 
 

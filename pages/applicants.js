@@ -21,7 +21,7 @@ class Applicants extends Component {
         if (!this.props.members.length) {
             return (
                 <div>
-                    <Navbar loggedIn={this.props.auth.loggedIn()} />
+                    <Navbar auth={this.props.auth} />
                     <div className="content">
                         <Panel styleName="panel-sm">
                             <Link href="/applicants">
@@ -34,7 +34,7 @@ class Applicants extends Component {
         }
         return (
             <div>
-                <Navbar loggedIn={this.props.auth.loggedIn()} />
+                <Navbar auth={this.props.auth} />
                 <div className="content">
                     <Panel title="Applications" styleName="panel-md">
                         <table className="proto-table">

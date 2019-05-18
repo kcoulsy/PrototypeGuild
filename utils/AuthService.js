@@ -38,6 +38,12 @@ export default class AuthService {
       return profile ? JSON.parse(localStorage.profile) : {}
     }
   
+    isAdmin() {
+      const profile = this.getProfile();
+      
+      return profile && profile.admin;
+    }
+
     setToken({token}){
       // Saves user token to localStorage
       localStorage.setItem('token', token)
