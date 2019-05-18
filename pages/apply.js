@@ -56,10 +56,13 @@ export default class Apply extends Component {
         this.setState({ applicationJSON: newState });
     };
 
-    handleSubmit = () => {
+    handleSubmit = (ev) => {
         const data = this.state;
         const {applicationJSON} = data;
         data.applicationJSON = JSON.stringify(applicationJSON);
+
+        ev.preventDefault();
+
         if (this.validate()) {
             auth.api('post', '/users', {
                 data
@@ -140,7 +143,7 @@ export default class Apply extends Component {
                 <Navbar />
                 <div className="content">
                     <Panel title="Apply to the guild" styleName="panel-md">
-                        <div className="proto-form form-apply">
+                        <form className="proto-form form-apply">
                             <input
                                 name="discordTag"
                                 type="text"
@@ -155,7 +158,6 @@ export default class Apply extends Component {
                             />
                             <select
                                 name="playerClass"
-                                id=""
                                 onChange={this.handleChange}
                             >
                                 <option value="">Please select a class</option>
@@ -170,7 +172,6 @@ export default class Apply extends Component {
                             </select>
                             <select
                                 name="playerRole"
-                                id=""
                                 onChange={this.handleChange}
                             >
                                 <option value="">Please select a role</option>
@@ -223,7 +224,6 @@ export default class Apply extends Component {
                             </select>
                             <textarea
                                 name="aboutSelf"
-                                id=""
                                 cols="30"
                                 rows="5"
                                 onChange={this.handleExtraInfoChange}
@@ -231,7 +231,6 @@ export default class Apply extends Component {
                             />
                             <textarea
                                 name="value"
-                                id=""
                                 cols="30"
                                 rows="5"
                                 onChange={this.handleExtraInfoChange}
@@ -239,7 +238,6 @@ export default class Apply extends Component {
                             />
                             <textarea
                                 name="experience"
-                                id=""
                                 cols="30"
                                 rows="5"
                                 onChange={this.handleExtraInfoChange}
@@ -253,7 +251,6 @@ export default class Apply extends Component {
                             />
                             <textarea
                                 name="anythingElse"
-                                id=""
                                 cols="30"
                                 rows="5"
                                 onChange={this.handleExtraInfoChange}
@@ -264,18 +261,21 @@ export default class Apply extends Component {
                                 type="text"
                                 onChange={this.handleChange}
                                 placeholder="Username"
+                                autoComplete="username"
                             />
                             <input
                                 name="password"
                                 type="password"
                                 onChange={this.handleChange}
                                 placeholder="Password"
+                                autoComplete="new-password"
                             />
                             <input
                                 name="confirm"
                                 type="password"
                                 onChange={this.handleChange}
                                 placeholder="Confirm"
+                                autoComplete="new-password"
                             />
                             <ReCAPTCHA
                                 sitekey="6LcTxaMUAAAAAGRkZQFvvztlW50KYF_QiOVBFwU3"
@@ -290,7 +290,7 @@ export default class Apply extends Component {
                             >
                                 Apply Now
                             </button>
-                        </div>
+                        </form>
                         {error}
                     </Panel>
                 </div>

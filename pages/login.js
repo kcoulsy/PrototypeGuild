@@ -29,10 +29,10 @@ export default class Login extends Component {
         this.setState(newState);
     };
 
-    handleSubmit = e => {
+    handleSubmit = ev => {
         const { username, password } = this.state;
 
-        e.preventDefault();
+        ev.preventDefault();
         auth.login(username, password)
             .then(() => {
                 Router.push('http://localhost:3001/members');
@@ -49,31 +49,35 @@ export default class Login extends Component {
                 <Navbar loggedIn={false} />
                 <div className="content">
                     <Panel styleName="panel-sm">
-                        <div className="proto-form">
+                        <form className="proto-form">
                             {error}
-                            <input
-                                type="text"
-                                name="username"
-                                onChange={this.handleInput}
-                                placeholder="Username"
-                            />
-                            <input
-                                type="password"
-                                name="password"
-                                onChange={this.handleInput}
-                                placeholder="Password"
-                            />
-                            <button
-                                className="proto-btn"
-                                onClick={this.handleSubmit}
-                                type="submit"
-                            >
-                                Login
-                            </button>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    onChange={this.handleInput}
+                                    placeholder="Username"
+                                    autoComplete="username"
+                                />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    onChange={this.handleInput}
+                                    placeholder="Password"
+                                    autoComplete="current-password"
+                                />
+                                <button
+                                    className="proto-btn"
+                                    onClick={this.handleSubmit}
+                                    type="submit"
+                                >
+                                    Login
+                                </button>
+                        </form>
                             <Link href="/apply">
-                                <button className="link-button" type="button">Click here to Apply</button>
+                                <button className="link-button" type="button">
+                                    Click here to Apply
+                                </button>
                             </Link>
-                        </div>
                     </Panel>
                 </div>
             </div>
