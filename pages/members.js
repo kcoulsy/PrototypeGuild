@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import upperFirst from 'lodash/upperFirst'
-import Link from 'next/link'
-import withAuth from '../utils/withAuth'
-import Navbar from '../components/Navbar'
-import Panel from '../components/Panel'
-import Loader from '../components/Loader'
+import React, { Component } from 'react';
+import upperFirst from 'lodash/upperFirst';
+import Link from 'next/link';
+import withAuth from '../utils/withAuth';
+import Navbar from '../components/Navbar';
+import Panel from '../components/Panel';
+import Loader from '../components/Loader';
 
 class Members extends Component {
     static async getInitialProps() {}
@@ -12,36 +12,39 @@ class Members extends Component {
     state = {
         isLoading: true,
         members: []
-    }
+    };
 
     componentDidMount() {
-        this.props.auth
-            .api('post', '/users/find', {
-                data: {
-                    enabled: true
-                }
-            })
-            .then(res => {
-                this.setState({
-                    isLoading: false,
-                    members: res
-                })
-            })
+        const { auth } = this.props;
+
+        auth.api('post', '/users/find', {
+            data: {
+                enabled: true
+            }
+        }).then(res => {
+            this.setState({
+                isLoading: false,
+                members: res
+            });
+        });
     }
 
     render() {
+        const { isLoading, members } = this.state;
+        const { auth } = this.props;
+
         return (
             <div>
-                <Navbar auth={this.props.auth} />
+                <Navbar auth={auth} />
                 <div className="content">
                     <Panel title="Members" styleName="panel-md">
-                        {this.state.isLoading ? (
+                        {isLoading ? (
                             <Loader />
                         ) : (
                             <table className="proto-table">
                                 <tbody>
-                                    {this.state.members &&
-                                        this.state.members.map(member => {
+                                    {members &&
+                                        members.map(member => {
                                             return (
                                                 <Link
                                                     key={member._id}
@@ -67,7 +70,7 @@ class Members extends Component {
                                                         </td>
                                                     </tr>
                                                 </Link>
-                                            )
+                                            );
                                         })}
                                 </tbody>
                             </table>
@@ -75,8 +78,8 @@ class Members extends Component {
                     </Panel>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default withAuth(Members)
+export default withAuth(Members);

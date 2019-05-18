@@ -3,14 +3,15 @@ const { User } = require('../Models/User');
 const AdminAuth = (req, res, next) => {
   const token = req.header('x-auth');
 
-  User.findByToken(token).then((user) => {
+  return User.findByToken(token).then((user) => {
     if (!user) return Promise.reject();
     if (!user.admin) return Promise.reject();
     req.user = user;
     req.token = token;
     next();
+    return user;
   }).catch((err) => {
-    res.status(401).send();
+    return res.status(401).send(err);
   });
 };
 

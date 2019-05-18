@@ -1,16 +1,13 @@
-import React, { Component, Fragment } from 'react'
-import Link from 'next/link'
-import Router from 'next/router'
-
-import AuthService from '../utils/AuthService'
-
-const auth = new AuthService();
+import React, { Component, Fragment } from 'react';
+import Link from 'next/link';
+import Router from 'next/router';
 
 export default class Navbar extends Component {
     handleLogout = () => {
+        const { auth } = this.props;
         auth.logout();
-        Router.push('http://localhost:3001/')
-    }
+        Router.push('http://localhost:3001/');
+    };
 
     render() {
         const { auth } = this.props;
@@ -26,15 +23,23 @@ export default class Navbar extends Component {
                     <div className="nav-item right">Apply</div>
                 </Link>
             </Fragment>
-        )
+        );
         const loggedInLinks = (
             <Fragment>
                 <Link href="/members">
                     <div className="nav-item right">Members</div>
                 </Link>
-                <div className="nav-item right" onClick={this.handleLogout}>Logout</div>
+                <div
+                    className="nav-item right"
+                    role="link"
+                    onClick={this.handleLogout}
+                    onKeyUp={() => {}}
+                    tabIndex={0}
+                >
+                    Logout
+                </div>
             </Fragment>
-        )
+        );
         const links = loggedIn ? loggedInLinks : loggedOutLinks;
 
         const adminLinks = (
@@ -57,11 +62,11 @@ export default class Navbar extends Component {
                         </Link>
                     </div>
                     <div className="nav-right">
-                    {isAdmin && adminLinks}
-                    {links}
+                        {isAdmin && adminLinks}
+                        {links}
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

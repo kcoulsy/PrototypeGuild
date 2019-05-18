@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import Router from 'next/router'
-import ReCAPTCHA from 'react-google-recaptcha'
-import AuthService from '../utils/AuthService'
-import Navbar from '../components/Navbar'
-import Panel from '../components/Panel'
+import React, { Component } from 'react';
+import Router from 'next/router';
+import ReCAPTCHA from 'react-google-recaptcha';
+import AuthService from '../utils/AuthService';
+import Navbar from '../components/Navbar';
+import Panel from '../components/Panel';
 
-const auth = new AuthService()
+const auth = new AuthService();
 
 export default class Apply extends Component {
     state = {
@@ -27,87 +27,114 @@ export default class Apply extends Component {
         password: '',
         confirm: '',
         error: ''
-    }
+    };
 
     handleChange = ev => {
-        if (this.state.error.length) this.setError('')
-        const val = ev.target.value
-        const field = ev.target.name
-        const newState = {}
-        newState[field] = val
-        this.setState(newState)
-    }
+        const { error } = this.state;
+        if (error.length) this.setError('');
+
+        const val = ev.target.value;
+        const field = ev.target.name;
+        const newState = {};
+        newState[field] = val;
+
+        this.setState(() => {
+            return newState
+        })
+        // this.setState(newState);
+    };
 
     handleExtraInfoChange = ev => {
-        if (this.state.error.length) this.setError('')
-        const val = ev.target.value
-        const field = ev.target.name
-        const newState = this.state.applicationJSON
-        newState[field] = val
-        this.setState({ applicationJSON: newState })
-    }
+        const { error, applicationJSON } = this.state;
+        if (error.length) this.setError('');
 
-    handleSubmit = ev => {
-        const data = this.state
-        data.applicationJSON = JSON.stringify(this.state.applicationJSON)
+        const val = ev.target.value;
+        const field = ev.target.name;
+        const newState = applicationJSON;
+        newState[field] = val;
+
+        this.setState({ applicationJSON: newState });
+    };
+
+    handleSubmit = () => {
+        const data = this.state;
+        const {applicationJSON} = data;
+        data.applicationJSON = JSON.stringify(applicationJSON);
         if (this.validate()) {
             auth.api('post', '/users', {
-                data: this.state
-            }).then(res => {
-                Router.push('http://localhost:3001/')
-            })
+                data
+            }).then(() => {
+                Router.push('http://localhost:3001/');
+            });
         }
-    }
+    };
 
     validate = () => {
-        if (!this.state.characterName.length) {
-            this.setError('You must enter your character name!')
-            return false
+        const {
+            characterName,
+            playerClass,
+            playerRole,
+            discordTag,
+            username,
+            password,
+            confirm,
+            captcha,
+            professionOne,
+            professionTwo
+        } = this.state;
+        if (!characterName.length) {
+            this.setError('You must enter your character name!');
+            return false;
         }
-        if (!this.state.playerClass.length) {
-            this.setError('You must select a class!')
-            return false
+        if (!playerClass.length) {
+            this.setError('You must select a class!');
+            return false;
         }
-        if (!this.state.playerRole.length) {
-            this.setError('You must select a role!')
-            return false
+        if (!playerRole.length) {
+            this.setError('You must select a role!');
+            return false;
         }
-        if (!this.state.discordTag) {
-            this.setError('You must add your discord!')
-            return false
+        if (!discordTag) {
+            this.setError('You must add your discord!');
+            return false;
         }
-        if (!this.state.username) {
-            this.setError('You must enter your username!')
-            return false
+        if (!username) {
+            this.setError('You must enter your username!');
+            return false;
         }
-        if (!this.state.password) {
-            this.setError('You must enter your password')
-            return false
+        if (!password) {
+            this.setError('You must enter your password');
+            return false;
         }
-        if (this.state.password.length < 6) {
-            this.setError('Your password must be greater than 6 characters!')
-            return false
+        if (password.length < 6) {
+            this.setError('Your password must be greater than 6 characters!');
+            return false;
         }
-        if (!this.state.confirm) {
-            this.setError('You must enter your password confirmation!')
-            return false
+        if (!confirm) {
+            this.setError('You must enter your password confirmation!');
+            return false;
         }
-        if (this.state.confirm !== this.state.password) {
-            this.setError('Your passwords must match!')
-            return false
+        if (confirm !== password) {
+            this.setError('Your passwords must match!');
+            return false;
         }
-        // if (!this.state.captcha) {
-        //   this.setError('You must prove you\'re not a robot!');
-        //   return false;
-        // }
-        return true
-    }
+        if (!captcha.length) {
+            this.setError("You must prove you're not a robot!");
+            return false;
+        }
+        if (!professionOne.length || !professionTwo.length) {
+            this.setError('You must pick both professions!');
+            return false;
+        }
+        return true;
+    };
 
     setError = msg => {
-        this.setState({ error: msg })
-    }
+        this.setState({ error: msg });
+    };
 
     render() {
+        const { error } = this.state;
         return (
             <div>
                 <Navbar />
@@ -259,14 +286,15 @@ export default class Apply extends Component {
                             <button
                                 className="proto-btn"
                                 onClick={this.handleSubmit}
+                                type="submit"
                             >
                                 Apply Now
                             </button>
                         </div>
-                        {this.state.error}
+                        {error}
                     </Panel>
                 </div>
             </div>
-        )
+        );
     }
 }

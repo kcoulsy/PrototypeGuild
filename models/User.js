@@ -71,11 +71,11 @@ const UserSchema = new mongoose.Schema({
     timestamps: true
 })
 
-UserSchema.methods.toJSON = function() {
-    //overriding what is returned when the document is converted to json.
-    //ie. if we return a json (as we do), we're going to pick out the id and email only to send
-    var user = this
-    var userObject = user.toObject() //creates an object of the user
+UserSchema.methods.toJSON = function toJSON() {
+    // overriding what is returned when the document is converted to json.
+    // ie. if we return a json (as we do), we're going to pick out the id and email only to send
+    const user = this
+    const userObject = user.toObject() // creates an object of the user
 
     return pick(userObject, [
         '_id',
@@ -94,7 +94,7 @@ UserSchema.methods.toJSON = function() {
     ])
 }
 
-UserSchema.methods.createToken = function(type) {
+UserSchema.methods.createToken = function createToken(type) {
     const token = jwt
         .sign(
             {
@@ -115,7 +115,7 @@ UserSchema.methods.createToken = function(type) {
     return this.save().then(() => token)
 }
 
-UserSchema.methods.removeToken = function(token) {
+UserSchema.methods.removeToken = function removeToken() {
     return this.updateOne({
         $set: {
             tokens: []
@@ -123,7 +123,7 @@ UserSchema.methods.removeToken = function(token) {
     })
 }
 
-UserSchema.statics.findByToken = function(token) {
+UserSchema.statics.findByToken = function findByToken(token) {
     let decoded
 
     try {
@@ -139,8 +139,8 @@ UserSchema.statics.findByToken = function(token) {
     })
 }
 
-UserSchema.statics.findByCredentials = function(username, password) {
-    username = username.toLowerCase();
+UserSchema.statics.findByCredentials = function findByCredentials(oldUsername, password) {
+    const username = oldUsername.toLowerCase();
     return this.findOne({ username}).then(user => {
         if (!user) {
             return Promise.reject()
@@ -150,21 +150,21 @@ UserSchema.statics.findByCredentials = function(username, password) {
                 if (res) {
                     resolve(user)
                 } else {
-                    reject()
+                    reject(err)
                 }
             })
         })
     })
 }
 
-UserSchema.pre('save', function(next) {
-    var user = this
+UserSchema.pre('save', function preSave(next) {
+    const user = this
     user.username = user.username.toLowerCase()
-    //we don't want to rehash our hashed password.
-    //in this case isModified is going from nothing to something = modified.
+    // we don't want to rehash our hashed password.
+    // in this case isModified is going from nothing to something = modified.
     if (user.isModified('password')) {
         bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(user.password, salt, (err, hash) => {
+            bcrypt.hash(user.password, salt, (error, hash) => {
                 user.password = hash
                 next()
             })

@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const next = require('next')
 const cors = require('cors');
 
-const { mongoose } = require('./config/mongoose');
+require('./config/mongoose');
+const routes = require('./routes/routes');
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production'
@@ -21,13 +22,14 @@ app.prepare().then(() => {
     server.use(cors());
 
     // Using routes
-    server.use(require('./routes/routes'));
+    server.use(routes);
 
     server.get('*', (req, res) => {
         return handle(req, res)
       })
     
     server.listen(PORT, () => {
+        // eslint-disable-next-line no-console
         console.log(`Server running on port ${PORT}`)
     });
 })

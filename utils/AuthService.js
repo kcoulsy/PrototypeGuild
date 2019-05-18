@@ -1,13 +1,11 @@
 import axios from 'axios';
+
 export default class AuthService {
     constructor(domain) {
       this.domain = domain || 'http://localhost:3001'
-      this.api = this.api.bind(this)
-      this.login = this.login.bind(this)
-      this.getProfile = this.getProfile.bind(this)
     }
   
-    login(username, password) {
+    login = (username, password) => {
       // Get a token
       return this.api('post', '/users/login', {
         data:{
@@ -21,59 +19,59 @@ export default class AuthService {
       })
     }
   
-    loggedIn(){
+    loggedIn = () => {
       // Checks if there is a saved token and it's still valid
       const token = this.getToken()
       return !!token
     }
   
-    setProfile(profile){
+    setProfile = (profile) => {
       // Saves profile data to localStorage
       localStorage.setItem('profile', JSON.stringify(profile))
     }
   
-    getProfile(){
+    getProfile = () => {
       // Retrieves the profile data from localStorage
       const profile = localStorage.getItem('profile')
       return profile ? JSON.parse(localStorage.profile) : {}
     }
   
-    isAdmin() {
+    isAdmin = () => {
       const profile = this.getProfile();
       
       return profile && profile.admin;
     }
 
-    setToken({token}){
+    setToken = ({token}) => {
       // Saves user token to localStorage
       localStorage.setItem('token', token)
     }
   
-    getToken(){
+    getToken = () => {
       // Retrieves the user token from localStorage
       return localStorage.getItem('token')
     }
   
-    logout(){
+    logout = () => {
       // Clear user token and profile data from localStorage
-      this.api('delete', '/users/logout').then(res => {
+      this.api('delete', '/users/logout').then(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('profile');
       })
     }
   
-    _checkStatus(response) {
+    _checkStatus = (response) => {
       // raises an error in case response status is not a success
       if (response.status >= 200 && response.status < 300) {
         return response
-      } else {
-        var error = new Error(response.statusText)
+      } 
+        const error = new Error(response.statusText)
         error.response = response
         throw error
-      }
+      
     }
   
-    async api(method, endpoint, options){
+    api = async (method, endpoint, options) => {
       // performs api calls sending the required authentication headers
       const headers = {
         'Accept': 'application/json',
@@ -88,7 +86,7 @@ export default class AuthService {
         method,
         url: endpoint,
         baseUrl: 'http://localhost:3001/',
-        headers: headers,
+        headers,
         ...options
       }).then(res => {
         return Promise.resolve(res.data)

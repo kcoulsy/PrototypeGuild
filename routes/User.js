@@ -1,7 +1,7 @@
 const pick = require('lodash/pick')
 
 const { ObjectID } = require('mongodb')
-const { User } = require('./../Models/User')
+const { User } = require('../Models/User')
 
 exports.create = (req, res) => {
     const body = pick(req.body, [
@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 }
 
 exports.find = (req, res) => {
-    let q = pick(req.body, ['username', '_id'])
+    const q = pick(req.body, ['username', '_id'])
 
     if (q.username) {
         q.username = { $regex: `^${q.username}` }
@@ -62,7 +62,7 @@ exports.login = (req, res) => {
                 res.header('x-auth', token).send(user)
             })
         })
-        .catch(e => res.status(400).send())
+        .catch(err => res.status(400).send(err))
 }
 
 exports.logout = (req, res) => {
@@ -71,13 +71,13 @@ exports.logout = (req, res) => {
             res.status(200).send()
         },
         err => {
-            res.staus(400).send()
+            res.staus(400).send(err)
         }
     )
 }
 
 exports.findApplicants = (req, res) => {
-  let q = pick(req.body, ['username', '_id'])
+  const q = pick(req.body, ['username', '_id'])
 
   if (q.username) {
       q.username = { $regex: `^${q.username}` }
@@ -98,7 +98,7 @@ exports.acceptApplicant = (req, res) => {
   if (!ObjectID.isValid(id)) {
     return res.status(404).send({error: 'User ID is not valid'});
   }
-  User.findByIdAndUpdate(id,
+  return User.findByIdAndUpdate(id,
       { $set: body },
       { new: true,
         useFindAndModify: false }
@@ -108,7 +108,7 @@ exports.acceptApplicant = (req, res) => {
       }
       const returnedUser = pick(user, ['_id', 'username', 'characterName', 'enabled']);
 
-      res.send({ returnedUser });
+      return res.send({ returnedUser });
   }).catch(e => {
     return res.status(400).send(e);
   })
@@ -123,7 +123,7 @@ exports.declineApplicant = (req, res) => {
     return res.status(404).send({error: 'User ID is not valid'});
   }
 
-  User.findByIdAndUpdate(id,
+  return User.findByIdAndUpdate(id,
       { $set: body },
       { new: true,
         useFindAndModify: false }
@@ -133,7 +133,7 @@ exports.declineApplicant = (req, res) => {
       }
       const returnedUser = pick(user, ['_id', 'username', 'characterName', 'deleted']);
 
-      res.send({ returnedUser });
+      return res.send({ returnedUser });
   }).catch(e => {
     return res.status(400).send(e);
   })

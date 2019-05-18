@@ -9,6 +9,14 @@
     "build": "next build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "precommit": "NODE_ENV=production lint-staged",
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "pretty-quick --staged",
+      "eslint ./ --fix",
+      "git add"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -21,12 +29,27 @@
     "hoist-non-react-statics": "^3.3.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
+    "mongodb": "^3.2.5",
     "mongoose": "^5.5.7",
     "next": "^8.1.0",
     "node-sass": "^4.12.0",
     "normalize-scss": "^7.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-google-recaptcha": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.10.0"
   }
 }

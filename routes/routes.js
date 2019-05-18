@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const { Post } = require('../models/Post');
-const { Recruitment } = require('../models/Recruitment');
+const { Post } = require('../Models/Post');
+const { Recruitment } = require('../Models/Recruitment');
 const { Auth } = require('./../middleware/Auth');
 const { AdminAuth } = require('./../middleware/AdminAuth');
 

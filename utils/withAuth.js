@@ -11,6 +11,7 @@ export default function withAuth(AuthComponent) {
       static getInitialProps(ctx) {
         return AuthComponent.getInitialProps(ctx)
       }
+
       constructor(props) {
         super(props)
         this.state = {
@@ -26,9 +27,11 @@ export default function withAuth(AuthComponent) {
       }
 
       render() {
+        const { isLoading } = this.state;
+        
         return (
           <div>
-          {this.state.isLoading ? (
+          {isLoading ? (
               <div>LOADING....</div>
             ) : (
               <AuthComponent {...this.props}  auth={Auth} />

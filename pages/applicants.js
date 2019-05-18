@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import Link from 'next/link'
-import withAuth from '../utils/withAuth'
-import Navbar from '../components/Navbar'
-import Panel from '../components/Panel'
+import React, { Component } from 'react';
+import Link from 'next/link';
+import withAuth from '../utils/withAuth';
+import Navbar from '../components/Navbar';
+import Panel from '../components/Panel';
 
-import Loader from '../components/Loader'
+import Loader from '../components/Loader';
 
 class Applicants extends Component {
     static async getInitialProps() {}
@@ -12,55 +12,59 @@ class Applicants extends Component {
     state = {
         members: [],
         isLoading: true
-    }
+    };
 
     componentDidMount() {
-        this.props.auth
-            .api('post', '/applicants', {
-                data: {
-                    enabled: true
-                }
-            })
-            .then(res => {
-                this.setState({ members: res, isLoading: false })
-            })
+        const { auth } = this.props;
+        auth.api('post', '/applicants', {
+            data: {
+                enabled: true
+            }
+        }).then(res => {
+            this.setState({ members: res, isLoading: false });
+        });
     }
 
     render() {
-        if (this.state.isLoading) {
+        const { isLoading, members } = this.state;
+        const { auth } = this.props;
+
+        if (isLoading) {
             return (
                 <div>
-                    <Navbar auth={this.props.auth} />
+                    <Navbar auth={auth} />
                     <div className="content">
                         <Panel title="Applications" styleName="panel-md">
                             <Loader />
                         </Panel>
                     </div>
                 </div>
-            )
+            );
         }
-        if (!this.state.members.length) {
+        if (!members.length) {
             return (
                 <div>
-                    <Navbar auth={this.props.auth} />
+                    <Navbar auth={auth} />
                     <div className="content">
                         <Panel styleName="panel-sm">
                             <Link href="/applicants">
-                                <a>Currently no applications!</a>
+                                <button className="link-button" type="button">
+                                    Currently no applications!
+                                </button>
                             </Link>
                         </Panel>
                     </div>
                 </div>
-            )
+            );
         }
         return (
             <div>
-                <Navbar auth={this.props.auth} />
+                <Navbar auth={auth} />
                 <div className="content">
                     <Panel title="Applications" styleName="panel-md">
                         <table className="proto-table">
                             <tbody>
-                                {this.state.members.map(member => {
+                                {members.map(member => {
                                     return (
                                         <Link
                                             key={member._id}
@@ -72,15 +76,15 @@ class Applicants extends Component {
                                                 <td>{member.playerRole}</td>
                                             </tr>
                                         </Link>
-                                    )
+                                    );
                                 })}
                             </tbody>
                         </table>
                     </Panel>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default withAuth(Applicants)
+export default withAuth(Applicants);

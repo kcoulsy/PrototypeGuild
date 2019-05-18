@@ -1,45 +1,46 @@
-import React, { Component } from 'react'
-import upperFirst from 'lodash/upperFirst'
+import React, { Component } from 'react';
+import upperFirst from 'lodash/upperFirst';
 
-import withAuth from '../utils/withAuth'
-import Navbar from '../components/Navbar'
-import Panel from '../components/Panel'
-import Loader from '../components/Loader'
+import withAuth from '../utils/withAuth';
+import Navbar from '../components/Navbar';
+import Panel from '../components/Panel';
+import Loader from '../components/Loader';
 
 class Profile extends Component {
     static async getInitialProps({ query }) {
-        return { id: query.id }
+        return { id: query.id };
     }
 
     state = {
         user: {},
         isLoading: true
-    }
+    };
 
     componentDidMount() {
-        this.props.auth
-            .api('post', '/users/find', {
-                data: {
-                    _id: this.props.id
-                }
-            })
-            .then(res => {
-                this.setState({
-                    user: res[0],
-                    isLoading: false
-                })
-            })
+        const { auth, id } = this.props;
+
+        auth.api('post', '/users/find', {
+            data: {
+                _id: id
+            }
+        }).then(res => {
+            this.setState({
+                user: res[0],
+                isLoading: false
+            });
+        });
     }
 
     render() {
-        const { user } = this.state
+        const { user, isLoading } = this.state;
+        const { auth } = this.props;
 
         return (
             <div>
-                <Navbar auth={this.props.auth} />
+                <Navbar auth={auth} />
                 <div className="content">
                     <Panel title="Profile" styleName="panel-sm">
-                        {this.state.isLoading ? (
+                        {isLoading ? (
                             <Loader />
                         ) : (
                             <table className="proto-table">
@@ -75,8 +76,8 @@ class Profile extends Component {
                     </Panel>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default withAuth(Profile)
+export default withAuth(Profile);
