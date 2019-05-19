@@ -60,7 +60,7 @@ export default class CreateEvent extends Component {
         const { error } = this.state;
         return (
             <div>
-                <Navbar />
+                <Navbar auth={auth} />
                 <div className="content">
                     <Panel title="Create Event" styleName="panel-md">
                         <form className="proto-form form-apply">

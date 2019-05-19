@@ -30,8 +30,19 @@ export default class AuthService {
       localStorage.setItem('profile', JSON.stringify(profile))
     }
   
+    validRoute = () => {
+      if (typeof window === 'undefined') {
+        return false;
+      }
+      if (typeof window.localStorage === 'undefined') {
+        return false;
+      }
+      return true;
+    }
+  
     getProfile = () => {
       // Retrieves the profile data from localStorage
+      if (!this.validRoute()) return {};
       const profile = localStorage.getItem('profile')
       return profile ? JSON.parse(localStorage.profile) : {}
     }
@@ -49,6 +60,7 @@ export default class AuthService {
   
     getToken = () => {
       // Retrieves the user token from localStorage
+      if (!this.validRoute()) return null;
       return localStorage.getItem('token')
     }
   
