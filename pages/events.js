@@ -45,7 +45,7 @@ class Events extends Component {
                                             return (
                                                 <Link
                                                     key={event._id}
-                                                    href={`/profile?id=${
+                                                    href={`/event?id=${
                                                         event._id
                                                     }`}
                                                 >

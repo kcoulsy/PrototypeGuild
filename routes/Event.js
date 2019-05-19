@@ -54,9 +54,19 @@ exports.unattend = (req, res) => {
 };
 
 exports.find = (req, res) => {
-    Event.find({}).then(events => {
-        res.send(events);
-    });
+    const { id } = req.body;
+    const q = {};
+
+    if (id) {
+        q._id = id;
+    }
+
+    Event.find(q)
+        .populate('createdBy', 'characterName _id playerRole playerClass')
+        .populate('attendance', 'characterName _id playerRole playerClass')
+        .then(events => {
+            res.send(events);
+        });
 };
 
 exports.remove = (req, res) => {
