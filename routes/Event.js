@@ -3,8 +3,11 @@ const pick = require('lodash/pick');
 const { Event } = require('../Models/Event');
 
 exports.create = (req, res) => {
-    const body = pick(req.body, ['title', 'description']);
+    const body = pick(req.body, ['title', 'description', 'date', 'type']);
     body.createdBy = req.user._id;
+    body.attendance = [];
+    body.date = new Date(body.date * 1000);
+
     const event = new Event(body);
     event
         .save()

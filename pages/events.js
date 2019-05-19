@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import upperFirst from 'lodash/upperFirst';
+import moment from 'moment';
 import Link from 'next/link';
 import withAuth from '../utils/withAuth';
 import Navbar from '../components/Navbar';
@@ -17,7 +18,7 @@ class Events extends Component {
     componentDidMount() {
         const { auth } = this.props;
 
-        auth.api('get', '/events').then(res => {
+        auth.api('get', '/events/find').then(res => {
             this.setState({
                 isLoading: false,
                 events: res
@@ -56,8 +57,11 @@ class Events extends Component {
                                                         </td>
                                                         <td>
                                                             {upperFirst(
-                                                                event.description
+                                                                event.type
                                                             )}
+                                                        </td>
+                                                        <td>
+                                                            {moment(event.date).format("dddd, MMMM Do YYYY")}
                                                         </td>
                                                     </tr>
                                                 </Link>

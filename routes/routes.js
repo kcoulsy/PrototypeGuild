@@ -23,7 +23,7 @@ router.post('/event', AdminAuth, Event.create);
 router.delete('/event', AdminAuth, Event.remove);
 router.patch('/event/attend', Auth, Event.attend);
 router.patch('/event/unattend', Auth, Event.unattend);
-router.get('/events', Auth, Event.find);
+router.get('/events/find', Auth, Event.find);
 // router.get('/users/me', Authentication, User.findSelf);
 
 router.get('/home', (req, res) => {

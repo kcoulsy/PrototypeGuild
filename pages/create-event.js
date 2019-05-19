@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
+import moment from 'moment';
+import 'react-dates/initialize';
+import { SingleDatePicker } from 'react-dates';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
@@ -10,7 +13,10 @@ export default class CreateEvent extends Component {
     state = {
         title: '',
         description: '',
-        error: ''
+        type: '',
+        error: '',
+        date: null,
+        focused: false
     };
 
     handleChange = ev => {
@@ -29,9 +35,8 @@ export default class CreateEvent extends Component {
 
     handleSubmit = ev => {
         const data = this.state;
-        const { applicationJSON } = data;
-        data.applicationJSON = JSON.stringify(applicationJSON);
-
+        const { date } = data;
+        data.date = date.unix();
         ev.preventDefault();
 
         if (this.validate()) {
@@ -44,9 +49,13 @@ export default class CreateEvent extends Component {
     };
 
     validate = () => {
-        const { title } = this.state;
+        const { title, type } = this.state;
         if (!title.length) {
             this.setError('You must enter a title!');
+            return false;
+        }
+        if (!type.length) {
+            this.setError('You must pick a type!');
             return false;
         }
         return true;
@@ -77,6 +86,22 @@ export default class CreateEvent extends Component {
                                 onChange={this.handleChange}
                                 placeholder="Event Description"
                             />
+                            <SingleDatePicker 
+                                date={this.state.date} // momentPropTypes.momentObj or null
+                                onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                                focused={this.state.focused} // PropTypes.bool
+                                onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                                id="date-picker" // PropTypes.string.isRequired,
+                                numberOfMonths={1}
+                                hideKeyboardShortcutsPanel={true}
+                            />
+                            <select name="type" onChange={this.handleChange}>
+                                <option value="">Select Type</option>
+                                <option value="Raid">Raid</option>
+                                <option value="Dungeon">Dungeon</option>
+                                <option value="PVP">PVP</option>
+                                <option value="Other">Other</option>
+                            </select>
                             <button
                                 className="proto-btn"
                                 onClick={this.handleSubmit}
