@@ -15,3 +15,37 @@ exports.create = (req, res) => {
             res.status(400).send(e);
         });
 };
+
+exports.attend = (req, res) => {
+    const user = req.user;
+    const { _id } = req.body;
+
+    Event.findOneAndUpdate(
+        { _id },
+        {
+            $addToSet: { attendance: user._id }
+        },
+        { new: true },
+        (err, resp) => {
+            if (err) return res.send(err);
+            res.send(resp);
+        }
+    );
+};
+
+exports.unattend = (req, res) => {
+    const user = req.user;
+    const { _id } = req.body;
+
+    Event.findOneAndUpdate(
+        { _id },
+        {
+            $pull: { attendance: user._id }
+        },
+        { new: true },
+        (err, resp) => {
+            if (err) return res.send(err);
+            res.send(resp);
+        }
+    );
+};
