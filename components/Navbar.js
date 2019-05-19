@@ -26,6 +26,9 @@ export default class Navbar extends Component {
         );
         const loggedInLinks = (
             <Fragment>
+                <Link href="/events">
+                    <div className="nav-item right">Events</div>
+                </Link>
                 <Link href="/members">
                     <div className="nav-item right">Members</div>
                 </Link>
@@ -46,6 +49,9 @@ export default class Navbar extends Component {
             <Fragment>
                 <Link href="/applicants">
                     <div className="nav-item right">Applications</div>
+                </Link>
+                <Link href="/create-event">
+                    <div className="nav-item right">Create Event</div>
                 </Link>
             </Fragment>
         );
