@@ -49,3 +49,9 @@ exports.unattend = (req, res) => {
         }
     );
 };
+
+exports.find = (req, res) => {
+    Event.find({}).then(events => {
+        res.send(events);
+    });
+};
