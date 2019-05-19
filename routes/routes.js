@@ -20,6 +20,7 @@ router.patch('/applicants/accept/:id', AdminAuth, User.acceptApplicant);
 router.patch('/applicants/decline/:id', AdminAuth, User.declineApplicant);
 
 router.post('/event', AdminAuth, Event.create);
+router.delete('/event', AdminAuth, Event.remove);
 router.patch('/event/attend', Auth, Event.attend);
 router.patch('/event/unattend', Auth, Event.unattend);
 router.get('/events', Auth, Event.find);

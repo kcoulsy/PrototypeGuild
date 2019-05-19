@@ -55,3 +55,11 @@ exports.find = (req, res) => {
         res.send(events);
     });
 };
+
+exports.remove = (req, res) => {
+    const { _id } = req.body;
+    Event.findOneAndDelete({ _id }, null, (err, resp) => {
+        if (err) return res.send(err);
+        res.send(resp);
+    });
+};
