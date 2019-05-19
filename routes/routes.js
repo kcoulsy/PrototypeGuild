@@ -8,6 +8,7 @@ const { Auth } = require('./../middleware/Auth');
 const { AdminAuth } = require('./../middleware/AdminAuth');
 
 const User = require('./User');
+const Event = require('./Event');
 
 
 router.post('/users', User.create);
@@ -20,6 +21,7 @@ router.patch('/applicants/accept/:id', AdminAuth, User.acceptApplicant);
 router.patch('/applicants/decline/:id', AdminAuth, User.declineApplicant); 
 
 
+router.post('/event', AdminAuth, Event.create);
 // router.get('/users/me', Authentication, User.findSelf);
 
 
