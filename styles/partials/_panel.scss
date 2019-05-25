@@ -30,6 +30,14 @@
             font-weight: normal;
         }
     }
+
+    &.no-padding {
+        border-top: none;
+        .panel-content {
+            padding: 0;
+            margin: 0;
+        }
+    }
     
     .link-button {
         color: $proto-light-grey;
