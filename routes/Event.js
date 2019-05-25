@@ -1,7 +1,4 @@
 const pick = require('lodash/pick');
-// const webhook = require('webhook-discord');
-
-// const Hook = new webhook.Webhook('https://discordapp.com/api/webhooks/579728009486008363/q9y0I50uLjfbmHqummyHplub7TP3EbEcvJVBDKtnRr5-qjMP_qG7Qr8VU98R0tGiCHQK');
 
 const { Event } = require('../Models/Event');
 
@@ -16,7 +13,6 @@ exports.create = (req, res) => {
         .save()
         .then(event => {
             res.send(event);
-            // Hook.success('Test Name', 'hello there')
         })
         .catch(e => {
             res.status(400).send(e);
