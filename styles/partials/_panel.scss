@@ -38,6 +38,9 @@
             margin: 0;
         }
     }
+    &.panel-flex .panel-content {
+        display: flex;
+    }
     
     .link-button {
         color: $proto-light-grey;

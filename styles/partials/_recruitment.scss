@@ -1,0 +1,53 @@
+$panel-black: #1e1f26;
+
+.proto-recruitment {
+    @media (max-width: 700px) {
+        display: none;
+    }
+    // background: blue;
+    flex: 1;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    // height: 30px;
+    .title {
+        color: white;
+        text-align: center;
+        padding: 5px;
+        font-size: 18px;
+        flex: 1;
+    }
+    .player-class {
+        display: flex;
+        margin: 2px 0 0 0px;
+        background: #0e141b;
+        // padding: 3px;
+        padding: 5px;
+        span {
+            padding: 3px 6px;
+            color: #b1bfd0;
+            line-height: 24px;
+            font-size: 13px;
+            &.status {
+                flex: 1;
+                align-self: end;
+                text-align: right;
+                &::before {
+                    color: #56c156;
+                    content: 'Open';
+                }
+                &.closed {
+                    &::before {
+                        color: #b35050;
+                        content: 'Closed';
+                    }
+                }
+            }
+        }
+        img {
+            padding: 3px 5px;
+            margin-right: 10px;
+        }
+    }
+}

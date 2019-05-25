@@ -3,6 +3,7 @@ import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
 import Carousel from '../components/Carousel';
+import Recruitment from '../components/Recruitment';
 import Loader from '../components/Loader';
 
 const auth = new AuthService();
@@ -20,12 +21,14 @@ export default class Index extends Component {
     }
     render() {
         const {posts, playerClasses, featured} = this.state;
+        console.log(this.state);
         return (
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                    <Panel styleName="no-padding">
+                    <Panel styleName="no-padding panel-flex">
                         <Carousel featured={featured}/>
+                        <Recruitment classValues={playerClasses} />
                         {/* <Loader /> */}
                     </Panel>
                 </div>
