@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const BASE_URL = 'http://localhost:3001/';
+
 export default class AuthService {
     constructor(domain) {
-      this.domain = domain || 'http://localhost:3001'
+      this.domain = domain || BASE_URL
     }
   
     login = (username, password) => {
@@ -97,7 +99,7 @@ export default class AuthService {
       return axios({
         method,
         url: endpoint,
-        baseUrl: 'http://localhost:3001/',
+        baseUrl: BASE_URL,
         headers,
         ...options
       }).then(res => {
