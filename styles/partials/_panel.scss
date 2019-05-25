@@ -1,7 +1,7 @@
 @import '../constants';
 
 .proto-panel {
-    margin: 15px auto;
+    margin: 15px auto 0;
     border-top: $proto-border-standard;
     max-width: 960px;
     background-color: $proto-transparent-blue;
@@ -40,6 +40,11 @@
     }
     &.panel-flex .panel-content {
         display: flex;
+    }
+
+    &.panel-clear {
+        background: transparent;
+        margin-top: 5px;
     }
     
     .link-button {

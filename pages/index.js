@@ -5,6 +5,7 @@ import Panel from '../components/Panel';
 import Carousel from '../components/Carousel';
 import Recruitment from '../components/Recruitment';
 import DiscordEmbed from '../components/DiscordEmbed';
+import PostList from '../components/PostList';
 import Loader from '../components/Loader';
 
 const auth = new AuthService();
@@ -32,8 +33,8 @@ export default class Index extends Component {
                         <Recruitment classValues={playerClasses} />
                         {/* <Loader /> */}
                     </Panel>
-                    <Panel styleName="no-padding panel-flex">
-                    <div style={{flex: 1}} />
+                    <Panel styleName="no-padding panel-flex panel-clear">
+                        <PostList posts={posts}/>
                         <DiscordEmbed />
                         {/* <Loader /> */}
                     </Panel>
