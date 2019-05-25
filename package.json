@@ -39,7 +39,8 @@
     "react": "^16.8.6",
     "react-dates": "^20.2.0",
     "react-dom": "^16.8.6",
-    "react-google-recaptcha": "^1.0.5"
+    "react-google-recaptcha": "^1.0.5",
+    "webhook-discord": "^3.2.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
