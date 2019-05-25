@@ -1,0 +1,6 @@
+.discord-embed {
+    padding: 0;
+    @media (max-width: 620px) {
+        display: none;
+    }
+}
