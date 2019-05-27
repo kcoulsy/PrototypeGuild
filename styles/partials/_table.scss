@@ -23,6 +23,67 @@ table.proto-table {
             }
         }
     }
+    &.class-colors {
+        tr {
+            &.warrior {
+                background: $warrior;
+                &:hover {
+                    background: darken($warrior, 5%);
+                }
+            }
+            &.paladin {
+                background: $paladin;
+                &:hover {
+                    background: darken($paladin, 5%);
+                }
+            }
+            &.hunter {
+                background: $hunter;
+                &:hover {
+                    background: darken($hunter, 5%);
+                }
+            }
+            &.shaman {
+                background: $shaman;
+                &:hover {
+                    background: darken($shaman, 5%);
+                }
+            }
+            &.druid {
+                background: $druid;
+                &:hover {
+                    background: darken($druid, 5%);
+                }
+            }
+            &.rogue {
+                background: $rogue;
+                &:hover {
+                    background: darken($rogue, 5%);
+                }
+            }
+            &.priest {
+                background: $priest;
+                &:hover {
+                    background: darken($priest, 5%);
+                }
+                td {
+                    color: black;
+                }
+            }
+            &.mage {
+                background: $mage;
+                &:hover {
+                    background: darken($mage, 5%);
+                }
+            }
+            &.warlock {
+                background: $warlock;
+                &:hover {
+                    background: darken($warlock, 5%);
+                }
+            }
+        }
+    }
     &.applicant-table {
         td:first-child {
             max-width: 100px;

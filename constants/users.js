@@ -45,7 +45,11 @@ const ROLES = [
 ]
 
 module.exports = {
-    ...RANKS,
+    RANK_GM,
+    RANK_OFFICER,
+    RANK_VETERAN,
+    RANK_RAIDER,
+    RANK_MEMBER,
     RANKS,
     ...CLASSES,
     CLASSES,
