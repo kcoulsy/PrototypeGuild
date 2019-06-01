@@ -87,12 +87,12 @@ class Event extends Component {
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                    <Panel title="Event" styleName="panel-md">
+                    <Panel title="Event" styleName="panel-md no-padding panel-event">
                         {isLoading ? (
                             <Loader />
                         ) : (
                             <>
-                                <table className="proto-table">
+                                <table className="proto-table no-hover">
                                     <tbody>
                                         <tr>
                                             <td>{upperFirst(event.title)}</td>
@@ -129,7 +129,7 @@ class Event extends Component {
                                     </tbody>
                                 </table>
                                 <h2>Signed Up</h2>
-                                <table className="proto-table">
+                                <table className="proto-table signup-table class-colors no-hover">
                                     <thead>
                                         <tr>
                                             <td>Tanks</td>
@@ -150,7 +150,7 @@ class Event extends Component {
                                                                 }`}
                                                                 key={player._id}
                                                             >
-                                                                <li>
+                                                                <li className={player.playerClass}>
                                                                     {
                                                                         player.characterName
                                                                     }
@@ -223,18 +223,20 @@ class Event extends Component {
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div className="application-buttons">
                                 <button
                                     className="proto-btn"
                                     onClick={this.acceptEvent}
-                                >
+                                    >
                                     Accept
                                 </button>
                                 <button
                                     className="proto-btn"
                                     onClick={this.declineEvent}
-                                >
+                                    >
                                     Decline
                                 </button>
+                                </div>
                             </>
                         )}
                     </Panel>

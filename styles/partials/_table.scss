@@ -17,14 +17,21 @@ table.proto-table {
             font-weight: normal;
             text-align: center;
         }
-        &:hover {
+    }
+    &:not(.no-hover) {
+        tr:hover {
             td {
                 color: $proto-white;
             }
         }
     }
+    &.no-hover {
+        tr, td {
+            cursor: default;
+        }
+    }
     &.class-colors {
-        tr {
+        tr, li {
             &.warrior {
                 background: $warrior;
                 &:hover {
@@ -99,6 +106,27 @@ table.proto-table {
                 td {
                     color: $proto-off-white;
                 }
+            }
+        }
+    }
+    &.signup-table {
+        thead {
+            tr td {
+                padding: 10px 0;
+            }
+        }
+        td {
+            padding: 0;
+            width: 25%;
+            
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li {
+                padding: 5px;
+                cursor: pointer;
             }
         }
     }

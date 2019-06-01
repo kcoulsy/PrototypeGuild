@@ -34,7 +34,7 @@ class Events extends Component {
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                    <Panel title="events" styleName="panel-md">
+                    <Panel title="Events" styleName="panel-md">
                         {isLoading ? (
                             <Loader />
                         ) : (
