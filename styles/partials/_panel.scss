@@ -1,7 +1,7 @@
 @import '../constants';
 
 .proto-panel {
-    margin: 15px auto 0;
+    margin: 20px auto;
     border-top: $proto-border-standard;
     max-width: 960px;
     background-color: $proto-transparent-blue;
@@ -15,17 +15,18 @@
     }
 
     .panel-header {
-        padding: 20px 40px;
+        padding: 15px 25px;
         background-color: $proto-transparent-blue;
         border-bottom: $proto-border-standard;
         color: $proto-white;
-        font-size: 26px;
+        font-size: 18px;
         font-weight: normal;
     }
     .panel-content {
-        margin: 0 30px;
-        padding: 35px 20px;
+        margin: 0 15px;
+        padding: 20px 10px;
         color: $proto-white;
+        font-size: 15px;
         h2, h3, h4 {
             font-weight: normal;
         }

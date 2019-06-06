@@ -7,8 +7,7 @@ export default () => {
         <div>
             <Navbar />
             <div className="content">
-                <Panel title="Information about the guild" styleName="">
-                    <h2> Guild Philosophy </h2>
+                <Panel title="Guild Philosophy" styleName="">
                     <ul>
                         <li>
                             We aim to clear content pretty swiftly, with the
@@ -25,7 +24,8 @@ export default () => {
                             first when looking for group content.
                         </li>
                     </ul>
-                    <h2>Raids</h2>
+                    </Panel>
+                    <Panel title="Raids">
                     <ul>
                         <li>
                             Our raid days will be the following:{' '}
@@ -49,7 +49,8 @@ export default () => {
                         </li>
                         <li>Trial status lasts between 2-4 weeks.</li>
                     </ul>
-                    <h2>Player Expectations</h2>
+                    </Panel>
+                    <Panel title="Player Expectations">
                     <p>
                         Every player is expected to show up well prepared to
                         raid. This includes bringing consumables and having gear
@@ -76,7 +77,8 @@ export default () => {
                         </li>
                         <li>You must sign up to raid events.</li>
                     </ul>
-                    <h2>Raid Addons</h2>
+                    </Panel>
+                    <Panel title="Raid Addons">
                     <i>
                         May change depending on how addons are at launch, but as
                         a minimum you should have
@@ -89,7 +91,8 @@ export default () => {
                     Using a customised UI is encouraged. You are also expected
                     to have keybinds. How people still don’t in 2019 is a
                     mystery.
-                    <h2>Loot system</h2>
+                    </Panel>
+                    <Panel title="Loot System">
                     <p>
                         Our plan for our loot system to is to use{' '}
                         <strong>EPGP</strong> for the following reasons
@@ -117,7 +120,8 @@ export default () => {
                         gear tanks evenly, but with the inital few pieces to the
                         MT. Thunderfury bindings will be hard reserved for MT.
                     </p>
-                    <h2>Guild Ranks</h2>
+                    </Panel>
+                    <Panel title="Guild Ranks">
                     <h3>Guild Master</h3>
                     <p>The ultimate voice of the guild.</p>
                     <h3>Officer</h3>
