@@ -1,0 +1,42 @@
+.skewed-image-row {
+    width: 100%;
+    background: rgba(27, 39, 53, 0.64);
+    opacity: 0.8;
+    height: 300px;
+
+    .skewed-image-container {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+
+        .image {
+            width: 25%;
+            height: 100%;
+            border-left: 1px solid #1f1f1f;
+            transform: skew(-10deg);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s;
+
+            &:hover {
+                width: 50%;
+            }
+
+            img {
+                position: absolute;
+                height: 100%;
+                opacity: 0.8;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            &:last-child {
+                border-right: 1px solid #1f1f1f;
+            }
+        }
+    }
+}
