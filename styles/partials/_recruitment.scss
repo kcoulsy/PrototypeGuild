@@ -1,3 +1,5 @@
+@import '../constants';
+
 $panel-black: #1e1f26;
 
 .proto-recruitment {
@@ -48,6 +50,76 @@ $panel-black: #1e1f26;
         img {
             padding: 3px 5px;
             margin-right: 10px;
+        }
+    }
+}
+
+.proto-recruitment-icons {
+    margin: 50px 0;
+    padding: 20px;
+    width: calc(100% - 40px);
+    background: $proto-transparent-black;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    h2 {
+        color: $proto-white;
+        margin: 0 0 15px;
+        font-size: 25px;
+        text-transform: uppercase;
+    }
+    .icons {
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        .icon {
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 10px;
+            span {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.2s;
+                background:transparent;
+                font-size: 20px;
+                font-weight: bold;
+                text-transform: uppercase;
+
+                &.closed {
+                    background: $proto-transparent-dark-blue;
+                }
+
+
+                &:hover {
+                    background: $proto-transparent-dark-blue;
+                    &::before {
+                        color: #56c156;
+                        content: 'Open';
+                    }
+                    &.closed {
+                        &::before {
+                            font-size: 17px;
+                            color: #b35050;
+                            content: 'Closed';
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 70px;
         }
     }
 }

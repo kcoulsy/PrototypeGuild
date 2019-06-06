@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import SkewedImageRow from '../components/SkewedImageRow';
+import NewRecruitment from '../components/NewRecruitment';
 import Panel from '../components/Panel';
 import Carousel from '../components/Carousel';
 import Recruitment from '../components/Recruitment';
@@ -33,10 +34,8 @@ export default class Index extends Component {
                     <img src="/static/images/logo.png" />
                     <h2>A Classic WoW guild</h2>
                 </div>
-                <img style={{
-                    height: 30
-                }} src="https://c-5uwzmx78pmca09x24oiumx78mlqix2ekczamklvx2ekwu.g00.gamepedia.com/g00/3_c-5ewe.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2foiumx78mlqi.kczamklv.kwux2fewex78mlqix2fbpcujx2f1x2f15x2fKtiaaQkwv_x78zqmab.x78vox2f17x78f-KtiaaQkwv_x78zqmab.x78vox3fdmzaqwvx3d467i6m091372ij54i7i325k3ki6l6m06x26q98k.uizsx3dquiom_$/$/$/$/$/$/$"/>
-                <SkewedImageRow />
+                <NewRecruitment classValues={playerClasses} />
+                <SkewedImageRow  posts={posts}/>
                     {/* <Panel styleName="no-padding panel-flex">
                         <Carousel featured={featured}/>
                         <Recruitment classValues={playerClasses} />

@@ -1,9 +1,19 @@
 import React from 'react';
+import Link from 'next/link';
 
-export default () => {
+export default ({posts}) => {
     return (
         <div className="skewed-image-row">
             <div className="skewed-image-container">
+                {
+                    posts.map((post, idx) => {
+                        return idx < 4 && (<Link href={`/post?id=${post._id}`} key={post._id}>
+                        <div class="image">
+                            <img src={post.imageUrl} alt={post.title} />
+                        </div>
+                        </Link>)
+                      })
+                }
                 <div class="image">
                     <img
                         src="https://bnetcmsus-a.akamaihd.net/cms/blog_header/2k/2KISFCWBJXZL1540950728113.jpg"
