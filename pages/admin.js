@@ -31,7 +31,7 @@ class AdminDashboard extends Component {
                             </div>
                             <div className="main-content">
                                 <CreateEvent />
-                                <CreatePost />
+                                <CreatePost auth={auth}/>
                             </div>
                         </div>
                     </div>
