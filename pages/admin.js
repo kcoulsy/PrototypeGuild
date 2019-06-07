@@ -27,10 +27,10 @@ class AdminDashboard extends Component {
                         <div className="dashboard-content">
                             <div className="sidebar">
                                 <Applicants auth={auth} />
-                                <Recruitment />
+                                <Recruitment auth={auth} />
                             </div>
                             <div className="main-content">
-                                <CreateEvent />
+                                <CreateEvent auth={auth} />
                                 <CreatePost auth={auth}/>
                             </div>
                         </div>

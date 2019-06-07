@@ -11,8 +11,40 @@
     &:hover {
         background: lighten($proto-dark-blue, 5%);
     }
+    &:disabled {
+        color: $proto-grey-blue;
+        background: lighten($proto-dark-blue, 5%);
+        &:hover {
+            background: lighten($proto-dark-blue, 5%);
+        }
+    }
+    &.btn-success {
+        background: $proto-green;
+        &:hover {
+            background: lighten($proto-green, 5%);
+        }
+        &:disabled {
+            cursor: default;
+            background: darken($proto-green, 15%);
+            &:hover {
+                background: darken($proto-green, 15%);
+            }
+        }
+    }
+    &.btn-danger {
+        background: $proto-red;
+        &:hover {
+            background: lighten($proto-red, 5%);
+        }
+        &:disabled {
+            cursor: default;
+            background: darken($proto-red, 15%);
+            &:hover {
+                background: darken($proto-red, 15%);
+            }
+        }
+    }
 }
-
 
 .link-button {
     background-color: transparent;
@@ -22,9 +54,9 @@
     display: inline;
     margin: 0;
     padding: 0;
-  }
-  
-  .link-button:hover,
-  .link-button:focus {
-  text-decoration: none;
-  }
+}
+
+.link-button:hover,
+.link-button:focus {
+    text-decoration: none;
+}
