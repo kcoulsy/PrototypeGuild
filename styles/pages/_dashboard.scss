@@ -1,0 +1,38 @@
+@import '../constants';
+
+.page-dashboard {
+    h2 {
+        color: $proto-off-white;
+        margin: 20px;
+    }
+    .dashboard-content {
+        display: flex;
+        flex-wrap: wrap;
+
+        .proto-panel {
+            margin: 20px;
+        }
+
+        .upcoming-events {
+            flex: 1;
+            min-width: 400px;
+            max-width: 600px;
+        }
+        .settings {
+            flex: 1;
+            max-width: 300px;
+            @media screen and (max-width: 600px) {
+                max-width: 600px;
+            }
+        }
+        
+        @media screen and (max-width: 600px) {
+            .upcoming-events {
+                min-width: 250px;
+            }
+            .settings {
+                max-width: 600px;
+            }
+        }
+    }
+}
