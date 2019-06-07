@@ -26,11 +26,11 @@ export default class Navbar extends Component {
         );
         const loggedInLinks = (
             <Fragment>
-                <Link href="/events">
-                    <div className="nav-item right">Events</div>
-                </Link>
                 <Link href="/members">
                     <div className="nav-item right">Members</div>
+                </Link>
+                <Link href="/dashboard">
+                    <div className="nav-item right">Dashboard</div>
                 </Link>
                 <div
                     className="nav-item right"

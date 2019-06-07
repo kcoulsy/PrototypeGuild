@@ -16,7 +16,7 @@ export default class Login extends Component {
 
     componentDidMount() {
         if (auth.loggedIn()) {
-            Router.push('http://localhost:3001/members');
+            Router.push('http://localhost:3001/dashboard');
         }
     }
 
@@ -35,7 +35,7 @@ export default class Login extends Component {
         ev.preventDefault();
         auth.login(username, password)
             .then(() => {
-                Router.push('http://localhost:3001/members');
+                Router.push('http://localhost:3001/dashboard');
             })
             .catch(() => {
                 this.setState({ error: 'Unable to login' });
