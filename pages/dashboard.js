@@ -37,82 +37,83 @@ class Dashboard extends Component {
                     <div className="container">
                         <h2>Dashboard</h2>
                         <div className="dashboard-content">
-                            <Panel
-                                title="Upcoming Events"
-                                styleName="upcoming-events"
-                            >
-                                {isLoading ? (
-                                    <Loader />
-                                ) : (
-                                    <table className="proto-table">
-                                        <tbody>
-                                            {events &&
-                                                events.map(event => {
-                                                    return (
-                                                        <Link
-                                                            key={event._id}
-                                                            href={`/event?id=${
-                                                                event._id
-                                                            }`}
-                                                        >
-                                                            <tr>
-                                                                <td>
-                                                                    {upperFirst(
-                                                                        event.title
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {upperFirst(
-                                                                        event.type
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    {moment(
-                                                                        event.date
-                                                                    ).format(
-                                                                        'dddd, MMMM Do YYYY'
-                                                                    )}
-                                                                </td>
-                                                            </tr>
-                                                        </Link>
-                                                    );
-                                                })}
-                                        </tbody>
-                                    </table>
-                                )}
-                            </Panel>
-                            <Panel title="Update Password" styleName="settings">
-                                <form className="proto-form">
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        onChange={this.handleInput}
-                                        placeholder="Current Password"
-                                        autoComplete="current-password"
-                                    />
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        onChange={this.handleInput}
-                                        placeholder="New Password"
-                                        autoComplete="current-password"
-                                    />
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        onChange={this.handleInput}
-                                        placeholder="Confirm Password"
-                                        autoComplete="current-password"
-                                    />
-                                    <button
-                                        className="proto-btn"
-                                        onClick={this.handleSubmit}
-                                        type="submit"
-                                    >
-                                        Change Password
-                                    </button>
-                                </form>
-                            </Panel>
+                            <div className="sidebar">
+                                <Panel title="Update Password" styleName="">
+                                    <form className="proto-form">
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            onChange={this.handleInput}
+                                            placeholder="Current Password"
+                                            autoComplete="current-password"
+                                        />
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            onChange={this.handleInput}
+                                            placeholder="New Password"
+                                            autoComplete="current-password"
+                                        />
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            onChange={this.handleInput}
+                                            placeholder="Confirm Password"
+                                            autoComplete="current-password"
+                                        />
+                                        <button
+                                            className="proto-btn"
+                                            onClick={this.handleSubmit}
+                                            type="submit"
+                                        >
+                                            Change Password
+                                        </button>
+                                    </form>
+                                </Panel>
+                            </div>
+                            <div className="main-content">
+                                <Panel title="Upcoming Events" styleName="">
+                                    {isLoading ? (
+                                        <Loader />
+                                    ) : (
+                                        <table className="proto-table">
+                                            <tbody>
+                                                {events &&
+                                                    events.map(event => {
+                                                        return (
+                                                            <Link
+                                                                key={event._id}
+                                                                href={`/event?id=${
+                                                                    event._id
+                                                                }`}
+                                                            >
+                                                                <tr>
+                                                                    <td>
+                                                                        {upperFirst(
+                                                                            event.title
+                                                                        )}
+                                                                    </td>
+                                                                    <td>
+                                                                        {upperFirst(
+                                                                            event.type
+                                                                        )}
+                                                                    </td>
+                                                                    <td>
+                                                                        {moment(
+                                                                            event.date
+                                                                        ).format(
+                                                                            'dddd, MMMM Do YYYY'
+                                                                        )}
+                                                                    </td>
+                                                                </tr>
+                                                            </Link>
+                                                        );
+                                                    })}
+                                            </tbody>
+                                        </table>
+                                    )}
+                                </Panel>
+                            </div>
                         </div>
                     </div>
                 </div>
