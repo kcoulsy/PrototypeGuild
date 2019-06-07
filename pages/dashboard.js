@@ -15,7 +15,7 @@ class Dashboard extends Component {
         events: []
     };
 
-    componentDidMount() {
+    componentWillMount() {
         const { auth } = this.props;
 
         auth.api('get', '/events/find').then(res => {
@@ -29,6 +29,12 @@ class Dashboard extends Component {
     render() {
         const { isLoading, events } = this.state;
         const { auth } = this.props;
+        const user = auth.getProfile();
+        console.log(user);
+
+        if (!user) {
+            return <div>Error</div>
+        }
 
         return (
             <div className="page-dashboard">
@@ -38,6 +44,31 @@ class Dashboard extends Component {
                         <h2>Dashboard</h2>
                         <div className="dashboard-content">
                             <div className="sidebar">
+                            <Panel title={upperFirst(user.characterName)} styleName="no-padding">
+                            <table className="proto-table no-hover">
+                                <tbody>
+                                    <tr>
+                                        <td>Class</td>
+                                        <td>{upperFirst(user.playerClass)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Role</td>
+                                        <td>{upperFirst(user.playerRole)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rank</td>
+                                        <td>{upperFirst(user.rank)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Professions</td>
+                                        <td>
+                                            {upperFirst(user.professionOne)}/
+                                            {upperFirst(user.professionTwo)}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </Panel>
                                 <Panel title="Update Password" styleName="">
                                     <form className="proto-form">
                                         <input
@@ -72,7 +103,7 @@ class Dashboard extends Component {
                                 </Panel>
                             </div>
                             <div className="main-content">
-                                <Panel title="Upcoming Events" styleName="">
+                                <Panel title="Upcoming Events" styleName="no-padding">
                                     {isLoading ? (
                                         <Loader />
                                     ) : (

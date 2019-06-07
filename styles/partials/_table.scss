@@ -17,6 +17,11 @@ table.proto-table {
             font-weight: normal;
             text-align: center;
         }
+        &:last-child {
+            td {
+                padding-bottom: 25px;
+            }
+        }
     }
     &:not(.no-hover) {
         tr:hover {
