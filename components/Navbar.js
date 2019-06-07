@@ -47,11 +47,8 @@ export default class Navbar extends Component {
 
         const adminLinks = (
             <Fragment>
-                <Link href="/applicants">
-                    <div className="nav-item right">Applications</div>
-                </Link>
-                <Link href="/create-event">
-                    <div className="nav-item right">Create Event</div>
+                <Link href="/admin">
+                    <div className="nav-item right">Admin</div>
                 </Link>
             </Fragment>
         );
