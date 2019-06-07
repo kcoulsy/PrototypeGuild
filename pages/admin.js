@@ -10,15 +10,29 @@ import Loader from '../components/Loader';
 class AdminDashboard extends Component {
     static async getInitialProps() {}
 
-    componentWillMount() {}
+    state = {
+        applicants: [],
+        isLoading: true
+    };
+
+    componentDidMount() {
+        const { auth } = this.props;
+        auth.api('post', '/applicants', {
+            data: {
+                enabled: true
+            }
+        }).then(res => {
+            this.setState({ applicants: res, isLoading: false });
+        });
+    }
 
     render() {
         const { auth } = this.props;
+        const { isLoading, applicants } = this.state;
         const user = auth.getProfile();
 
-
         if (!user) {
-            return <div>Error</div>
+            return <div>Error</div>;
         }
 
         return (
@@ -29,20 +43,57 @@ class AdminDashboard extends Component {
                         <h2>Admin Dashboard</h2>
                         <div className="dashboard-content">
                             <div className="sidebar">
-                            <Panel title="Applicants" styleName="no-padding">
-
-                            </Panel>
-                            <Panel title="Recruitment" styleName="no-padding">
-
-                            </Panel>
+                                <Panel
+                                    title="Applicants"
+                                    styleName="no-padding"
+                                >
+                                {isLoading ?
+                                    <Loader />
+                                    : applicants && applicants.length ? (
+                                        <table className="proto-table">
+                                            <tbody>
+                                                {applicants.map(member => {
+                                                    return (
+                                                        <Link
+                                                            key={member._id}
+                                                            href={`/applicant?id=${
+                                                                member._id
+                                                            }`}
+                                                        >
+                                                            <tr>
+                                                                <td>
+                                                                    {
+                                                                        member.characterName
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        member.playerClass
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        member.playerRole
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        </Link>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <p>No Applications</p>
+                                    )}
+                                </Panel>
+                                <Panel
+                                    title="Recruitment"
+                                    styleName="no-padding"
+                                />
                             </div>
                             <div className="main-content">
-                                <Panel title="Create Event" styleName="">
-
-                                </Panel>
-                                <Panel title="Create Post" styleName="">
-
-                                </Panel>
+                                <Panel title="Create Event" styleName="" />
+                                <Panel title="Create Post" styleName="" />
                             </div>
                         </div>
                     </div>

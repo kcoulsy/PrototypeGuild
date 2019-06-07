@@ -121,10 +121,10 @@ export default class Apply extends Component {
             this.setError('Your passwords must match!');
             return false;
         }
-        if (!captcha.length) {
-            this.setError("You must prove you're not a robot!");
-            return false;
-        }
+        // if (!captcha.length) {
+        //     this.setError("You must prove you're not a robot!");
+        //     return false;
+        // }
         if (!professionOne.length || !professionTwo.length) {
             this.setError('You must pick both professions!');
             return false;
