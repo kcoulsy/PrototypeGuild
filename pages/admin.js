@@ -6,6 +6,7 @@ import withAuth from '../utils/withAuth';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
 import Loader from '../components/Loader';
+import CreateEvent from './../components/admin/CreateEvent';
 
 class AdminDashboard extends Component {
     static async getInitialProps() {}
@@ -92,7 +93,7 @@ class AdminDashboard extends Component {
                                 />
                             </div>
                             <div className="main-content">
-                                <Panel title="Create Event" styleName="" />
+                                <CreateEvent />
                                 <Panel title="Create Post" styleName="" />
                             </div>
                         </div>
