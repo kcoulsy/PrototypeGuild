@@ -1,12 +1,12 @@
 {
     "test": {
       "PORT": 3001,
-      "MONGODB_URI": "mongodb://localhost:27017/GuildSiteTest",
+      "MONGODB_URI": "mongodburifortesting",
       "JWT_SECRET": "secret"
     },
     "development": {
       "PORT": 3001,
-      "MONGODB_URI": "mongodb://coulsy:pass123@ds155396.mlab.com:55396/guildsite",
+      "MONGODB_URI": "mongodburifordev",
       "JWT_SECRET": "secret"
     }
   }
