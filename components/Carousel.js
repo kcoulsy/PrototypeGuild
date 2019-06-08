@@ -4,7 +4,6 @@ import Link from "next/link";
 class Carousel extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       slides: props.featured.length,
       currentCount: 1

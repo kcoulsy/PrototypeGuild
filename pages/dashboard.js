@@ -30,7 +30,6 @@ class Dashboard extends Component {
         const { isLoading, events } = this.state;
         const { auth } = this.props;
         const user = auth.getProfile();
-        console.log(user);
 
         if (!user) {
             return <div>Error</div>

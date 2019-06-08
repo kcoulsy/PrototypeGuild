@@ -4,7 +4,8 @@ const BASE_URL = 'http://localhost:3001/';
 
 export default class AuthService {
     constructor(domain) {
-      this.domain = domain || BASE_URL
+      this.domain = domain || BASE_URL;
+
     }
   
     login = (username, password) => {
