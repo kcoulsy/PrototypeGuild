@@ -7,11 +7,7 @@ import NewRecruitment from '../components/NewRecruitment';
 const auth = new AuthService();
 
 export default class Index extends Component {
-    static getInitialProps(ctx) {
-        const auth = new AuthService();
-        console.log(ctx.req.headers.host);
-        return { auth }
-    }
+    static getInitialProps() {}
     state = {
         playerClasses: [],
         featured: [],
