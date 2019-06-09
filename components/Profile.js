@@ -29,16 +29,16 @@ export default class Profile extends Component {
         });
     }
     handleEditClick = () => {
-        const { auth } = this.props;
-        if (auth && auth.isAdmin) {
+        const { auth, canEdit } = this.props;
+        if (auth && auth.isAdmin && canEdit) {
             this.setState({ editMode: !this.state.editMode });
         }
     };
     render() {
         const { user, isLoading } = this.state;
-        const { auth } = this.props;
+        const { auth, canEdit } = this.props;
         const isAdmin = auth && auth.isAdmin();
-        const isEditMode = this.state.editMode && isAdmin;
+        const isEditMode = this.state.editMode && canEdit && isAdmin;
         return (
             <Panel title="Profile" styleName="panel-md no-padding">
                 {isLoading ? (
@@ -187,29 +187,31 @@ export default class Profile extends Component {
                         </table>
                     </form>
                 )}
-                {isAdmin && this.state.editMode ? (
-                    <div>
+                {isAdmin &&
+                    canEdit &&
+                    (this.state.editMode ? (
+                        <div>
+                            <button
+                                className="proto-btn"
+                                onClick={this.handleEditClick}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="proto-btn"
+                                onClick={this.handleEditClick}
+                            >
+                                Update
+                            </button>
+                        </div>
+                    ) : (
                         <button
                             className="proto-btn"
                             onClick={this.handleEditClick}
                         >
-                            Cancel
+                            Edit
                         </button>
-                        <button
-                            className="proto-btn"
-                            onClick={this.handleEditClick}
-                        >
-                            Update
-                        </button>
-                    </div>
-                ) : (
-                    <button
-                        className="proto-btn"
-                        onClick={this.handleEditClick}
-                    >
-                        Edit
-                    </button>
-                )}
+                    ))}
             </Panel>
         );
     }
