@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { RANK_GM, RANK_OFFICER } from '../constants/users';
 
 const BASE_URL = 'http://localhost:3001/';
 
@@ -52,8 +53,15 @@ export default class AuthService {
   
     isAdmin = () => {
       const profile = this.getProfile();
-      
-      return profile && profile.admin;
+      const { rank } = profile;
+
+      if (
+          rank === RANK_GM ||
+          rank === RANK_OFFICER
+      ) {
+        return true;
+      }
+      return false;
     }
 
     setToken = ({token}) => {
