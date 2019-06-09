@@ -20,4 +20,7 @@
         box-sizing: border-box;
         margin: 5px 0;
     }
+    &.full-width {
+        max-width: 100%;
+    }
 }
