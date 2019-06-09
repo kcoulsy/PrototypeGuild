@@ -45,7 +45,7 @@ export default class Profile extends Component {
                     <Loader />
                 ) : (
                     <form className="proto-form full-width">
-                        <table className="proto-table">
+                        <table className="proto-table no-hover">
                             <tbody>
                                 <tr>
                                     <td>Character Name</td>
