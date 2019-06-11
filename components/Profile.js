@@ -37,7 +37,7 @@ export default class Profile extends Component {
     };
     render() {
         const { user, isLoading } = this.state;
-        const { auth, canEdit } = this.props;
+        const { auth, canEdit, id } = this.props;
         const isAdmin = auth && auth.isAdmin();
         const isEditMode = this.state.editMode && canEdit && isAdmin;
         return (
@@ -216,7 +216,7 @@ export default class Profile extends Component {
                     ))}
             </Panel>
             {
-                isAdmin && canEdit && <UpdatePassword auth={auth} requirePrevious={false} />
+                isAdmin && canEdit && <UpdatePassword id={id} auth={auth} requirePrevious={false} />
             }
             </>
         );
