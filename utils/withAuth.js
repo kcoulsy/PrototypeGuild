@@ -21,7 +21,7 @@ export default function withAuth(AuthComponent) {
 
         componentDidMount() {
             if (!Auth.loggedIn()) {
-                Router.push(auth.domain);
+                Router.push(Auth.domain);
             }
             this.setState({ isLoading: false });
         }

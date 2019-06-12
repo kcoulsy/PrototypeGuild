@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import upperFirst from 'lodash/upperFirst';
 
 import { CLASSES, ROLES, RANKS } from '../constants/users';
@@ -6,7 +6,6 @@ import { PROFESSIONS } from '../constants/professions';
 
 import Panel from '../components/Panel';
 import Loader from '../components/Loader';
-import UpdatePassword from './UpdatePassword';
 
 export default class Profile extends Component {
     state = {
@@ -37,11 +36,11 @@ export default class Profile extends Component {
     };
     render() {
         const { user, isLoading } = this.state;
-        const { auth, canEdit, id } = this.props;
+        const { auth, canEdit } = this.props;
         const isAdmin = auth && auth.isAdmin();
         const isEditMode = this.state.editMode && canEdit && isAdmin;
+
         return (
-            <>
             <Panel title="Profile" styleName="panel-md no-padding">
                 {isLoading ? (
                     <Loader />
@@ -215,10 +214,6 @@ export default class Profile extends Component {
                         </button>
                     ))}
             </Panel>
-            {
-                isAdmin && canEdit && <UpdatePassword id={id} auth={auth} requirePrevious={false} />
-            }
-            </>
         );
     }
 }
