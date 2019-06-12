@@ -172,6 +172,9 @@ exports.updateUser = (req, res) => {
 /*
  *   Admin only route, allows the admin to reset a lost password
  *   Does not require confirmation
+ *
+ *  @param {String} _id - Users ID
+ *  @param {String} password - New password to update to.
  */
 exports.resetPassword = (req, res) => {
     const body = pick(req.body, ['_id', 'password']);
@@ -193,17 +196,20 @@ exports.resetPassword = (req, res) => {
 
 /*
  *   User password update, user must match the existing password to update.
+ *
+ *  @param {String} current - Users current password
+ *  @param {String} password - New password to update to.
  */
 exports.updatePassword = (req, res) => {
-    const body = pick(req.body, ['_id', 'currentPassword', 'newPassword']);
+    const body = pick(req.body, ['current', 'password']);
 
-    User.findByCredentials(req.user.username, body.currentPassword)
+    User.findByCredentials(req.user.username, body.current)
         .then(user => {
             if (!user) {
                 res.status(404).send();
             }
 
-            user.updatePassword(body.newPassword).then(user => {
+            user.updatePassword(body.password).then(user => {
                 if (!user) {
                     res.status(404).send();
                 }

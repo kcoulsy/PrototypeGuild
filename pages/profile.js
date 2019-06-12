@@ -9,7 +9,6 @@ class Profile extends Component {
         return { id: query.id };
     }
 
-
     render() {
         const { auth } = this.props;
         return (

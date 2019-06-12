@@ -14,12 +14,12 @@ export default class UpdatePassword extends Component {
         this.setState({ [name]: value });
     };
     handleSubmit = ev => {
-        const {auth, id, requirePrevious} = this.props;
-        const {
-            current,
-            newPass,
-            confirm
-        } = this.state;
+        const { auth, id, requirePrevious } = this.props;
+        const { current, newPass, confirm } = this.state;
+        const endpoint =
+            this.isAdmin() && !requirePrevious
+                ? '/users/reset'
+                : '/users/update';
 
         ev.preventDefault();
 
@@ -30,30 +30,44 @@ export default class UpdatePassword extends Component {
             this.handleError('Passwords Must Match!');
             return;
         }
+
         if (requirePrevious && !current) {
             this.handleError('You must enter your current password');
         }
-        auth.api('patch', '/users/reset', {
+
+        auth.api('patch', endpoint, {
             data: {
                 _id: id,
+                current,
                 password: newPass
             }
-        }).then(user => {
-            console.log(user);
-        })
+        }).then(() => {
+            this.handleError('Password Updated!');
+            this.setState({
+                current: '',
+                newPass: '',
+                confirm: ''
+            });
+        });
     };
+
     handleError = value => {
         this.setState({ error: value });
     };
+
+    isAdmin = () => {
+        const { auth } = this.props;
+        return auth && auth.isAdmin();
+    };
+
     render() {
-        const { auth, requirePrevious } = this.props;
-        const isAdmin = auth && auth.isAdmin();
-        console.log(this.props);
+        const { requirePrevious } = this.props;
+
         return (
             <Panel title="Update Password" styleName="panel-sm">
                 {this.state.error}
                 <form className="proto-form">
-                    {(!isAdmin || requirePrevious) && (
+                    {(!this.isAdmin() || requirePrevious) && (
                         <input
                             type="password"
                             name="current"
