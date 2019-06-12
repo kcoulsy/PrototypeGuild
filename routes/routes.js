@@ -14,6 +14,9 @@ const Post = require('./Post');
 router.post('/users', User.create);
 router.post('/users/login', User.login);
 router.post('/users/find', Auth, User.find);
+router.patch('/users', AdminAuth, User.updateUser);
+router.patch('/users/update', Auth, User.updatePassword);
+router.patch('/users/reset', User.resetPassword);
 router.delete('/users/logout', Auth, User.logout);
 
 router.post('/applicants', AdminAuth, User.findApplicants);
@@ -25,6 +28,8 @@ router.delete('/event', AdminAuth, Event.remove);
 router.patch('/event/attend', Auth, Event.attend);
 router.patch('/event/unattend', Auth, Event.unattend);
 router.get('/events/find', Auth, Event.find);
+//edit event
+//delete event
 
 router.get('/home', Home.find);
 
@@ -35,5 +40,7 @@ router.patch('/recruitment', AdminAuth, Recruitment.update);
 router.post('/post', Post.create);
 router.get('/posts/:id', Post.findById);
 router.get('/posts', Post.find);
+//edit post
+//delete post
 
 module.exports = router;

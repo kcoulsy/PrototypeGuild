@@ -125,6 +125,11 @@ UserSchema.methods.removeToken = function removeToken() {
     });
 };
 
+UserSchema.methods.updatePassword = function updatePassword(password) {
+    this.password = password;
+    return this.save()
+};
+
 UserSchema.statics.findByToken = function findByToken(token) {
     let decoded;
 
