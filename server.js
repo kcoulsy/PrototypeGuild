@@ -20,6 +20,7 @@ app.prepare().then(() => {
     // Middleware
     server.use(bodyParser.json());
     server.use(cors());
+    server.use('/uploads', express.static('uploads'));
 
     // Using routes
     server.use(routes);
