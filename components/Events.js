@@ -25,6 +25,9 @@ export default class Events extends Component {
     fetchEvents = () => {
         const { auth } = this.props;
 
+        this.setState({
+            isLoading: true
+        });
         auth.api('get', '/events/find').then(res => {
             this.setState({
                 isLoading: false,
@@ -37,6 +40,21 @@ export default class Events extends Component {
         const { auth } = this.props;
 
         return auth && auth.isAdmin();
+    };
+
+    closeCreateModal = () => {
+        this.setState({
+            createModalOpen: false
+        });
+        this.fetchEvents();
+    };
+
+    closeEditModal = () => {
+        this.setState({
+            editEventModalOpen: false,
+            editEventId: ''
+        });
+        this.fetchEvents();
     };
 
     render() {
@@ -59,26 +77,19 @@ export default class Events extends Component {
                     )}
                     <Modal
                         on={this.state.createModalOpen}
-                        toggle={() => {
-                            this.setState({
-                                createModalOpen: false
-                            });
-                            this.fetchEvents();
-                        }}
+                        toggle={this.closeCreateModal}
                     >
-                        <CreateEvent auth={auth} />
+                        <CreateEvent auth={auth} cb={this.closeCreateModal} />
                     </Modal>
                     <Modal
                         on={this.state.editEventModalOpen}
-                        toggle={() => {
-                            this.setState({
-                                editEventModalOpen: false,
-                                editEventId: ''
-                            });
-                            this.fetchEvents();
-                        }}
+                        toggle={this.closeEditModal}
                     >
-                        <EditEvent auth={auth} id={this.state.editEventId} />
+                        <EditEvent
+                            auth={auth}
+                            id={this.state.editEventId}
+                            cb={this.closeEditModal}
+                        />
                     </Modal>
                 </div>
                 {isLoading ? (
@@ -86,6 +97,11 @@ export default class Events extends Component {
                 ) : (
                     <table className="proto-table">
                         <tbody>
+                            {(!events || !events.length) && (
+                                <tr>
+                                    <td>No Events Found</td>
+                                </tr>
+                            )}
                             {events &&
                                 events.map(event => {
                                     return (

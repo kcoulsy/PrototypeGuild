@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import Router from 'next/router';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
 
-import AuthService from '../../utils/AuthService';
 import Panel from '../Panel';
 import Loader from '../Loader';
-
-const auth = new AuthService();
 
 export default class EditEvent extends Component {
     state = {
@@ -55,15 +51,19 @@ export default class EditEvent extends Component {
     };
 
     handleSubmit = ev => {
+        const { auth, id, cb } = this.props;
         const data = this.state;
         const { date } = data;
         data.date = date.unix();
+        data._id = id;
         ev.preventDefault();
 
         if (this.validate()) {
-            auth.api('post', '/event', {
+            auth.api('patch', '/event', {
                 data
-            }).then(() => {});
+            }).then(event => {
+                cb(event);
+            });
         }
     };
 
@@ -89,7 +89,7 @@ export default class EditEvent extends Component {
     };
 
     handleRemove = ev => {
-        const { auth, id } = this.props;
+        const { auth, id, cb } = this.props;
         ev.preventDefault();
         if (!this.validate()) {
             return;
@@ -100,7 +100,7 @@ export default class EditEvent extends Component {
                     _id: id
                 }
             }).then(() => {
-                //TODO close modal
+                cb(event);
             });
         }
     };

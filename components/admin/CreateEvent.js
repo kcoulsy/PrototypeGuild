@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import Router from 'next/router';
-import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
-import AuthService from '../../utils/AuthService';
 import Panel from '../Panel';
-
-const auth = new AuthService();
 
 export default class CreateEvent extends Component {
     state = {
@@ -33,6 +28,7 @@ export default class CreateEvent extends Component {
     };
 
     handleSubmit = ev => {
+        const { auth, cb } = this.props;
         const data = this.state;
         const { date } = data;
         data.date = date.unix();
@@ -41,6 +37,8 @@ export default class CreateEvent extends Component {
         if (this.validate()) {
             auth.api('post', '/event', {
                 data
+            }).then(event => {
+                cb(event);
             });
         }
     };

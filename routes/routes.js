@@ -57,13 +57,13 @@ router.patch('/applicants/accept/:id', AdminAuth, User.acceptApplicant);
 router.patch('/applicants/decline/:id', AdminAuth, User.declineApplicant);
 
 router.post('/event', AdminAuth, Event.create);
+router.patch('/event', AdminAuth, Event.update);
 router.patch('/event/remove', AdminAuth, Event.remove);
 router.patch('/event/attend', Auth, Event.attend);
 router.patch('/event/unattend', Auth, Event.unattend);
 router.get('/events/find', Event.find);
 router.get('/events/find/:id', Event.find);
-//edit event
-//delete event
+
 
 router.get('/home', Home.find);
 

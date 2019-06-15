@@ -81,10 +81,41 @@ exports.remove = (req, res) => {
                 hidden: true
             }
         },
-        { new: true },
-        (err, resp) => {
-            if (err) return res.send(err);
-            res.send(resp);
-        }
-    );
+        { new: true, useFindAndModify: false }
+    )
+        .then(event => {
+            if (!event) {
+                res.status(404).send();
+            }
+            res.send({ event });
+        })
+        .catch(e => {
+            res.status(400).send();
+        });
+};
+
+exports.update = (req, res) => {
+    const body = pick(req.body, [
+        '_id',
+        'title',
+        'description',
+        'date',
+        'type'
+    ]);
+    Event.findByIdAndUpdate(
+        body._id,
+        {
+            $set: body
+        },
+        { new: true, useFindAndModify: false }
+    )
+        .then(event => {
+            if (!event) {
+                res.status(404).send();
+            }
+            res.send({ event });
+        })
+        .catch(e => {
+            res.status(400).send();
+        });
 };
