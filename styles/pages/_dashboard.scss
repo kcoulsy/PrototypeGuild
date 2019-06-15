@@ -1,6 +1,8 @@
 @import '../constants';
 
 .page-dashboard {
+    overflow: hidden;
+    height: 100%;
     h2 {
         color: $proto-off-white;
         margin: 20px;

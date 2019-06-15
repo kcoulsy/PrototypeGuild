@@ -1,0 +1,24 @@
+@import '../constants';
+
+.post-list-table {
+    width: calc(100% - 20px);
+    border-collapse: collapse;
+    margin: 10px;
+
+    td {
+        padding: 5px;
+        &:first-child {
+            max-width: 50px;
+            img {
+                width: 100%;
+            }
+        }
+        &:last-child{
+            text-align: right;
+        }
+    }
+
+    tr:not(:last-child) {
+        border-bottom: $proto-border-standard;
+    }
+}

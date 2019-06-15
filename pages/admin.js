@@ -6,6 +6,7 @@ import Events from '../components/Events';
 import CreatePost from './../components/admin/CreatePost';
 import Applicants from './../components/admin/Applicants';
 import Recruitment from './../components/admin/Recruitment';
+import PostList from './../components/PostList';
 
 // import Modal from './components/utils/Modal';
 
@@ -34,6 +35,7 @@ class AdminDashboard extends Component {
                             <div className="main-content">
                                 <Events auth={auth} />
                                 <CreatePost auth={auth}/>
+                                <PostList auth={auth} />
                             </div>
                         </div>
                     </div>
