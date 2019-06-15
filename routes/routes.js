@@ -71,9 +71,8 @@ router.post('/recruitment', AdminAuth, Recruitment.create);
 router.patch('/recruitment', AdminAuth, Recruitment.update);
 
 router.post('/post', upload.single('image'), Post.create);
-router.get('/posts/:id', Post.findById);
+// router.get('/posts/:id', Post.findById);
 router.get('/posts', Post.find);
-//edit post
-//delete post
+router.patch('/posts/remove', Post.remove);
 
 module.exports = router;

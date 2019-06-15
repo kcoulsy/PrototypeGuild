@@ -22,6 +22,24 @@ export default class PostList extends Component {
             });
         });
     };
+
+    removePost = ev => {
+        const { value } = ev.target;
+        const { auth } = this.props;
+
+        ev.preventDefault();
+
+        if (confirm('Are you sure you want to delete this post?')) {
+            auth.api('patch', '/posts/remove', {
+                data: {
+                    _id: value
+                }
+            }).then(() => {
+                this.fetchPosts();
+            });
+        }
+    };
+
     render() {
         const { posts } = this.state;
         const { auth } = this.props;
@@ -63,7 +81,11 @@ export default class PostList extends Component {
                                             </td>
                                             <td>{post.title}</td>
                                             <td>
-                                                <button className="proto-btn">
+                                                <button
+                                                    value={post._id}
+                                                    className="proto-btn"
+                                                    onClick={this.removePost}
+                                                >
                                                     Remove
                                                 </button>
                                             </td>

@@ -30,7 +30,9 @@ exports.findById = (req, res) => {
 };
 
 exports.find = (req, res) => {
-    Post.find().then(
+    Post.find({
+        hidden: false
+    }).then(
         posts => {
             res.send(posts);
         },
@@ -38,4 +40,25 @@ exports.find = (req, res) => {
             res.status(400).send(e);
         }
     );
+};
+
+exports.remove = (req, res) => {
+    Post.findByIdAndUpdate(
+        req.body._id,
+        {
+            $set: {
+                hidden: true
+            }
+        },
+        { new: true, useFindAndModify: false }
+    )
+        .then(post => {
+            if (!post) {
+                res.status(404).send();
+            }
+            res.send({ post });
+        })
+        .catch(e => {
+            res.status(400).send();
+        });
 };
