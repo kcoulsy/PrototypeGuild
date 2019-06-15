@@ -68,6 +68,13 @@ export default class PostList extends Component {
                 <div>
                     <table className="post-list-table">
                         <tbody>
+                            {(!posts || !posts.length) && (
+                                <tr>
+                                    <td style={{ textAlign: 'center' }}>
+                                        No Posts Found!
+                                    </td>
+                                </tr>
+                            )}
                             {posts &&
                                 posts.map(post => {
                                     return (
