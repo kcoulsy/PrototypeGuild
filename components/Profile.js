@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 export default class Profile extends Component {
     state = {
         user: {},
+        cleanUser: {},
         isLoading: true,
         editMode: false
     };
@@ -24,16 +25,73 @@ export default class Profile extends Component {
         }).then(res => {
             this.setState({
                 user: res[0],
+                cleanUser: Object.assign({}, res[0]),
                 isLoading: false
             });
         });
     }
     handleEditClick = () => {
         const { auth, canEdit } = this.props;
+
         if (auth && auth.isAdmin && canEdit) {
             this.setState({ editMode: !this.state.editMode });
         }
     };
+
+    handleChange = ev => {
+        const { name, value } = ev.target;
+        let user = this.state.user;
+        user[name] = value;
+        this.setState({ user });
+    };
+
+    handleCancel = ev => {
+        const { cleanUser } = this.state;
+
+        ev.preventDefault();
+
+        this.setState({
+            user: cleanUser,
+            editMode: false
+        });
+    };
+
+    handleSubmit = ev => {
+        const { auth } = this.props;
+        const { user } = this.state;
+
+        ev.preventDefault();
+
+        if (!this.isDirty()) {
+            this.setState({ editMode: false });
+            return;
+        }
+
+        auth.api('patch', '/users', {
+            data: user
+        }).then(() => {
+            this.setState({
+                editMode: false,
+                user: user,
+                cleanUser: Object.assign({}, user)
+            });
+        });
+    };
+
+    isDirty = () => {
+        const { user, cleanUser } = this.state;
+        let isDirty = false;
+
+        Object.keys(user).forEach(key => {
+            if (user[key] !== cleanUser[key]) {
+                console.log(key, user[key], cleanUser[key]);
+                isDirty = true;
+            }
+        });
+
+        return isDirty;
+    };
+
     render() {
         const { user, isLoading } = this.state;
         const { auth, canEdit } = this.props;
@@ -57,10 +115,29 @@ export default class Profile extends Component {
                                                 defaultValue={
                                                     user.characterName
                                                 }
+                                                onChange={this.handleChange}
+                                                name="characterName"
                                             />
                                         ) : (
                                             <span>
                                                 {upperFirst(user.characterName)}
+                                            </span>
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Discord Tag</td>
+                                    <td>
+                                        {isEditMode ? (
+                                            <input
+                                                className=""
+                                                defaultValue={user.discordTag}
+                                                onChange={this.handleChange}
+                                                name="discordTag"
+                                            />
+                                        ) : (
+                                            <span>
+                                                {upperFirst(user.discordTag)}
                                             </span>
                                         )}
                                     </td>
@@ -71,6 +148,8 @@ export default class Profile extends Component {
                                         {isEditMode ? (
                                             <select
                                                 defaultValue={user.playerClass.toLowerCase()}
+                                                onChange={this.handleChange}
+                                                name="playerClass"
                                             >
                                                 {CLASSES.map(playerClass => {
                                                     return (
@@ -96,6 +175,8 @@ export default class Profile extends Component {
                                         {isEditMode ? (
                                             <select
                                                 defaultValue={user.playerRole.toLowerCase()}
+                                                onChange={this.handleChange}
+                                                name="playerRole"
                                             >
                                                 {ROLES.map(role => {
                                                     return (
@@ -121,6 +202,8 @@ export default class Profile extends Component {
                                         {isEditMode ? (
                                             <select
                                                 defaultValue={user.rank.toLowerCase()}
+                                                onChange={this.handleChange}
+                                                name="rank"
                                             >
                                                 {RANKS.map(rank => {
                                                     return (
@@ -144,6 +227,8 @@ export default class Profile extends Component {
                                         {isEditMode ? (
                                             <select
                                                 defaultValue={user.professionOne.toLowerCase()}
+                                                onChange={this.handleChange}
+                                                name="professionOne"
                                             >
                                                 {PROFESSIONS.map(prof => {
                                                     return (
@@ -165,6 +250,8 @@ export default class Profile extends Component {
                                         {isEditMode ? (
                                             <select
                                                 defaultValue={user.professionTwo.toLowerCase()}
+                                                onChange={this.handleChange}
+                                                name="professionTwo"
                                             >
                                                 {PROFESSIONS.map(prof => {
                                                     return (
@@ -194,13 +281,13 @@ export default class Profile extends Component {
                         <div>
                             <button
                                 className="proto-btn"
-                                onClick={this.handleEditClick}
+                                onClick={this.handleCancel}
                             >
                                 Cancel
                             </button>
                             <button
                                 className="proto-btn"
-                                onClick={this.handleEditClick}
+                                onClick={this.handleSubmit}
                             >
                                 Update
                             </button>

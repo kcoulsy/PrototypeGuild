@@ -167,6 +167,19 @@ exports.updateUser = (req, res) => {
         'professionOne',
         'professionTwo'
     ]);
+
+    User.findByIdAndUpdate(
+        body._id,
+        { $set: body },
+        { new: true, useFindAndModify: false }
+    ).then(user => {
+        if (!user) {
+            res.status(404).send();
+        }
+        res.send({ user });
+    }).catch(e => {
+        res.status(400).send();
+    })
 };
 
 /*
