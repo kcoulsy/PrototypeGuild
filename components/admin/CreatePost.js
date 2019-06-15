@@ -26,7 +26,7 @@ export default class CreatePost extends Component {
     };
 
     handleSubmit = async ev => {
-        const { auth } = this.props;
+        const { auth, cb } = this.props;
         const formData = new FormData(ev.target);
 
         ev.preventDefault();
@@ -36,8 +36,8 @@ export default class CreatePost extends Component {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(() => {
-            Router.push(`/`);
+        }).then(post => {
+            cb(post);
         });
     };
 

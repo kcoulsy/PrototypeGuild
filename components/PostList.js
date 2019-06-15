@@ -40,22 +40,21 @@ export default class PostList extends Component {
         }
     };
 
+    closeModal = () => {
+        this.setState({
+            createPostOpen: !this.state.createPostOpen
+        });
+        this.fetchPosts();
+    };
+
     render() {
         const { posts } = this.state;
         const { auth } = this.props;
 
         return (
             <Panel styleName="no-padding">
-                <Modal
-                    on={this.state.createPostOpen}
-                    toggle={() => {
-                        this.setState({
-                            createPostOpen: !this.state.createPostOpen
-                        });
-                        this.fetchPosts();
-                    }}
-                >
-                    <CreatePost auth={auth} />
+                <Modal on={this.state.createPostOpen} toggle={this.closeModal}>
+                    <CreatePost auth={auth} cb={this.closeModal} />
                 </Modal>
                 <div className="panel-header">
                     Featured Posts
