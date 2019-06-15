@@ -1,13 +1,12 @@
 const { Post } = require('../Models/Post');
 
 exports.create = (req, res) => {
-    console.log(req.file);
     const post = new Post({
         title: req.body.title,
         body: req.body.body,
         imageUrl: req.file.path,
         createdAt: new Date(),
-        featured: req.body.path
+        hidden: false
     });
     post.save().then(
         doc => {

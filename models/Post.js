@@ -9,7 +9,6 @@ const Post = mongoose.model('Post', {
     },
     body: {
         type: String,
-        required: true,
         maxlength: 5000
     },
     imageUrl: {
@@ -18,7 +17,7 @@ const Post = mongoose.model('Post', {
     createdAt: {
         type: Date
     },
-    featured: {
+    hidden: {
         type: Boolean
     }
 });

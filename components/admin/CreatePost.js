@@ -4,6 +4,10 @@ import Router from 'next/router';
 import Panel from '../Panel';
 
 export default class CreatePost extends Component {
+    constructor(props) {
+        super(props);
+        this.fileInput = React.createRef();
+    }
     state = {
         title: '',
         body: '',
@@ -23,9 +27,15 @@ export default class CreatePost extends Component {
 
     handleSubmit = async ev => {
         const { auth } = this.props;
+        const formData = new FormData(ev.target);
+
         ev.preventDefault();
+
         auth.api('post', '/post', {
-            data: this.state
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then(() => {
             Router.push(`/`);
         });
@@ -34,35 +44,22 @@ export default class CreatePost extends Component {
     render() {
         return (
             <Panel title="Create Post" styleName="">
-                <form className="proto-form form-apply">
+                <form
+                    className="proto-form form-apply"
+                    onSubmit={this.handleSubmit}
+                >
                     <input
                         name="title"
                         type="text"
                         placeholder="Title of post"
                         onChange={this.handleChange}
                     />
-                    <textarea
-                        name="body"
-                        placeholder="Post body here"
-                        onChange={this.handleChange}
-                    />
+                    <input type="file" name="image" ref={this.fileInput} />
                     <input
-                        name="imageUrl"
-                        type="text"
-                        placeholder="Image url"
-                        onChange={this.handleChange}
+                        className="proto-btn"
+                        type="submit"
+                        value="Create Post"
                     />
-                    <label>
-                        <span className="feature">Feature?</span>
-                        <input
-                            name="featured"
-                            type="checkbox"
-                            onChange={this.handleCheckboxChange}
-                        />
-                    </label>
-                    <button className="proto-btn" onClick={this.handleSubmit}>
-                        Create Post
-                    </button>
                 </form>
             </Panel>
         );

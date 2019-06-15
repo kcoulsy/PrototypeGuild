@@ -15,8 +15,8 @@ export default ({ posts }) => {
                 <div className="skewed-image-container">
                     {posts.map((post, idx) => {
                         return (
-                            idx < 4 && (
-                                <div class="image">
+                            idx < 5 && (
+                                <div class="image" key={`${idx}_${post.title}`}>
                                     <img
                                         src={post.imageUrl}
                                         alt={post.title}
