@@ -26,11 +26,8 @@ class Event extends Component {
         const { auth, id } = this.props;
         this.setState({ isLoading: true });
 
-        auth.api('get', '/events/find', {
-            data: {
-                id
-            }
-        }).then(res => {
+        auth.api('get', `/events/find/${id}`)
+        .then(res => {
             this.setState({
                 event: res[0],
                 isLoading: false

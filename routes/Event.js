@@ -53,8 +53,8 @@ exports.unattend = (req, res) => {
     );
 };
 
-exports.find = (req, res) => {
-    const { id } = req.body;
+exports.find = (req, res) => {    
+    const { id } = req.params;
     const q = {};
 
     if (id) {

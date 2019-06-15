@@ -7,12 +7,15 @@ import CreateEvent from './admin/CreateEvent';
 import Modal from './utils/Modal';
 import Panel from './Panel';
 import Loader from './Loader';
+import EditEvent from './admin/EditEvent';
 
 export default class Events extends Component {
     state = {
         isLoading: true,
         events: [],
-        createModalOpen: false
+        createModalOpen: false,
+        editEventId: '',
+        editEventModalOpen: false
     };
 
     componentWillMount() {
@@ -51,12 +54,24 @@ export default class Events extends Component {
                         on={this.state.createModalOpen}
                         toggle={() => {
                             this.setState({
-                                createModalOpen: !this.state.createModalOpen
+                                createModalOpen: false
                             });
                             this.fetchEvents();
                         }}
                     >
                         <CreateEvent auth={auth} />
+                    </Modal>
+                    <Modal
+                        on={this.state.editEventModalOpen}
+                        toggle={() => {
+                            this.setState({
+                                editEventModalOpen: false,
+                                editEventId: ''
+                            });
+                            this.fetchEvents();
+                        }}
+                    >
+                        <EditEvent auth={auth} id={this.state.editEventId} />
                     </Modal>
                 </div>
                 {isLoading ? (
@@ -67,24 +82,44 @@ export default class Events extends Component {
                             {events &&
                                 events.map(event => {
                                     return (
-                                        <Link
-                                            key={event._id}
-                                            href={`/event?id=${event._id}`}
-                                        >
-                                            <tr>
+                                        <tr key={event._id}>
+                                            <Link
+                                                href={`/event?id=${event._id}`}
+                                            >
                                                 <td>
                                                     {upperFirst(event.title)}
                                                 </td>
+                                            </Link>
+
+                                            <Link
+                                                href={`/event?id=${event._id}`}
+                                            >
                                                 <td>
                                                     {upperFirst(event.type)}
                                                 </td>
+                                            </Link>
+                                            <Link
+                                                href={`/event?id=${event._id}`}
+                                            >
                                                 <td>
                                                     {moment(event.date).format(
                                                         'dddd, MMMM Do YYYY'
                                                     )}
                                                 </td>
-                                            </tr>
-                                        </Link>
+                                            </Link>
+                                            <td>
+                                                <button className="proto-btn"
+                                                onClick={() => {
+                                                    this.setState({
+                                                        editEventModalOpen: true,
+                                                        editEventId: event._id
+                                                    });
+                                                    this.fetchEvents();
+                                                }}>
+                                                Edit
+                                                </button>
+                                            </td>
+                                        </tr>
                                     );
                                 })}
                         </tbody>
