@@ -86,6 +86,7 @@ export default class EditEvent extends Component {
     setError = msg => {
         this.setState({ error: msg });
     };
+
     render() {
         const { error, isLoading } = this.state;
 

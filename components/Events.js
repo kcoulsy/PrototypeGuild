@@ -33,14 +33,21 @@ export default class Events extends Component {
         });
     };
 
+    isAdmin = () => {
+        const { auth } = this.props;
+
+        return auth && auth.isAdmin();
+    };
+
     render() {
         const { auth } = this.props;
         const { isLoading, events } = this.state;
+
         return (
             <Panel styleName="no-padding">
                 <div className="panel-header">
                     Upcoming Events
-                    {auth.isAdmin() && (
+                    {this.isAdmin() && (
                         <button
                             className="proto-btn"
                             onClick={() =>
@@ -107,18 +114,23 @@ export default class Events extends Component {
                                                     )}
                                                 </td>
                                             </Link>
-                                            <td>
-                                                <button className="proto-btn"
-                                                onClick={() => {
-                                                    this.setState({
-                                                        editEventModalOpen: true,
-                                                        editEventId: event._id
-                                                    });
-                                                    this.fetchEvents();
-                                                }}>
-                                                Edit
-                                                </button>
-                                            </td>
+                                            {this.isAdmin() && (
+                                                <td>
+                                                    <button
+                                                        className="proto-btn"
+                                                        onClick={() => {
+                                                            this.setState({
+                                                                editEventModalOpen: true,
+                                                                editEventId:
+                                                                    event._id
+                                                            });
+                                                            this.fetchEvents();
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })}
