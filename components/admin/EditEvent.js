@@ -3,8 +3,10 @@ import Router from 'next/router';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
+
 import AuthService from '../../utils/AuthService';
 import Panel from '../Panel';
+import Loader from '../Loader';
 
 const auth = new AuthService();
 
@@ -15,7 +17,8 @@ export default class EditEvent extends Component {
         type: '',
         error: '',
         date: null,
-        focused: false
+        focused: false,
+        isLoading: true
     };
 
     componentWillMount() {
@@ -32,7 +35,8 @@ export default class EditEvent extends Component {
                 title,
                 description,
                 date: moment(date),
-                type
+                type,
+                isLoading: false
             });
         });
     };
@@ -83,63 +87,67 @@ export default class EditEvent extends Component {
         this.setState({ error: msg });
     };
     render() {
-        const { error } = this.state;
+        const { error, isLoading } = this.state;
 
         return (
             <Panel title="Create Event">
-                <form className="proto-form form-apply">
-                    <input
-                        name="title"
-                        type="text"
-                        onChange={this.handleChange}
-                        value={this.state.title}
-                        placeholder="Title"
-                    />
-                    <textarea
-                        name="description"
-                        cols="30"
-                        rows="5"
-                        onChange={this.handleChange}
-                        value={this.state.description}
-                        placeholder="Event Description"
-                    />
-                    <SingleDatePicker
-                        date={this.state.date} // momentPropTypes.momentObj or null
-                        onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-                        focused={this.state.focused} // PropTypes.bool
-                        onFocusChange={({ focused }) =>
-                            this.setState({ focused })
-                        } // PropTypes.func.isRequired
-                        id="date-picker" // PropTypes.string.isRequired,
-                        numberOfMonths={1}
-                        hideKeyboardShortcutsPanel={true}
-                    />
-                    <select
-                        name="type"
-                        onChange={this.handleChange}
-                        value={this.state.type}
-                    >
-                        <option value="">Select Type</option>
-                        <option value="Raid">Raid</option>
-                        <option value="Dungeon">Dungeon</option>
-                        <option value="PVP">PVP</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <button
-                        className="proto-btn"
-                        onClick={this.handleSubmit}
-                        type="submit"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        className="proto-btn"
-                        onClick={this.handleSubmit}
-                        type="submit"
-                    >
-                        Delete
-                    </button>
-                </form>
+                {isLoading ? (
+                    <Loader />
+                ) : (
+                    <form className="proto-form form-apply">
+                        <input
+                            name="title"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.title}
+                            placeholder="Title"
+                        />
+                        <textarea
+                            name="description"
+                            cols="30"
+                            rows="5"
+                            onChange={this.handleChange}
+                            value={this.state.description}
+                            placeholder="Event Description"
+                        />
+                        <SingleDatePicker
+                            date={this.state.date} // momentPropTypes.momentObj or null
+                            onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                            focused={this.state.focused} // PropTypes.bool
+                            onFocusChange={({ focused }) =>
+                                this.setState({ focused })
+                            } // PropTypes.func.isRequired
+                            id="date-picker" // PropTypes.string.isRequired,
+                            numberOfMonths={1}
+                            hideKeyboardShortcutsPanel={true}
+                        />
+                        <select
+                            name="type"
+                            onChange={this.handleChange}
+                            value={this.state.type}
+                        >
+                            <option value="">Select Type</option>
+                            <option value="Raid">Raid</option>
+                            <option value="Dungeon">Dungeon</option>
+                            <option value="PVP">PVP</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <button
+                            className="proto-btn"
+                            onClick={this.handleSubmit}
+                            type="submit"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            className="proto-btn"
+                            onClick={this.handleSubmit}
+                            type="submit"
+                        >
+                            Delete
+                        </button>
+                    </form>
+                )}
                 {error}
             </Panel>
         );
