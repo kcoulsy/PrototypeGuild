@@ -30,7 +30,6 @@ export default class EditEvent extends Component {
 
         auth.api('get', `/events/find/${id}`).then(res => {
             const { title, description, date, type } = res[0];
-            // console.log(id, event);
             this.setState({
                 title,
                 description,
@@ -64,23 +63,46 @@ export default class EditEvent extends Component {
         if (this.validate()) {
             auth.api('post', '/event', {
                 data
-            }).then(() => {
-                Router.push('http://localhost:3001/events');
-            });
+            }).then(() => {});
         }
     };
 
     validate = () => {
-        const { title, type } = this.state;
+        const { title, type, date } = this.state;
         if (!title.length) {
             this.setError('You must enter a title!');
+            return false;
+        }
+        if (title.length < 3) {
+            this.setError('Title Must be greater than 3 characters!');
             return false;
         }
         if (!type.length) {
             this.setError('You must pick a type!');
             return false;
         }
+        if (!date) {
+            this.setError('You Must pick a date!');
+            return false;
+        }
         return true;
+    };
+
+    handleRemove = ev => {
+        const { auth, id } = this.props;
+        ev.preventDefault();
+        if (!this.validate()) {
+            return;
+        }
+        if (confirm('Are you sure you want to remove this event?')) {
+            auth.api('patch', '/event/remove', {
+                data: {
+                    _id: id
+                }
+            }).then(() => {
+                //TODO close modal
+            });
+        }
     };
 
     setError = msg => {
@@ -142,7 +164,7 @@ export default class EditEvent extends Component {
                         </button>
                         <button
                             className="proto-btn"
-                            onClick={this.handleSubmit}
+                            onClick={this.handleRemove}
                             type="submit"
                         >
                             Delete

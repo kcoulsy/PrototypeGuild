@@ -7,6 +7,7 @@ exports.create = (req, res) => {
     body.createdBy = req.user._id;
     body.attendance = [];
     body.date = new Date(body.date * 1000);
+    body.hidden = false;
 
     const event = new Event(body);
     event
@@ -53,9 +54,11 @@ exports.unattend = (req, res) => {
     );
 };
 
-exports.find = (req, res) => {    
+exports.find = (req, res) => {
     const { id } = req.params;
-    const q = {};
+    const q = {
+        hidden: false
+    };
 
     if (id) {
         q._id = id;
@@ -71,8 +74,17 @@ exports.find = (req, res) => {
 
 exports.remove = (req, res) => {
     const { _id } = req.body;
-    Event.findOneAndDelete({ _id }, null, (err, resp) => {
-        if (err) return res.send(err);
-        res.send(resp);
-    });
+    Event.findOneAndUpdate(
+        { _id },
+        {
+            $set: {
+                hidden: true
+            }
+        },
+        { new: true },
+        (err, resp) => {
+            if (err) return res.send(err);
+            res.send(resp);
+        }
+    );
 };

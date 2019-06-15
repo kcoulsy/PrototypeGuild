@@ -41,20 +41,26 @@ export default class CreateEvent extends Component {
         if (this.validate()) {
             auth.api('post', '/event', {
                 data
-            }).then(() => {
-                Router.push('http://localhost:3001/events');
             });
         }
     };
 
     validate = () => {
-        const { title, type } = this.state;
+        const { title, type, date } = this.state;
         if (!title.length) {
             this.setError('You must enter a title!');
             return false;
         }
+        if (title.length < 3) {
+            this.setError('Title Must be greater than 3 characters!');
+            return false;
+        }
         if (!type.length) {
             this.setError('You must pick a type!');
+            return false;
+        }
+        if (!date) {
+            this.setError('You Must pick a date!');
             return false;
         }
         return true;
@@ -63,6 +69,7 @@ export default class CreateEvent extends Component {
     setError = msg => {
         this.setState({ error: msg });
     };
+
     render() {
         const { error } = this.state;
         return (

@@ -7,9 +7,8 @@ const EventSchema = new mongoose.Schema(
         type: { type: String },
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         date: { type: Date },
-        attendance: [
-            { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
-        ]
+        attendance: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        hidden: Boolean
     },
     {
         timestamps: true
