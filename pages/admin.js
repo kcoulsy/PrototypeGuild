@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 
 import withAuth from '../utils/withAuth';
 import Navbar from '../components/Navbar';
-import CreateEvent from './../components/admin/CreateEvent';
+import Events from '../components/Events';
 import CreatePost from './../components/admin/CreatePost';
 import Applicants from './../components/admin/Applicants';
 import Recruitment from './../components/admin/Recruitment';
+
+// import Modal from './components/utils/Modal';
 
 class AdminDashboard extends Component {
     static async getInitialProps() {}
@@ -30,7 +32,7 @@ class AdminDashboard extends Component {
                                 <Recruitment auth={auth} />
                             </div>
                             <div className="main-content">
-                                <CreateEvent auth={auth} />
+                                <Events auth={auth} />
                                 <CreatePost auth={auth}/>
                             </div>
                         </div>

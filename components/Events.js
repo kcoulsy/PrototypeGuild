@@ -3,16 +3,23 @@ import upperFirst from 'lodash/upperFirst';
 import moment from 'moment';
 import Link from 'next/link';
 
+import CreateEvent from './admin/CreateEvent';
+import Modal from './utils/Modal';
 import Panel from './Panel';
-import Loader from '../components/Loader';
+import Loader from './Loader';
 
 export default class Events extends Component {
     state = {
         isLoading: true,
-        events: []
+        events: [],
+        createModalOpen: false
     };
 
     componentWillMount() {
+        this.fetchEvents();
+    }
+
+    fetchEvents = () => {
         const { auth } = this.props;
 
         auth.api('get', '/events/find').then(res => {
@@ -21,11 +28,37 @@ export default class Events extends Component {
                 events: res
             });
         });
-    }
+    };
+
     render() {
+        const { auth } = this.props;
         const { isLoading, events } = this.state;
         return (
-            <Panel title="Upcoming Events" styleName="no-padding">
+            <Panel styleName="no-padding">
+                <div className="panel-header">
+                    Upcoming Events
+                    {auth.isAdmin() && (
+                        <button
+                            className="proto-btn"
+                            onClick={() =>
+                                this.setState({ createModalOpen: true })
+                            }
+                        >
+                            Create Event
+                        </button>
+                    )}
+                    <Modal
+                        on={this.state.createModalOpen}
+                        toggle={() => {
+                            this.setState({
+                                createModalOpen: !this.state.createModalOpen
+                            });
+                            this.fetchEvents();
+                        }}
+                    >
+                        <CreateEvent auth={auth} />
+                    </Modal>
+                </div>
                 {isLoading ? (
                     <Loader />
                 ) : (
