@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+
+import { SITE_URL } from '../constants/site';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import SkewedImageRow from '../components/SkewedImageRow';
 import NewRecruitment from '../components/NewRecruitment';
 
-const auth = new AuthService();
+const auth = new AuthService(SITE_URL);
 
 export default class Index extends Component {
     static getInitialProps() {}
