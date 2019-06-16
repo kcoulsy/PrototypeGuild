@@ -6,7 +6,7 @@ export default ({ posts }) => {
     const [selected, setSelected] = useState({});
 
     return (
-        <>
+        <Fragment>
             <Modal on={selected && selected.src} toggle={() => setSelected({})}>
                 <img src={selected.src} alt={selected.title} />
             </Modal>
@@ -16,23 +16,26 @@ export default ({ posts }) => {
                     {posts.map((post, idx) => {
                         return (
                             idx < 5 && (
-                                <div className="image" key={`${idx}_${post.title}`}>
-                                    <img
-                                        src={post.imageUrl}
-                                        alt={post.title}
-                                        onClick={() =>
-                                            setSelected({
-                                                id: post._id,
-                                                src: post.imageUrl
-                                            })
-                                        }
-                                    />
+                                <div
+                                    className="image"
+                                    key={post._id}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyUp={() => null}
+                                    onClick={() =>
+                                        setSelected({
+                                            id: post._id,
+                                            src: post.imageUrl
+                                        })
+                                    }
+                                >
+                                    <img src={post.imageUrl} alt={post.title} />
                                 </div>
                             )
                         );
                     })}
                 </div>
             </div>
-        </>
+        </Fragment>
     );
 };
