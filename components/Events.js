@@ -18,7 +18,7 @@ export default class Events extends Component {
         editEventModalOpen: false
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchEvents();
     }
 

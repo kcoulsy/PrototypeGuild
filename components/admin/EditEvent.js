@@ -17,7 +17,7 @@ export default class EditEvent extends Component {
         isLoading: true
     };
 
-    componentWillMount() {
+    comp() {
         this.fetchEvent();
     }
 

@@ -18,7 +18,7 @@ class Post extends Component {
         sideBarPosts: [],
         isLoading: true
     };
-    componentWillMount() {
+    componentDidMount() {
         auth.api('get', `/posts/${this.props.id}`).then(res => {
             this.setState({
                 post: res[0],

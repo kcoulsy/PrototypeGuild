@@ -9,7 +9,7 @@ export default class PostList extends Component {
         posts: [],
         createPostOpen: false
     };
-    componentWillMount() {
+    componentDidMount() {
         this.fetchPosts();
     }
 

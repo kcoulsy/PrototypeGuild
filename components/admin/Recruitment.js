@@ -7,7 +7,7 @@ export default class componentName extends Component {
     state = {
         playerClasses: []
     };
-    componentWillMount() {
+    componentDidMount() {
         const { auth } = this.props;
 
         auth.api('get', '/recruitment').then(playerClasses => {

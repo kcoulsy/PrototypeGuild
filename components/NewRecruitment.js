@@ -4,7 +4,6 @@ import Link from 'next/link';
 import classes from '../constants/classes';
 
 export default class Recruitment extends Component {
-    componentWillMount() {}
     render() {
         const { classValues } = this.props;
         return (

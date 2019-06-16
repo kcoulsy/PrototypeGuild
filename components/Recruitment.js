@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import classes from '../constants/classes';
 
 export default class Recruitment extends Component {
-    componentWillMount() {}
     render() {
         const {classValues} = this.props;
         return (
