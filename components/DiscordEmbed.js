@@ -1,5 +1,6 @@
 import React from 'react';
 import { DISCORD_EMBED_URL } from '../constants/site';
+
 export default () => {
     return (
         <div className="discord-embed">
@@ -9,6 +10,7 @@ export default () => {
                 height="500"
                 allowTransparency="true"
                 frameBorder="0"
+                title="Discord Embed"
             />
         </div>
     );
