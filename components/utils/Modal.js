@@ -1,24 +1,22 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
-// import Portal from './Portal';
-
-export default class Modal extends Component {
-    render() {
-        const { children, toggle, on } = this.props;
-        return (
-            <>
-                {on && (
-                    <>
+export default ({ children, toggle, on }) => {
+    return (
+        <Fragment>
+            {on && (
+                <>
                     <div className="modal-wrapper">
-                        <div className="modal-card">
-                            {children}
-                        </div>
+                        <div className="modal-card">{children}</div>
                     </div>
-                    <div className="modal-background" onClick={toggle} />
-                    </>
-                )}
-            </>
-        );
-    }
-}
-
+                    <div
+                        className="modal-background"
+                        onClick={toggle}
+                        role="button"
+                        tabIndex={0}
+                        onKeyUp={() => null}
+                    />
+                </>
+            )}
+        </Fragment>
+    );
+};
