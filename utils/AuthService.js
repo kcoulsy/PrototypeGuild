@@ -108,14 +108,20 @@ export default class AuthService {
             delete options.headers;
         }
 
-        return axios({
-            method,
-            url: endpoint,
-            baseUrl: BASE_URL,
-            headers,
-            ...options
-        }).then(res => {
-            return Promise.resolve(res.data);
+        return new Promise((resolve, reject) => {
+            axios({
+                method,
+                url: endpoint,
+                baseUrl: BASE_URL,
+                headers,
+                ...options
+            })
+                .then(res => {
+                    return resolve(res.data);
+                })
+                .catch(err => {
+                    return reject(err);
+                });
         });
     };
 }
