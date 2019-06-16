@@ -11,26 +11,27 @@ const ranks = {
     1: RANK_OFFICER,
     2: RANK_VETERAN,
     3: RANK_RAIDER,
-    4: RANK_MEMBER,
-}
+    4: RANK_MEMBER
+};
 
 const findRank = function findRank(value) {
-    for (const rankVal in ranks) {
-        if (ranks.hasOwnProperty(rankVal)) {
-            if (ranks[rankVal] === value) {
-                return rankVal;
-            }
+    let foundVal = 10; // larger number than any of the ranks so it will also return as last
+
+    Object.keys(ranks).forEach(rankVal => {
+        if (ranks[rankVal] === value) {
+            foundVal = rankVal;
         }
-    }
-    return 10; // larger number than any of the ranks so it will also return as last
-}
+    });
+
+    return foundVal;
+};
 
 const sortFunc = function sort(playerA, playerB) {
     const playerARankVal = findRank(playerA.rank);
     const playerBRankVal = findRank(playerB.rank);
     return playerARankVal - playerBRankVal;
-}
+};
 
 module.exports = {
     sortFunc
-}
+};
