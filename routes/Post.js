@@ -8,38 +8,35 @@ exports.create = (req, res) => {
         createdAt: new Date(),
         hidden: false
     });
-    post.save().then(
-        doc => {
+    post.save()
+        .then(doc => {
+            if (!doc) res.status(404).send();
+
             res.send(doc);
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.findById = (req, res) => {
-    Post.find({ _id: req.params.id }).then(
-        posts => {
+    Post.find({ _id: req.params.id })
+        .then(posts => {
+            if (!posts) res.status(400).send();
+
             res.send(posts);
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.find = (req, res) => {
     Post.find({
         hidden: false
-    }).then(
-        posts => {
+    })
+        .then(posts => {
+            if (!posts) res.status(404).send();
+
             res.send(posts);
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.remove = (req, res) => {
@@ -53,12 +50,9 @@ exports.remove = (req, res) => {
         { new: true, useFindAndModify: false }
     )
         .then(post => {
-            if (!post) {
-                res.status(404).send();
-            }
+            if (!post) res.status(404).send();
+
             res.send({ post });
         })
-        .catch(e => {
-            res.status(400).send();
-        });
+        .catch(err => res.status(400).send(err));
 };

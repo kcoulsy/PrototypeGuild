@@ -1,14 +1,13 @@
 const { Recruitment } = require('../Models/Recruitment');
 
 exports.find = (req, res) => {
-    Recruitment.find().then(
-        playerClasses => {
+    Recruitment.find()
+        .then(playerClasses => {
+            if (!playerClasses) res.status(404).send();
+
             res.send(playerClasses);
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.create = (req, res) => {
@@ -16,14 +15,15 @@ exports.create = (req, res) => {
         playerClass: req.body.playerClass,
         recruiting: req.body.recruiting
     });
-    recruitment.save().then(
-        doc => {
+
+    recruitment
+        .save()
+        .then(doc => {
+            if (!doc) res.status(400).send();
+
             res.send(doc);
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.update = (req, res) => {
@@ -36,16 +36,12 @@ exports.update = (req, res) => {
                 recruiting: req.body.recruiting
             }
         },
-        { new: true }
-    ).then(
-        playerClass => {
-            if (!playerClass) {
-                res.status(404).send();
-            }
+        { new: true, useFindAndModify: false }
+    )
+        .then(playerClass => {
+            if (!playerClass) res.status(404).send();
+
             res.send({ playerClass });
-        },
-        e => {
-            res.status(400).send(e);
-        }
-    );
+        })
+        .catch(err => res.status(400).send(err));
 };

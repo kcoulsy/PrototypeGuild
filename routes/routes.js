@@ -3,15 +3,13 @@ const express = require('express');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination(req, file, cb) {
         cb(null, './uploads/');
     },
-    filename: function(req, file, cb) {
+    filename(req, file, cb) {
         cb(
             null,
-            new Date().toISOString().replace(/:/g, '-') +
-                '_' +
-                file.originalname
+            `${new Date().toISOString().replace(/:/g, '-')}_${file.originalname}`
         );
     }
 });
@@ -26,11 +24,11 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-    storage: storage,
+    storage,
     limits: {
         fileSize: 1024 * 1024 * 5
     },
-    fileFilter: fileFilter
+    fileFilter
 });
 
 const router = express.Router();
@@ -49,7 +47,7 @@ router.post('/users/login', User.login);
 router.post('/users/find', Auth, User.find);
 router.patch('/users', AdminAuth, User.updateUser);
 router.patch('/users/update', Auth, User.updatePassword);
-router.patch('/users/reset', User.resetPassword);
+router.patch('/users/reset', AdminAuth, User.resetPassword);
 router.delete('/users/logout', Auth, User.logout);
 
 router.post('/applicants', AdminAuth, User.findApplicants);
@@ -61,9 +59,8 @@ router.patch('/event', AdminAuth, Event.update);
 router.patch('/event/remove', AdminAuth, Event.remove);
 router.patch('/event/attend', Auth, Event.attend);
 router.patch('/event/unattend', Auth, Event.unattend);
-router.get('/events/find', Event.find);
-router.get('/events/find/:id', Event.find);
-
+router.get('/events/find', Auth, Event.find);
+router.get('/events/find/:id', Auth, Event.find);
 
 router.get('/home', Home.find);
 
@@ -71,9 +68,9 @@ router.get('/recruitment', Recruitment.find);
 router.post('/recruitment', AdminAuth, Recruitment.create);
 router.patch('/recruitment', AdminAuth, Recruitment.update);
 
-router.post('/post', upload.single('image'), Post.create);
+router.post('/post', AdminAuth, upload.single('image'), Post.create);
 // router.get('/posts/:id', Post.findById);
 router.get('/posts', Post.find);
-router.patch('/posts/remove', Post.remove);
+router.patch('/posts/remove', AdminAuth, Post.remove);
 
 module.exports = router;

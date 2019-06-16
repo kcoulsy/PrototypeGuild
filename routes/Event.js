@@ -12,16 +12,16 @@ exports.create = (req, res) => {
     const event = new Event(body);
     event
         .save()
-        .then(event => {
-            res.send(event);
+        .then(doc => {
+            if (!doc) res.status(404).send();
+
+            res.send(doc);
         })
-        .catch(e => {
-            res.status(400).send(e);
-        });
+        .catch(err => res.status(400).send(err));
 };
 
 exports.attend = (req, res) => {
-    const user = req.user;
+    const {user} = req;
     const { _id } = req.body;
 
     Event.findOneAndUpdate(
@@ -29,16 +29,18 @@ exports.attend = (req, res) => {
         {
             $addToSet: { attendance: user._id }
         },
-        { new: true },
-        (err, resp) => {
-            if (err) return res.send(err);
-            res.send(resp);
-        }
-    );
+        { new: true, useFindAndModify: false }
+    )
+        .then(event => {
+            if (!event) res.status(404);
+
+            res.send(event);
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.unattend = (req, res) => {
-    const user = req.user;
+    const {user} = req;
     const { _id } = req.body;
 
     Event.findOneAndUpdate(
@@ -46,12 +48,14 @@ exports.unattend = (req, res) => {
         {
             $pull: { attendance: user._id }
         },
-        { new: true },
-        (err, resp) => {
-            if (err) return res.send(err);
-            res.send(resp);
-        }
-    );
+        { new: true, useFindAndModify: false }
+    )
+        .then(event => {
+            if (!event) res.status(404);
+
+            res.send(event);
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.find = (req, res) => {
@@ -68,7 +72,13 @@ exports.find = (req, res) => {
         .populate('createdBy', 'characterName _id playerRole playerClass')
         .populate('attendance', 'characterName _id playerRole playerClass')
         .then(events => {
+            if (!events) {
+                res.status(404).send();
+            }
             res.send(events);
+        })
+        .catch(err => {
+            res.status(400).send(err);
         });
 };
 
@@ -84,14 +94,11 @@ exports.remove = (req, res) => {
         { new: true, useFindAndModify: false }
     )
         .then(event => {
-            if (!event) {
-                res.status(404).send();
-            }
+            if (!event) res.status(404).send();
+
             res.send({ event });
         })
-        .catch(e => {
-            res.status(400).send();
-        });
+        .catch(err => res.status(400).send(err));
 };
 
 exports.update = (req, res) => {
@@ -110,12 +117,9 @@ exports.update = (req, res) => {
         { new: true, useFindAndModify: false }
     )
         .then(event => {
-            if (!event) {
-                res.status(404).send();
-            }
+            if (!event) res.status(404).send();
+
             res.send({ event });
         })
-        .catch(e => {
-            res.status(400).send();
-        });
+        .catch(err => res.status(400).send(err));
 };

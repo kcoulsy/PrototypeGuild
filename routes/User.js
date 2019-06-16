@@ -26,11 +26,11 @@ exports.create = (req, res) => {
             return user.createToken('x-auth');
         })
         .then(token => {
+            if (!token) res.status(404).send();
+
             res.header('x-auth', token).send(user);
         })
-        .catch(e => {
-            res.status(400).send(e);
-        });
+        .catch(err => res.status(400).send(err));
 };
 
 exports.find = (req, res) => {
@@ -43,9 +43,13 @@ exports.find = (req, res) => {
     q.enabled = true;
     q.deleted = false;
 
-    User.find(q).then(response => {
-        res.send(response);
-    });
+    User.find(q)
+        .then(user => {
+            if (!user) res.status(404).send();
+
+            res.send(user);
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.findSelf = (req, res) => {
@@ -57,8 +61,12 @@ exports.login = (req, res) => {
 
     User.findByCredentials(body.username, body.password)
         .then(user => {
+            if (!user) res.status(404).send();
+
             user.removeToken();
             user.createToken('x-auth').then(token => {
+                if (!token) res.status(404).send();
+
                 res.header('x-auth', token).send(user);
             });
         })
@@ -85,9 +93,13 @@ exports.findApplicants = (req, res) => {
     q.enabled = false;
     q.deleted = false;
 
-    User.find(q).then(response => {
-        res.send(response);
-    });
+    User.find(q)
+        .then(user => {
+            if (!user) res.status(404).send();
+
+            res.send(user);
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 exports.acceptApplicant = (req, res) => {
@@ -104,9 +116,8 @@ exports.acceptApplicant = (req, res) => {
         { new: true, useFindAndModify: false }
     )
         .then(user => {
-            if (!user) {
-                return res.status(404).send();
-            }
+            if (!user) return res.status(404).send();
+
             const returnedUser = pick(user, [
                 '_id',
                 'username',
@@ -116,9 +127,7 @@ exports.acceptApplicant = (req, res) => {
 
             return res.send({ returnedUser });
         })
-        .catch(e => {
-            return res.status(400).send(e);
-        });
+        .catch(err => res.status(400).send(err));
 };
 
 exports.declineApplicant = (req, res) => {
@@ -136,9 +145,8 @@ exports.declineApplicant = (req, res) => {
         { new: true, useFindAndModify: false }
     )
         .then(user => {
-            if (!user) {
-                return res.status(404).send();
-            }
+            if (!user) res.status(404).send();
+
             const returnedUser = pick(user, [
                 '_id',
                 'username',
@@ -148,9 +156,7 @@ exports.declineApplicant = (req, res) => {
 
             return res.send({ returnedUser });
         })
-        .catch(e => {
-            return res.status(400).send(e);
-        });
+        .catch(err => res.status(400).send(err));
 };
 
 /*
@@ -172,14 +178,13 @@ exports.updateUser = (req, res) => {
         body._id,
         { $set: body },
         { new: true, useFindAndModify: false }
-    ).then(user => {
-        if (!user) {
-            res.status(404).send();
-        }
-        res.send({ user });
-    }).catch(e => {
-        res.status(400).send();
-    })
+    )
+        .then(user => {
+            if (!user) res.status(404).send();
+
+            res.send({ user });
+        })
+        .catch(err => res.status(400).send(err));
 };
 
 /*
@@ -197,13 +202,13 @@ exports.resetPassword = (req, res) => {
             res.status(404).send();
         }
 
-        user.updatePassword(body.password).then(user => {
-            if (!user) {
-                res.status(404).send();
-            }
+        user.updatePassword(body.password)
+            .then(doc => {
+                if (!doc) res.status(404).send();
 
-            res.send(user);
-        });
+                res.send(doc);
+            })
+            .catch(err => res.status(400).send(err));
     });
 };
 
@@ -222,12 +227,10 @@ exports.updatePassword = (req, res) => {
                 res.status(404).send();
             }
 
-            user.updatePassword(body.password).then(user => {
-                if (!user) {
-                    res.status(404).send();
-                }
+            user.updatePassword(body.password).then(doc => {
+                if (!doc) res.status(404).send();
 
-                res.send(user);
+                res.send(doc);
             });
         })
         .catch(err => res.status(400).send(err));
