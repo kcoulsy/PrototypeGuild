@@ -18,7 +18,7 @@ export default ({ classValues }) => {
                         <Link href="/apply" key={playerClassKey}>
                             <div className="icon">
                                 <img
-                                    src={`/static/images/classes/${playerClass.name}.png`}
+                                    src={`/static/images/classes/${playerClass.name.toLowerCase()}.png`}
                                     alt={playerClass.name}
                                 />
                                 <span
