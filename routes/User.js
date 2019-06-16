@@ -1,7 +1,7 @@
 const pick = require('lodash/pick');
 
 const { ObjectID } = require('mongodb');
-const { User } = require('../Models/User');
+const { User } = require('../models/User');
 
 exports.create = (req, res) => {
     const body = pick(req.body, [

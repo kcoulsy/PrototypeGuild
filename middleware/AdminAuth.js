@@ -1,4 +1,4 @@
-const { User } = require('../Models/User');
+const { User } = require('../models/User');
 
 const AdminAuth = (req, res, next) => {
     const token = req.header('x-auth');

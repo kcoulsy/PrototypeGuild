@@ -1,4 +1,4 @@
-const { Recruitment } = require('../Models/Recruitment');
+const { Recruitment } = require('../models/Recruitment');
 
 exports.find = (req, res) => {
     Recruitment.find()

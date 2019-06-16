@@ -1,5 +1,5 @@
-const { Recruitment } = require('../Models/Recruitment');
-const { Post } = require('../Models/Post');
+const { Recruitment } = require('../models/Recruitment');
+const { Post } = require('../models/Post');
 
 exports.find = (req, res) => {
     Recruitment.find()
