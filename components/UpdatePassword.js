@@ -3,6 +3,7 @@ import Panel from '../components/Panel';
 
 export default class UpdatePassword extends Component {
     state = {
+        username: '',
         current: '',
         newPass: '',
         confirm: '',
@@ -76,7 +77,14 @@ export default class UpdatePassword extends Component {
                             autoComplete="current-password"
                         />
                     )}
-
+                    {/* For Accessability */}
+                    <input
+                        type="text"
+                        name="username"
+                        autoComplete="username"
+                        onChange={this.handleInput}
+                        style={{ display: 'none' }}
+                    />
                     <input
                         type="password"
                         name="newPass"
