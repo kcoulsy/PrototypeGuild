@@ -20,13 +20,21 @@ export default class Applicants extends Component {
             this.setState({ applicants: res, isLoading: false });
         });
     }
+
     render() {
         const { isLoading, applicants } = this.state;
+
+        if (isLoading) {
+            return (
+                <Panel title="Applicants" styleName="no-padding">
+                    <Loader />
+                </Panel>
+            );
+        }
+
         return (
             <Panel title="Applicants" styleName="no-padding">
-                {isLoading ? (
-                    <Loader />
-                ) : applicants && applicants.length ? (
+                {applicants && applicants.length ? (
                     <table className="proto-table">
                         <tbody>
                             {applicants.map(member => {
