@@ -9,6 +9,7 @@ export default class PostList extends Component {
         posts: [],
         createPostOpen: false
     };
+
     componentDidMount() {
         this.fetchPosts();
     }
@@ -29,7 +30,7 @@ export default class PostList extends Component {
 
         ev.preventDefault();
 
-        if (confirm('Are you sure you want to delete this post?')) {
+        if (window.confirm('Are you sure you want to delete this post?')) {
             auth.api('patch', '/posts/remove', {
                 data: {
                     _id: value
@@ -41,25 +42,26 @@ export default class PostList extends Component {
     };
 
     closeModal = () => {
-        this.setState({
-            createPostOpen: !this.state.createPostOpen
-        });
+        this.setState(({ createPostOpen }) => ({
+            createPostOpen: !createPostOpen
+        }));
         this.fetchPosts();
     };
 
     render() {
-        const { posts } = this.state;
+        const { posts, createPostOpen } = this.state;
         const { auth } = this.props;
 
         return (
             <Panel styleName="no-padding">
-                <Modal on={this.state.createPostOpen} toggle={this.closeModal}>
+                <Modal on={createPostOpen} toggle={this.closeModal}>
                     <CreatePost auth={auth} cb={this.closeModal} />
                 </Modal>
                 <div className="panel-header">
                     Featured Posts
                     <button
                         className="proto-btn"
+                        type="button"
                         onClick={() => this.setState({ createPostOpen: true })}
                     >
                         Create Post
@@ -90,6 +92,7 @@ export default class PostList extends Component {
                                                 <button
                                                     value={post._id}
                                                     className="proto-btn"
+                                                    type="button"
                                                     onClick={this.removePost}
                                                 >
                                                     Remove
