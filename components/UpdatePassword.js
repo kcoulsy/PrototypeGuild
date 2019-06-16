@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import Panel from '../components/Panel';
+import Panel from './Panel';
 
 export default class UpdatePassword extends Component {
     state = {
-        username: '',
         current: '',
         newPass: '',
         confirm: '',
         error: ''
     };
+
     handleInput = ev => {
         const { value, name } = ev.target;
         this.handleError();
         this.setState({ [name]: value });
     };
+
     handleSubmit = ev => {
         const { auth, id, requirePrevious } = this.props;
         const { current, newPass, confirm } = this.state;
@@ -63,10 +64,11 @@ export default class UpdatePassword extends Component {
 
     render() {
         const { requirePrevious } = this.props;
+        const { error } = this.state;
 
         return (
             <Panel title="Update Password" styleName="panel-sm">
-                {this.state.error}
+                {error}
                 <form className="proto-form">
                     {(!this.isAdmin() || requirePrevious) && (
                         <input
