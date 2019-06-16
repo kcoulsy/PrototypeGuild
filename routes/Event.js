@@ -1,6 +1,6 @@
 const pick = require('lodash/pick');
 
-const { Event } = require('../models/Event');
+const { Event } = require('./../models/Event');
 
 exports.create = (req, res) => {
     const body = pick(req.body, ['title', 'description', 'date', 'type']);
