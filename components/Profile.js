@@ -4,8 +4,8 @@ import upperFirst from 'lodash/upperFirst';
 import { CLASSES, ROLES, RANKS } from '../constants/users';
 import { PROFESSIONS } from '../constants/professions';
 
-import Panel from '../components/Panel';
-import Loader from '../components/Loader';
+import Panel from './Panel';
+import Loader from './Loader';
 
 export default class Profile extends Component {
     state = {
@@ -30,17 +30,18 @@ export default class Profile extends Component {
             });
         });
     }
+
     handleEditClick = () => {
         const { auth, canEdit } = this.props;
 
         if (auth && auth.isAdmin && canEdit) {
-            this.setState({ editMode: !this.state.editMode });
+            this.setState(({editMode} )=> ({editMode: !editMode}));
         }
     };
 
     handleChange = ev => {
         const { name, value } = ev.target;
-        let user = this.state.user;
+        const {user} = this.state;
         user[name] = value;
         this.setState({ user });
     };
@@ -72,7 +73,7 @@ export default class Profile extends Component {
         }).then(() => {
             this.setState({
                 editMode: false,
-                user: user,
+                user,
                 cleanUser: Object.assign({}, user)
             });
         });
@@ -92,10 +93,10 @@ export default class Profile extends Component {
     };
 
     render() {
-        const { user, isLoading } = this.state;
+        const { user, isLoading, editMode } = this.state;
         const { auth, canEdit } = this.props;
         const isAdmin = auth && auth.isAdmin();
-        const isEditMode = this.state.editMode && canEdit && isAdmin;
+        const isEditMode = editMode && canEdit && isAdmin;
 
         return (
             <Panel title="Profile" styleName="panel-md no-padding">
@@ -276,17 +277,19 @@ export default class Profile extends Component {
                 )}
                 {isAdmin &&
                     canEdit &&
-                    (this.state.editMode ? (
+                    (editMode ? (
                         <div>
                             <button
                                 className="proto-btn"
                                 onClick={this.handleCancel}
+                                type="button"
                             >
                                 Cancel
                             </button>
                             <button
                                 className="proto-btn"
                                 onClick={this.handleSubmit}
+                                type="button"
                             >
                                 Update
                             </button>
@@ -295,6 +298,7 @@ export default class Profile extends Component {
                         <button
                             className="proto-btn"
                             onClick={this.handleEditClick}
+                            type="button"
                         >
                             Edit
                         </button>
