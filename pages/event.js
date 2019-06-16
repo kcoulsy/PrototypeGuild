@@ -26,8 +26,7 @@ class Event extends Component {
         const { auth, id } = this.props;
         this.setState({ isLoading: true });
 
-        auth.api('get', `/events/find/${id}`)
-        .then(res => {
+        auth.api('get', `/events/find/${id}`).then(res => {
             this.setState({
                 event: res[0],
                 isLoading: false
@@ -84,7 +83,10 @@ class Event extends Component {
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                    <Panel title="Event" styleName="panel-md no-padding panel-event">
+                    <Panel
+                        title="Event"
+                        styleName="panel-md no-padding panel-event"
+                    >
                         {isLoading ? (
                             <Loader />
                         ) : (
@@ -142,12 +144,14 @@ class Event extends Component {
                                                     {tanks.map(player => {
                                                         return (
                                                             <Link
-                                                                href={`/profile?id=${
-                                                                    player._id
-                                                                }`}
+                                                                href={`/profile?id=${player._id}`}
                                                                 key={player._id}
                                                             >
-                                                                <li className={player.playerClass}>
+                                                                <li
+                                                                    className={
+                                                                        player.playerClass
+                                                                    }
+                                                                >
                                                                     {
                                                                         player.characterName
                                                                     }
@@ -162,9 +166,7 @@ class Event extends Component {
                                                     {healers.map(player => {
                                                         return (
                                                             <Link
-                                                                href={`/profile?id=${
-                                                                    player._id
-                                                                }`}
+                                                                href={`/profile?id=${player._id}`}
                                                                 key={player._id}
                                                             >
                                                                 <li>
@@ -182,9 +184,7 @@ class Event extends Component {
                                                     {melees.map(player => {
                                                         return (
                                                             <Link
-                                                                href={`/profile?id=${
-                                                                    player._id
-                                                                }`}
+                                                                href={`/profile?id=${player._id}`}
                                                                 key={player._id}
                                                             >
                                                                 <li>
@@ -202,9 +202,7 @@ class Event extends Component {
                                                     {rangeds.map(player => {
                                                         return (
                                                             <Link
-                                                                href={`/profile?id=${
-                                                                    player._id
-                                                                }`}
+                                                                href={`/profile?id=${player._id}`}
                                                                 key={player._id}
                                                             >
                                                                 <li>
@@ -221,18 +219,18 @@ class Event extends Component {
                                     </tbody>
                                 </table>
                                 <div className="application-buttons">
-                                <button
-                                    className="proto-btn"
-                                    onClick={this.acceptEvent}
+                                    <button
+                                        className="proto-btn"
+                                        onClick={this.acceptEvent}
                                     >
-                                    Accept
-                                </button>
-                                <button
-                                    className="proto-btn"
-                                    onClick={this.declineEvent}
+                                        Accept
+                                    </button>
+                                    <button
+                                        className="proto-btn"
+                                        onClick={this.declineEvent}
                                     >
-                                    Decline
-                                </button>
+                                        Decline
+                                    </button>
                                 </div>
                             </>
                         )}

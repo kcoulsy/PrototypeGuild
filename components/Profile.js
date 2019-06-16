@@ -84,7 +84,6 @@ export default class Profile extends Component {
 
         Object.keys(user).forEach(key => {
             if (user[key] !== cleanUser[key]) {
-                console.log(key, user[key], cleanUser[key]);
                 isDirty = true;
             }
         });

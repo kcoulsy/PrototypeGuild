@@ -25,7 +25,7 @@ export default class Index extends Component {
             });
     }
     render() {
-        const { posts, playerClasses, featured } = this.state;
+        const { posts, playerClasses } = this.state;
 
         return (
             <div>
