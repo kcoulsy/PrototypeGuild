@@ -91,6 +91,8 @@ export default class AuthService {
 
     api = async (method, endpoint, options) => {
         // performs api calls sending the required authentication headers
+        const newOptions = options;
+
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json'
@@ -99,13 +101,12 @@ export default class AuthService {
         if (this.loggedIn()) {
             headers['x-auth'] = this.getToken();
         }
-        if (options && options.headers) {
-            for (const header in options.headers) {
-                if (options.headers.hasOwnProperty(header)) {
-                    headers[header] = options.headers[header];
-                }
-            }
-            delete options.headers;
+        if (newOptions && newOptions.headers) {
+            Object.keys(newOptions.headers).forEach(key => {
+                headers[key] = newOptions.headers[key];
+            });
+
+            delete newOptions.headers;
         }
 
         return new Promise((resolve, reject) => {
@@ -114,7 +115,7 @@ export default class AuthService {
                 url: endpoint,
                 baseUrl: BASE_URL,
                 headers,
-                ...options
+                ...newOptions
             })
                 .then(res => {
                     return resolve(res.data);
