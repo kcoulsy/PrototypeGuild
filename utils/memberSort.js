@@ -26,12 +26,9 @@ const findRank = function findRank(value) {
     return foundVal;
 };
 
-const sortFunc = function sort(playerA, playerB) {
+export default (playerA, playerB) => {
     const playerARankVal = findRank(playerA.rank);
     const playerBRankVal = findRank(playerB.rank);
-    return playerARankVal - playerBRankVal;
-};
 
-module.exports = {
-    sortFunc
+    return playerARankVal - playerBRankVal;
 };

@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
 import Loader from '../components/Loader';
 
-import { sortFunc } from '../utils/memberSort';
+import sortFunc from '../utils/memberSort';
 
 class Members extends Component {
     static async getInitialProps() {}
