@@ -6,7 +6,6 @@ import Panel from '../Panel';
 export default class CreateEvent extends Component {
     state = {
         title: '',
-        description: '',
         type: '',
         error: '',
         date: null,
@@ -69,7 +68,7 @@ export default class CreateEvent extends Component {
     };
 
     render() {
-        const { error } = this.state;
+        const { error, focused, date } = this.state;
         return (
             <Panel title="Create Event">
                 <form className="proto-form form-apply">
@@ -87,15 +86,17 @@ export default class CreateEvent extends Component {
                         placeholder="Event Description"
                     />
                     <SingleDatePicker
-                        date={this.state.date} // momentPropTypes.momentObj or null
-                        onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-                        focused={this.state.focused} // PropTypes.bool
-                        onFocusChange={({ focused }) =>
-                            this.setState({ focused })
+                        date={date} // momentPropTypes.momentObj or null
+                        onDateChange={newDate =>
+                            this.setState({ date: newDate })
+                        } // PropTypes.func.isRequired
+                        focused={focused} // PropTypes.bool
+                        onFocusChange={({ newFocused }) =>
+                            this.setState({ focused: newFocused })
                         } // PropTypes.func.isRequired
                         id="date-picker" // PropTypes.string.isRequired,
                         numberOfMonths={1}
-                        hideKeyboardShortcutsPanel={true}
+                        hideKeyboardShortcutsPanel
                     />
                     <select name="type" onChange={this.handleChange}>
                         <option value="">Select Type</option>
