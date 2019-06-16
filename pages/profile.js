@@ -10,12 +10,13 @@ class Profile extends Component {
     }
 
     render() {
-        const { auth } = this.props;
+        const { auth, id } = this.props;
+
         return (
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                <UserProfile id={this.props.id}  auth={auth} canEdit/>
+                <UserProfile id={id}  auth={auth} canEdit/>
                 </div>
             </div>
         )

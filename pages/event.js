@@ -90,7 +90,7 @@ class Event extends Component {
                         {isLoading ? (
                             <Loader />
                         ) : (
-                            <>
+                            <Fragment>
                                 <table className="proto-table no-hover">
                                     <tbody>
                                         <tr>
@@ -115,12 +115,12 @@ class Event extends Component {
                                                     <Link
                                                         href={`/profile?id=${event.createdBy._id}`}
                                                     >
-                                                        <a>
+                                                        <button type="button">
                                                             {upperFirst(
                                                                 event.createdBy
                                                                     .characterName
                                                             )}
-                                                        </a>
+                                                        </button>
                                                     </Link>
                                                 </td>
                                             </tr>
@@ -221,18 +221,20 @@ class Event extends Component {
                                 <div className="application-buttons">
                                     <button
                                         className="proto-btn"
+                                        type="button"
                                         onClick={this.acceptEvent}
                                     >
                                         Accept
                                     </button>
                                     <button
                                         className="proto-btn"
+                                        type="button"
                                         onClick={this.declineEvent}
                                     >
                                         Decline
                                     </button>
                                 </div>
-                            </>
+                            </Fragment>
                         )}
                     </Panel>
                 </div>

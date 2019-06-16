@@ -51,11 +51,13 @@ class Members extends Component {
                                             return (
                                                 <Link
                                                     key={member._id}
-                                                    href={`/profile?id=${
-                                                        member._id
-                                                    }`}
+                                                    href={`/profile?id=${member._id}`}
                                                 >
-                                                    <tr className={member.playerClass}>
+                                                    <tr
+                                                        className={
+                                                            member.playerClass
+                                                        }
+                                                    >
                                                         <td>
                                                             {upperFirst(
                                                                 member.characterName

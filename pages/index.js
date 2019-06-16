@@ -13,7 +13,6 @@ export default class Index extends Component {
 
     state = {
         playerClasses: [],
-        featured: [],
         posts: []
     };
 
@@ -21,9 +20,6 @@ export default class Index extends Component {
         auth.api('get', '/home')
             .then(res => {
                 this.setState(res);
-            })
-            .catch(err => {
-                console.error(err);
             });
     }
 
@@ -35,7 +31,7 @@ export default class Index extends Component {
                 <Navbar auth={auth} />
                 <div className="content">
                     <div className="proto-hero">
-                        <img src="/static/images/logo.png" />
+                        <img src="/static/images/logo.png" alt="Prototype Guild Logo" />
                         <h2>A Classic WoW guild</h2>
                     </div>
                     <NewRecruitment classValues={playerClasses} />

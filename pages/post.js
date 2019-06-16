@@ -21,7 +21,9 @@ class Post extends Component {
     };
 
     componentDidMount() {
-        auth.api('get', `/posts/${this.props.id}`).then(res => {
+        const {id} = this.props;
+
+        auth.api('get', `/posts/${id}`).then(res => {
             this.setState({
                 post: res[0],
                 isLoading: false
@@ -35,9 +37,9 @@ class Post extends Component {
     }
 
     render() {
-        const { post, sideBarPosts } = this.state;
+        const { post, sideBarPosts, isLoading } = this.state;
 
-        if (this.state.isLoading) {
+        if (isLoading) {
             return (
                 <div>
                     <Navbar auth={auth} />
