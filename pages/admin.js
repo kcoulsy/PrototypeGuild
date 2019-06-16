@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import withAuth from '../utils/withAuth';
 import Navbar from '../components/Navbar';
 import Events from '../components/Events';
-import Applicants from './../components/admin/Applicants';
-import Recruitment from './../components/admin/Recruitment';
-import PostList from './../components/PostList';
+import Applicants from "../components/admin/Applicants";
+import Recruitment from "../components/admin/Recruitment";
+import PostList from "../components/PostList";
 
 class AdminDashboard extends Component {
     static async getInitialProps() {}

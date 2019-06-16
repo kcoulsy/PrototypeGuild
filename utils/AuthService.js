@@ -100,7 +100,7 @@ export default class AuthService {
             headers['x-auth'] = this.getToken();
         }
         if (options && options.headers) {
-            for (var header in options.headers) {
+            for (const header in options.headers) {
                 if (options.headers.hasOwnProperty(header)) {
                     headers[header] = options.headers[header];
                 }

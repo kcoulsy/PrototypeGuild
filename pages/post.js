@@ -13,11 +13,13 @@ class Post extends Component {
     static async getInitialProps({ query }) {
         return { id: query.id };
     }
+
     state = {
         post: {},
         sideBarPosts: [],
         isLoading: true
     };
+
     componentDidMount() {
         auth.api('get', `/posts/${this.props.id}`).then(res => {
             this.setState({

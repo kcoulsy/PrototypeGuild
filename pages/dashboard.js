@@ -26,7 +26,7 @@ class Dashboard extends Component {
                         <div className="dashboard-content">
                             <div className="sidebar">
                                 <Profile auth={auth} id={user._id} />
-                                <UpdatePassword auth={auth} requirePrevious={true}/>
+                                <UpdatePassword auth={auth} requirePrevious/>
                             </div>
                             <div className="main-content">
                             <Events auth={auth} />

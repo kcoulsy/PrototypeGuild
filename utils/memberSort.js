@@ -15,7 +15,7 @@ const ranks = {
 }
 
 const findRank = function findRank(value) {
-    for (var rankVal in ranks) {
+    for (const rankVal in ranks) {
         if (ranks.hasOwnProperty(rankVal)) {
             if (ranks[rankVal] === value) {
                 return rankVal;

@@ -10,11 +10,13 @@ const auth = new AuthService(SITE_URL);
 
 export default class Index extends Component {
     static getInitialProps() {}
+
     state = {
         playerClasses: [],
         featured: [],
         posts: []
     };
+
     componentDidMount() {
         auth.api('get', '/home')
             .then(res => {
@@ -24,6 +26,7 @@ export default class Index extends Component {
                 console.error(err);
             });
     }
+
     render() {
         const { posts, playerClasses } = this.state;
 

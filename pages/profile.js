@@ -15,7 +15,7 @@ class Profile extends Component {
             <div>
                 <Navbar auth={auth} />
                 <div className="content">
-                <UserProfile id={this.props.id}  auth={auth} canEdit={true}/>
+                <UserProfile id={this.props.id}  auth={auth} canEdit/>
                 </div>
             </div>
         )
