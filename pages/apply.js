@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
 import ReCAPTCHA from 'react-google-recaptcha';
+
+
+import { SITE_URL } from '../constants/site';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
@@ -67,7 +70,7 @@ export default class Apply extends Component {
             auth.api('post', '/users', {
                 data
             }).then(() => {
-                Router.push('http://localhost:3001/');
+                Router.push(SITE_URL);
             });
         }
     };

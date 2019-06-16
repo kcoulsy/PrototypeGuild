@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { SITE_URL } from '../constants/site';
 import Link from 'next/link';
 import Router from 'next/router';
 
@@ -6,7 +7,7 @@ export default class Navbar extends Component {
     handleLogout = () => {
         const { auth } = this.props;
         auth.logout();
-        Router.push('http://localhost:3001/');
+        Router.push(SITE_URL);
     };
 
     render() {

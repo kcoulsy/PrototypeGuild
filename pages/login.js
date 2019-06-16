@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
+
+
+import { SITE_URL } from '../constants/site';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
 
-const auth = new AuthService();
+const auth = new AuthService(SITE_URL);
 
 export default class Login extends Component {
     state = {
@@ -16,7 +19,7 @@ export default class Login extends Component {
 
     componentDidMount() {
         if (auth.loggedIn()) {
-            Router.push('http://localhost:3001/dashboard');
+            Router.push(`${SITE_URL}dashboard`);
         }
     }
 
@@ -35,7 +38,7 @@ export default class Login extends Component {
         ev.preventDefault();
         auth.login(username, password)
             .then(() => {
-                Router.push('http://localhost:3001/dashboard');
+                Router.push(`${SITE_URL}dashboard`);
             })
             .catch(() => {
                 this.setState({ error: 'Unable to login' });

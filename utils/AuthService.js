@@ -113,7 +113,7 @@ export default class AuthService {
             axios({
                 method,
                 url: endpoint,
-                baseUrl: BASE_URL,
+                baseUrl: this.domain,
                 headers,
                 ...newOptions
             })
