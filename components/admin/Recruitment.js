@@ -7,6 +7,7 @@ export default class componentName extends Component {
     state = {
         playerClasses: []
     };
+
     componentDidMount() {
         const { auth } = this.props;
 
@@ -47,9 +48,9 @@ export default class componentName extends Component {
                 <table className="proto-table no-hover recruitment-table">
                     <tbody>
                         {playerClasses.map(
-                            ({ playerClass, recruiting }, idx) => {
+                            ({ playerClass, recruiting }) => {
                                 return (
-                                    <tr key={idx}>
+                                    <tr key={playerClass}>
                                         <td>{upperFirst(playerClass)}</td>
                                         <td>
                                             <button
@@ -57,6 +58,7 @@ export default class componentName extends Component {
                                                 className="proto-btn btn-success"
                                                 disabled={recruiting}
                                                 onClick={this.handleClick}
+                                                type="button"
                                                 data-type="open"
                                             >
                                                 Open
@@ -68,6 +70,7 @@ export default class componentName extends Component {
                                                 className="proto-btn btn-danger"
                                                 disabled={!recruiting}
                                                 onClick={this.handleClick}
+                                                type="button"
                                                 data-type="close"
                                             >
                                                 Closed
