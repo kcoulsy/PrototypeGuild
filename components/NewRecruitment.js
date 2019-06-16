@@ -18,18 +18,20 @@ export default class Recruitment extends Component {
                         );
                         const recruiting = value && value.recruiting;
                         return (
-                            <Link href="/apply">
-                            <div className="icon">
-                                <img
-                                    src={`/static/images/classes/${playerClass.name}.png`}
-                                    alt={playerClass.name}
+                            <Link href="/apply" key={playerClassKey}>
+                                <div className="icon">
+                                    <img
+                                        src={`/static/images/classes/${
+                                            playerClass.name
+                                        }.png`}
+                                        alt={playerClass.name}
                                     />
-                                <span
-                                    className={`status ${
-                                        recruiting ? 'open' : 'closed'
-                                    }`}
+                                    <span
+                                        className={`status ${
+                                            recruiting ? 'open' : 'closed'
+                                        }`}
                                     />
-                            </div>
+                                </div>
                             </Link>
                         );
                     })}

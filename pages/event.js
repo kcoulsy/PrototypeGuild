@@ -111,14 +111,14 @@ class Event extends Component {
                                                 <td>
                                                     Event created By:
                                                     <Link
-                                                        href={`/profile?id=${
-                                                            event.createdBy._id
-                                                        }`}
+                                                        href={`/profile?id=${event.createdBy._id}`}
                                                     >
-                                                        {upperFirst(
-                                                            event.createdBy
-                                                                .characterName
-                                                        )}
+                                                        <a>
+                                                            {upperFirst(
+                                                                event.createdBy
+                                                                    .characterName
+                                                            )}
+                                                        </a>
                                                     </Link>
                                                 </td>
                                             </tr>

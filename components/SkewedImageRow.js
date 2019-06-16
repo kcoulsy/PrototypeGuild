@@ -16,7 +16,7 @@ export default ({ posts }) => {
                     {posts.map((post, idx) => {
                         return (
                             idx < 5 && (
-                                <div class="image" key={`${idx}_${post.title}`}>
+                                <div className="image" key={`${idx}_${post.title}`}>
                                     <img
                                         src={post.imageUrl}
                                         alt={post.title}

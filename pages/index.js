@@ -15,10 +15,14 @@ export default class Index extends Component {
         featured: [],
         posts: []
     };
-    componentWillMount() {
-        auth.api('get', '/home').then(res => {
-            this.setState(res);
-        });
+    componentDidMount() {
+        auth.api('get', '/home')
+            .then(res => {
+                this.setState(res);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
     render() {
         const { posts, playerClasses, featured } = this.state;
