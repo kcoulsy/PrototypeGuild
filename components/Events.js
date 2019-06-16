@@ -59,7 +59,13 @@ export default class Events extends Component {
 
     render() {
         const { auth } = this.props;
-        const { isLoading, events } = this.state;
+        const {
+            isLoading,
+            events,
+            createModalOpen,
+            editEventModalOpen,
+            editEventId
+        } = this.state;
 
         return (
             <Panel styleName="no-padding">
@@ -68,6 +74,7 @@ export default class Events extends Component {
                     {this.isAdmin() && (
                         <button
                             className="proto-btn"
+                            type="button"
                             onClick={() =>
                                 this.setState({ createModalOpen: true })
                             }
@@ -75,19 +82,13 @@ export default class Events extends Component {
                             Create Event
                         </button>
                     )}
-                    <Modal
-                        on={this.state.createModalOpen}
-                        toggle={this.closeCreateModal}
-                    >
+                    <Modal on={createModalOpen} toggle={this.closeCreateModal}>
                         <CreateEvent auth={auth} cb={this.closeCreateModal} />
                     </Modal>
-                    <Modal
-                        on={this.state.editEventModalOpen}
-                        toggle={this.closeEditModal}
-                    >
+                    <Modal on={editEventModalOpen} toggle={this.closeEditModal}>
                         <EditEvent
                             auth={auth}
-                            id={this.state.editEventId}
+                            id={editEventId}
                             cb={this.closeEditModal}
                         />
                     </Modal>
@@ -134,6 +135,7 @@ export default class Events extends Component {
                                                 <td>
                                                     <button
                                                         className="proto-btn"
+                                                        type="button"
                                                         onClick={() => {
                                                             this.setState({
                                                                 editEventModalOpen: true,
