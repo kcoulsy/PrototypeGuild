@@ -91,8 +91,8 @@ export default class CreateEvent extends Component {
                             this.setState({ date: newDate })
                         } // PropTypes.func.isRequired
                         focused={focused} // PropTypes.bool
-                        onFocusChange={({ newFocused }) =>
-                            this.setState({ focused: newFocused })
+                        onFocusChange={(data) =>
+                            this.setState({ focused: data.focused })
                         } // PropTypes.func.isRequired
                         id="date-picker" // PropTypes.string.isRequired,
                         numberOfMonths={1}

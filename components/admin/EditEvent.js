@@ -17,7 +17,7 @@ export default class EditEvent extends Component {
         isLoading: true
     };
 
-    comp() {
+    componentDidMount() {
         this.fetchEvent();
     }
 
@@ -94,13 +94,13 @@ export default class EditEvent extends Component {
         if (!this.validate()) {
             return;
         }
-        if (confirm('Are you sure you want to remove this event?')) {
+        if (window.confirm('Are you sure you want to remove this event?')) {
             auth.api('patch', '/event/remove', {
                 data: {
                     _id: id
                 }
             }).then(() => {
-                cb(event);
+                cb();
             });
         }
     };
@@ -110,7 +110,15 @@ export default class EditEvent extends Component {
     };
 
     render() {
-        const { error, isLoading } = this.state;
+        const {
+            error,
+            isLoading,
+            title,
+            description,
+            date,
+            focused,
+            type
+        } = this.state;
 
         return (
             <Panel title="Create Event">
@@ -122,7 +130,7 @@ export default class EditEvent extends Component {
                             name="title"
                             type="text"
                             onChange={this.handleChange}
-                            value={this.state.title}
+                            value={title}
                             placeholder="Title"
                         />
                         <textarea
@@ -130,24 +138,26 @@ export default class EditEvent extends Component {
                             cols="30"
                             rows="5"
                             onChange={this.handleChange}
-                            value={this.state.description}
+                            value={description}
                             placeholder="Event Description"
                         />
                         <SingleDatePicker
-                            date={this.state.date} // momentPropTypes.momentObj or null
-                            onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-                            focused={this.state.focused} // PropTypes.bool
-                            onFocusChange={({ focused }) =>
-                                this.setState({ focused })
+                            date={date} // momentPropTypes.momentObj or null
+                            onDateChange={newDate =>
+                                this.setState({ date: newDate })
+                            } // PropTypes.func.isRequired
+                            focused={focused} // PropTypes.bool
+                            onFocusChange={data =>
+                                this.setState({ focused: data.focused })
                             } // PropTypes.func.isRequired
                             id="date-picker" // PropTypes.string.isRequired,
                             numberOfMonths={1}
-                            hideKeyboardShortcutsPanel={true}
+                            hideKeyboardShortcutsPanel
                         />
                         <select
                             name="type"
                             onChange={this.handleChange}
-                            value={this.state.type}
+                            value={type}
                         >
                             <option value="">Select Type</option>
                             <option value="Raid">Raid</option>
