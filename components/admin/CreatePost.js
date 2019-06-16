@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Router from 'next/router';
 
 import Panel from '../Panel';
 
@@ -8,21 +7,15 @@ export default class CreatePost extends Component {
         super(props);
         this.fileInput = React.createRef();
     }
+
     state = {
-        title: '',
-        body: '',
-        imageUrl: '',
-        featured: false
+        title: ''
     };
 
     handleChange = ev => {
         const change = {};
         change[ev.target.name] = ev.target.value;
         this.setState(change);
-    };
-
-    handleCheckboxChange = ev => {
-        this.setState({ featured: ev.target.checked });
     };
 
     handleSubmit = async ev => {
@@ -42,6 +35,7 @@ export default class CreatePost extends Component {
     };
 
     render() {
+        const { title } = this.state;
         return (
             <Panel title="Create Post" styleName="">
                 <form
@@ -51,6 +45,7 @@ export default class CreatePost extends Component {
                     <input
                         name="title"
                         type="text"
+                        value={title}
                         placeholder="Title of post"
                         onChange={this.handleChange}
                     />
