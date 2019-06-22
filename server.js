@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const next = require('next')
 const cors = require('cors');
+const helmet = require('helmet');
 
 require('./config/mongoose');
 const routes = require('./routes/routes');
@@ -21,7 +22,7 @@ app.prepare().then(() => {
     server.use(bodyParser.json());
     server.use(cors());
     server.use('/uploads', express.static('uploads'));
-
+    server.use(helmet());
     // Using routes
     server.use(routes);
 
