@@ -2,8 +2,7 @@
 
 ## Security
 
-* Connect up google recaptcha to apply endpoint
-* Reenable recaptcha verification and pass to api
+All Good :)
 
 ## Styling
 
@@ -30,5 +29,6 @@
 
 ## Tech debt
 
-* Add site constants to .gitignore
 * Create a head component
+* Rewrite routes into classes
+* Add tests for everything
