@@ -39,7 +39,7 @@
     "normalize-scss": "^7.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dates": "^20.2.3",
+    "react-dates": "^20.2.4",
     "react-dom": "^16.8.6",
     "react-google-recaptcha": "^1.0.5"
   },
