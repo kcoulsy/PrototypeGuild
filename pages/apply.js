@@ -3,7 +3,7 @@ import Router from 'next/router';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 
-import { SITE_URL } from '../constants/site';
+import { SITE_URL, RECAPTCHA_KEY } from '../constants/site';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
 import Panel from '../components/Panel';
@@ -12,7 +12,7 @@ const auth = new AuthService();
 
 export default class Apply extends Component {
     state = {
-        captcha: '',
+        recaptcha: '',
         characterName: '',
         playerClass: '',
         playerRole: '',
@@ -84,7 +84,7 @@ export default class Apply extends Component {
             username,
             password,
             confirm,
-            captcha,
+            recaptcha,
             professionOne,
             professionTwo
         } = this.state;
@@ -124,10 +124,10 @@ export default class Apply extends Component {
             this.setError('Your passwords must match!');
             return false;
         }
-        // if (!captcha.length) {
-        //     this.setError("You must prove you're not a robot!");
-        //     return false;
-        // }
+        if (!recaptcha.length) {
+            this.setError("You must prove you're not a robot!");
+            return false;
+        }
         if (!professionOne.length || !professionTwo.length) {
             this.setError('You must pick both professions!');
             return false;
@@ -281,9 +281,9 @@ export default class Apply extends Component {
                                 autoComplete="new-password"
                             />
                             <ReCAPTCHA
-                                sitekey="6LcTxaMUAAAAAGRkZQFvvztlW50KYF_QiOVBFwU3"
+                                sitekey={RECAPTCHA_KEY}
                                 onChange={val =>
-                                    this.setState({ captcha: val })
+                                    this.setState({ recaptcha: val })
                                 }
                             />
                             <button
