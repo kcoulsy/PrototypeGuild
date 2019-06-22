@@ -1,4 +1,5 @@
 const pick = require('lodash/pick');
+const axios = require('axios');
 
 const { ObjectID } = require('mongodb');
 const { User } = require('../models/User');
@@ -13,24 +14,37 @@ exports.create = (req, res) => {
         'playerRole',
         'professionOne',
         'professionTwo',
-        'applicationJSON'
+        'applicationJSON',
+        'recaptcha'
     ]);
     body.rank = 'Member';
     body.enabled = false;
     body.deleted = false;
     body.username = body.username.toLowerCase();
 
-    const user = new User(body);
-    user.save()
-        .then(() => {
-            return user.createToken('x-auth');
-        })
-        .then(token => {
-            if (!token) res.status(404).send();
+    axios({
+        method: 'post',
+        url: 'https://www.google.com/recaptcha/api/siteverify',
+        params: {
+            secret: process.env.RECAPTCHA_SECRET,
+            response: body.recaptcha
+        }
+    }).then(({ data }) => {
+        if (!data.success) {
+            return res.status(401).send({ error: 'Invalid ReCaptcha' });
+        }
+        const user = new User(body);
+        user.save()
+            .then(() => {
+                return user.createToken('x-auth');
+            })
+            .then(token => {
+                if (!token) res.status(404).send();
 
-            res.header('x-auth', token).send(user);
-        })
-        .catch(err => res.status(400).send(err));
+                res.header('x-auth', token).send(user);
+            })
+            .catch(err => res.status(400).send(err));
+    });
 };
 
 exports.find = (req, res) => {

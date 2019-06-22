@@ -2,8 +2,6 @@
 
 ## Security
 
-* Install Helmet
-* Install lets encrypt TLS
 * Connect up google recaptcha to apply endpoint
 * Reenable recaptcha verification and pass to api
 
