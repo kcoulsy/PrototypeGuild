@@ -19,7 +19,8 @@ app.prepare().then(() => {
 
 
     // Middleware
-    server.use(bodyParser.json());
+    server.use(bodyParser.json({limit: '50mb'}));
+    server.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
     server.use(cors());
     server.use('/uploads', express.static('uploads'));
     server.use(helmet());
