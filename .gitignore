@@ -2,3 +2,5 @@
 .next/
 /config/config.json
 /uploads
+/constants/site.js
+package-lock.json
