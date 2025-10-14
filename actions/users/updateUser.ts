@@ -8,7 +8,7 @@ const action = createSafeActionClient();
 
 // Schema
 const updateUserSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     characterName: z.string().optional(),
     discordTag: z.string().optional(),
     playerClass: z.string().optional(),

@@ -108,7 +108,7 @@ export default function UpdatePassword({
         const endpoint = isAdmin && !requirePrevious ? 'reset' : 'update';
 
         execute({
-            id: id || '',
+            id: parseInt(id || '0'),
             password: newPass,
             currentPassword: requirePrevious ? current : undefined,
             endpoint,

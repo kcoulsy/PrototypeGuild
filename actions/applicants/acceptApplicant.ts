@@ -6,7 +6,7 @@ import { adminAction } from '@/lib/middleware/actionMiddleware';
 
 // Schema
 const acceptApplicantSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     enabled: z.boolean().optional(),
 });
 

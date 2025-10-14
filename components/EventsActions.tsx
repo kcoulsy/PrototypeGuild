@@ -6,10 +6,15 @@ import Link from 'next/link';
 import CreateEvent from './admin/CreateEvent';
 import Modal from './utils/Modal';
 import EditEvent from './admin/EditEvent';
-import { Event } from '@prisma/client';
+import { Event, User, EventAttendance } from '@prisma/client';
+
+interface EventWithRelations extends Event {
+    creator?: User | null;
+    eventAttendance?: EventAttendance[];
+}
 
 interface EventsActionsProps {
-    events: Event[];
+    events: EventWithRelations[];
     isAdmin: boolean;
 }
 
@@ -92,10 +97,11 @@ export default function EventsActions({ events, isAdmin }: EventsActionsProps) {
                                                 ).toLocaleDateString('en-US')}
                                         </td>
                                         <td>
-                                            {event.creator.characterName ||
-                                                event.creator.username}
+                                            {event.creator?.characterName ||
+                                                event.creator?.username ||
+                                                'Unknown'}
                                         </td>
-                                        <td>{event.eventAttendance.length}</td>
+                                        <td>{event.eventAttendance?.length || 0}</td>
                                         {isAdmin && (
                                             <td>
                                                 <button

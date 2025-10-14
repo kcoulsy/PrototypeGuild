@@ -77,5 +77,6 @@ export const auth = betterAuth({
         'fallback-secret',
 });
 
-export type Session = typeof auth.$Infer.Session;
-export type User = typeof auth.$Infer.User;
+// Export types for better-auth
+export type Session = Awaited<ReturnType<typeof auth.api.getSession>>;
+export type User = NonNullable<Session>['user'];

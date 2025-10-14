@@ -8,7 +8,7 @@ export default function DiscordEmbed() {
                 src={DISCORD_EMBED_URL}
                 width="260"
                 height="500"
-                allowTransparency="true"
+                allowTransparency={true}
                 frameBorder="0"
                 title="Discord Embed"
             />

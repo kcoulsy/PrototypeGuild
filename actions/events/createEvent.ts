@@ -26,7 +26,7 @@ export const createEventAction = authenticatedAction
                     description,
                     type,
                     date: date ? new Date(date) : null,
-                    createdBy: parseInt(session.user.id),
+                    createdBy: session.user.id,
                     hidden: false,
                 },
                 include: {

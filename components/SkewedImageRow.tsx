@@ -19,7 +19,7 @@ export default function SkewedImageRow({ posts }: SkewedImageRowProps) {
 
     return (
         <Fragment>
-            <Modal on={selected && selected.src} toggle={() => setSelected({})}>
+            <Modal on={!!(selected && selected.src)} toggle={() => setSelected({})}>
                 <img src={selected.src} alt={selected.id} />
             </Modal>
 

@@ -8,7 +8,7 @@ const action = createSafeActionClient();
 
 // Schema
 const declineApplicantSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     deleted: z.boolean().optional(),
 });
 

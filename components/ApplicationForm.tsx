@@ -77,11 +77,12 @@ export default function ApplicationForm() {
     e.preventDefault();
 
     if (validate()) {
-      const data = {
-        ...formData,
-        applicationJSON: JSON.stringify(formData.applicationJSON),
-      };
-      execute(data);
+        const data = {
+            ...formData,
+            username: formData.email, // Use email as username for better-auth compatibility
+            applicationJSON: JSON.stringify(formData.applicationJSON),
+        };
+        execute(data);
     }
   };
 
