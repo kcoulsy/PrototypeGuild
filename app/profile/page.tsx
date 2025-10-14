@@ -1,92 +1,116 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { requireAuth } from '@/lib/helpers/auth';
+import { prisma } from '@/lib/prisma';
 import Navbar from '@/components/Navbar';
 import Panel from '@/components/Panel';
-import Loader from '@/components/Loader';
 
-export default function ProfilePage() {
-    const [user, setUser] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const router = useRouter();
-    const searchParams = useSearchParams();
+interface ProfilePageProps {
+    searchParams: {
+        id?: string;
+    };
+}
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                setIsLoading(true);
-                const id = searchParams.get('id');
+async function getUserById(id: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: id,
+                deleted: false,
+            },
+            select: {
+                id: true,
+                username: true,
+                characterName: true,
+                discordTag: true,
+                playerClass: true,
+                playerRole: true,
+                rank: true,
+                professionOne: true,
+                professionTwo: true,
+                enabled: true,
+            },
+        });
+        return user;
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}
 
-                if (!id) {
-                    // Show current user's profile
-                    const profile = localStorage.getItem('profile');
-                    if (profile) {
-                        setUser(JSON.parse(profile));
-                    }
-                } else {
-                    // TODO: Fetch user by ID
-                    // For now, we'll use a placeholder
-                    setUser(null);
-                }
-            } catch (error) {
-                console.error('Error fetching profile:', error);
-                setUser(null);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+export default async function ProfilePage({ searchParams }: ProfilePageProps) {
+    // Require authentication
+    const session = await requireAuth();
 
-        // Check if user is logged in
-        const profile = localStorage.getItem('profile');
-        if (!profile) {
-            router.push('/login');
-            return;
+    let user;
+
+    if (searchParams.id) {
+        // Fetch specific user by ID
+        user = await getUserById(searchParams.id);
+        if (!user) {
+            notFound();
         }
+    } else {
+        // Show current user's profile
+        user = await prisma.user.findUnique({
+            where: {
+                id: session.user.id,
+            },
+            select: {
+                id: true,
+                username: true,
+                characterName: true,
+                discordTag: true,
+                playerClass: true,
+                playerRole: true,
+                rank: true,
+                professionOne: true,
+                professionTwo: true,
+                enabled: true,
+            },
+        });
 
-        fetchProfile();
-    }, [searchParams, router]);
+        if (!user) {
+            notFound();
+        }
+    }
 
     return (
         <div>
             <Navbar />
             <div className="content">
                 <Panel title="Profile" styleName="panel-md">
-                    {isLoading ? (
-                        <Loader />
-                    ) : user ? (
-                        <>
-                            <h1>{user.characterName || user.username}</h1>
-                            <p>
-                                <strong>Username:</strong> {user.username}
-                            </p>
-                            <p>
-                                <strong>Character Name:</strong>{' '}
-                                {user.characterName || 'Not set'}
-                            </p>
-                            <p>
-                                <strong>Discord Tag:</strong>{' '}
-                                {user.discordTag || 'Not set'}
-                            </p>
-                            <p>
-                                <strong>Player Class:</strong>{' '}
-                                {user.playerClass || 'Not set'}
-                            </p>
-                            <p>
-                                <strong>Player Role:</strong>{' '}
-                                {user.playerRole || 'Not set'}
-                            </p>
-                            <p>
-                                <strong>Rank:</strong> {user.rank || 'Not set'}
-                            </p>
-                            <p>
-                                <strong>Professions:</strong>{' '}
-                                {user.professionOne || 'Not set'} /{' '}
-                                {user.professionTwo || 'Not set'}
-                            </p>
-                        </>
-                    ) : (
-                        <div>Profile not found</div>
+                    <h1>{user.characterName || user.username}</h1>
+                    <p>
+                        <strong>Username:</strong> {user.username}
+                    </p>
+                    <p>
+                        <strong>Character Name:</strong>{' '}
+                        {user.characterName || 'Not set'}
+                    </p>
+                    <p>
+                        <strong>Discord Tag:</strong>{' '}
+                        {user.discordTag || 'Not set'}
+                    </p>
+                    <p>
+                        <strong>Player Class:</strong>{' '}
+                        {user.playerClass || 'Not set'}
+                    </p>
+                    <p>
+                        <strong>Player Role:</strong>{' '}
+                        {user.playerRole || 'Not set'}
+                    </p>
+                    <p>
+                        <strong>Rank:</strong> {user.rank || 'Not set'}
+                    </p>
+                    <p>
+                        <strong>Professions:</strong>{' '}
+                        {user.professionOne || 'Not set'} /{' '}
+                        {user.professionTwo || 'Not set'}
+                    </p>
+                    {!user.enabled && (
+                        <p className="status-pending">
+                            <strong>Status:</strong> Pending Approval
+                        </p>
                     )}
                 </Panel>
             </div>

@@ -8,8 +8,7 @@ import { requireAdmin } from '@/lib/helpers/auth';
 import Loader from '@/components/Loader';
 
 export default async function AdminPage() {
-    // Require admin access - redirects to login if not authenticated, or dashboard if not admin
-    const session = await requireAdmin();
+    await requireAdmin();
 
     return (
         <div className="page-dashboard">

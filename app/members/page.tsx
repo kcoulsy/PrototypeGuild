@@ -10,32 +10,25 @@ import sortFunc from '@/utils/memberSort';
 export default async function MembersPage() {
     await requireAuth();
 
-    let members: any[] = [];
-    try {
-        const result = await prisma.user.findMany({
-            where: {
-                enabled: true,
-                deleted: false,
-            },
-            select: {
-                id: true,
-                username: true,
-                characterName: true,
-                discordTag: true,
-                playerClass: true,
-                playerRole: true,
-                rank: true,
-                professionOne: true,
-                professionTwo: true,
-                enabled: true,
-                admin: true,
-            },
-        });
-        members = result;
-    } catch (error) {
-        console.error('Error fetching members:', error);
-        members = [];
-    }
+    const members = await prisma.user.findMany({
+        where: {
+            enabled: true,
+            deleted: false,
+        },
+        select: {
+            id: true,
+            username: true,
+            characterName: true,
+            discordTag: true,
+            playerClass: true,
+            playerRole: true,
+            rank: true,
+            professionOne: true,
+            professionTwo: true,
+            enabled: true,
+            admin: true,
+        },
+    });
 
     const sortedMembers = members.sort(sortFunc);
 

@@ -7,8 +7,7 @@ import { requireAuth } from '@/lib/helpers/auth';
 import Loader from '@/components/Loader';
 
 export default async function DashboardPage() {
-    // Require authentication - redirects to login if not authenticated
-    const session = await requireAuth();
+    await requireAuth();
 
     return (
         <div className="page-dashboard">

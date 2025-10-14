@@ -6,33 +6,7 @@ import Link from 'next/link';
 import CreateEvent from './admin/CreateEvent';
 import Modal from './utils/Modal';
 import EditEvent from './admin/EditEvent';
-
-interface Event {
-    id: number;
-    title: string;
-    description?: string;
-    type?: string;
-    date?: string;
-    createdBy: number;
-    creator: {
-        id: number;
-        username: string;
-        characterName?: string;
-    };
-    eventAttendance: Array<{
-        id: number;
-        userId: number;
-        eventId: number;
-        user: {
-            id: number;
-            username: string;
-            characterName?: string;
-        };
-    }>;
-    hidden?: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
+import { Event } from '@prisma/client';
 
 interface EventsActionsProps {
     events: Event[];
