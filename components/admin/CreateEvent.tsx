@@ -3,9 +3,6 @@
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { createEventAction } from '@/lib/actions/events';
-import 'react-dates/initialize';
-import { SingleDatePicker } from 'react-dates';
-import moment from 'moment';
 import Panel from '../Panel';
 
 interface CreateEventProps {
@@ -19,7 +16,6 @@ export default function CreateEvent({ onEventCreated }: CreateEventProps) {
         type: '',
         date: '',
     });
-    const [focused, setFocused] = useState(false);
 
     const {
         execute: createEvent,
@@ -36,16 +32,16 @@ export default function CreateEvent({ onEventCreated }: CreateEventProps) {
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
+        >,
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleDateChange = (date: any) => {
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({
             ...prev,
-            date: date ? date.format('YYYY-MM-DD') : '',
+            date: e.target.value,
         }));
     };
 
@@ -72,14 +68,12 @@ export default function CreateEvent({ onEventCreated }: CreateEventProps) {
                     placeholder="Event Description"
                     rows={5}
                 />
-                <SingleDatePicker
-                    date={formData.date ? moment(formData.date) : null}
-                    onDateChange={handleDateChange}
-                    focused={focused}
-                    onFocusChange={({ focused }) => setFocused(focused)}
-                    id="date-picker"
-                    numberOfMonths={1}
-                    hideKeyboardShortcutsPanel
+                <input
+                    name="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={handleDateChange}
+                    required
                 />
                 <select
                     name="type"

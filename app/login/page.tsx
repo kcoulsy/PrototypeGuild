@@ -1,85 +1,78 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useAction } from 'next-safe-action/hooks';
-import { loginAction } from '@/lib/actions/users';
+import { useState } from 'react';
+import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Panel from '@/components/Panel';
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const { execute, isExecuting, result } = useAction(loginAction, {
-        onSuccess: ({ data }) => {
-            if (data?.success) {
-                // Store token in localStorage
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('profile', JSON.stringify(data.user));
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+
+        try {
+            const result = await authClient.signIn.email({
+                email,
+                password,
+            });
+
+            if (result.error) {
+                setError('Invalid email or password');
+            } else {
                 router.push('/dashboard');
             }
-        },
-        onError: ({ error }) => {
+        } catch (error) {
             setError('Unable to login');
-        },
-    });
-
-    useEffect(() => {
-        // Check if already logged in
-        const profile = localStorage.getItem('profile');
-        if (profile) {
-            router.push('/dashboard');
+        } finally {
+            setIsLoading(false);
         }
-    }, [router]);
-
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setError('');
-        if (name === 'username') setUsername(value);
-        if (name === 'password') setPassword(value);
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        execute({ username, password });
     };
 
     return (
         <div>
-            <Navbar loggedIn={false} />
+            <Navbar />
             <div className="content">
                 <Panel title="Login" styleName="panel-sm">
-                    <form className="proto-form">
-                        {error}
+                    <form className="proto-form" onSubmit={handleSubmit}>
+                        {error && <div className="error">{error}</div>}
                         <input
-                            type="text"
-                            name="username"
-                            value={username}
-                            onChange={handleInput}
-                            placeholder="Username"
-                            autoComplete="username"
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email"
+                            autoComplete="email"
+                            required
                         />
                         <input
                             type="password"
                             name="password"
                             value={password}
-                            onChange={handleInput}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="Password"
                             autoComplete="current-password"
+                            required
                         />
                         <button
                             className="proto-btn"
-                            onClick={handleSubmit}
                             type="submit"
-                            disabled={isExecuting}
+                            disabled={isLoading}
                         >
-                            {isExecuting ? 'Logging in...' : 'Login'}
+                            {isLoading ? 'Logging in...' : 'Login'}
                         </button>
                     </form>
+                    <Link href="/signup" className="link-button">
+                        Don't have an account? Sign up
+                    </Link>
                     <Link href="/apply" className="link-button">
                         Click here to Apply
                     </Link>

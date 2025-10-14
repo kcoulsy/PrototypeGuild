@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { getEventsAction } from '@/lib/actions/events';
 import upperFirst from 'lodash/upperFirst';
-import moment from 'moment';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
@@ -27,7 +26,7 @@ export default function EventPage({ params }: EventPageProps) {
             const result = await getEventsAction();
             if (result.success) {
                 const foundEvent = result.events.find(
-                    (evt: any) => evt.id.toString() === params.id
+                    (evt: any) => evt.id.toString() === params.id,
                 );
                 setEvent(foundEvent);
             }
@@ -105,9 +104,14 @@ export default function EventPage({ params }: EventPageProps) {
                                     <tr>
                                         <td>
                                             {event.date &&
-                                                moment(event.date).format(
-                                                    'dddd, MMMM Do YYYY'
-                                                )}
+                                                new Date(
+                                                    event.date,
+                                                ).toLocaleDateString('en-US', {
+                                                    weekday: 'long',
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                })}
                                         </td>
                                     </tr>
                                     {event.creator && (
@@ -121,7 +125,7 @@ export default function EventPage({ params }: EventPageProps) {
                                                         event.creator
                                                             .characterName ||
                                                             event.creator
-                                                                .username
+                                                                .username,
                                                     )}
                                                 </Link>
                                             </td>
@@ -169,7 +173,9 @@ export default function EventPage({ params }: EventPageProps) {
                                             <ul>
                                                 {healers.map((player: any) => {
                                                     return (
-                                                        <li key={player.user.id}>
+                                                        <li
+                                                            key={player.user.id}
+                                                        >
                                                             <Link
                                                                 href={`/profile?id=${player.user.id}`}
                                                             >
@@ -187,7 +193,9 @@ export default function EventPage({ params }: EventPageProps) {
                                             <ul>
                                                 {melees.map((player: any) => {
                                                     return (
-                                                        <li key={player.user.id}>
+                                                        <li
+                                                            key={player.user.id}
+                                                        >
                                                             <Link
                                                                 href={`/profile?id=${player.user.id}`}
                                                             >
@@ -205,7 +213,9 @@ export default function EventPage({ params }: EventPageProps) {
                                             <ul>
                                                 {rangeds.map((player: any) => {
                                                     return (
-                                                        <li key={player.user.id}>
+                                                        <li
+                                                            key={player.user.id}
+                                                        >
                                                             <Link
                                                                 href={`/profile?id=${player.user.id}`}
                                                             >

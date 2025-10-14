@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { getEventsAction, updateEventAction } from '@/lib/actions/events';
-import moment from 'moment';
-import 'react-dates/initialize';
-import { SingleDatePicker } from 'react-dates';
 import Panel from '../Panel';
 import Loader from '../Loader';
 
@@ -20,8 +17,7 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
         description: '',
         type: '',
         error: '',
-        date: null as moment.Moment | null,
-        focused: false,
+        date: '',
         isLoading: true,
     });
 
@@ -30,7 +26,7 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
             const result = await getEventsAction();
             if (result.success) {
                 const event = result.events.find(
-                    (evt: any) => evt.id.toString() === eventId.toString()
+                    (evt: any) => evt.id.toString() === eventId.toString(),
                 );
                 if (event) {
                     setFormData((prev) => ({
@@ -38,7 +34,9 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
                         title: event.title || '',
                         description: event.description || '',
                         type: event.type || '',
-                        date: event.date ? moment(event.date) : null,
+                        date: event.date
+                            ? new Date(event.date).toISOString().split('T')[0]
+                            : '',
                         isLoading: false,
                     }));
                 }
@@ -72,7 +70,7 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
     const handleInput = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
+        >,
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -116,7 +114,7 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
             title,
             description,
             type,
-            date: date.toISOString(),
+            date: new Date(date).toISOString(),
         });
     };
 
@@ -156,17 +154,12 @@ export default function EditEvent({ eventId, onEventUpdated }: EditEventProps) {
                     <option value="pvp">PvP</option>
                     <option value="social">Social</option>
                 </select>
-                <SingleDatePicker
-                    date={formData.date}
-                    onDateChange={(date: moment.Moment | null) =>
-                        setFormData((prev) => ({ ...prev, date }))
-                    }
-                    focused={formData.focused}
-                    onFocusChange={({ focused }: { focused: boolean | null }) =>
-                        setFormData((prev) => ({ ...prev, focused: !!focused }))
-                    }
-                    numberOfMonths={1}
-                    placeholder="Select Date"
+                <input
+                    name="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={handleInput}
+                    required
                 />
                 <button
                     className="proto-btn"

@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import upperFirst from 'lodash/upperFirst';
 import { CLASSES, ROLES, RANKS } from '../constants/users';
 import { PROFESSIONS } from '../constants/professions';
 import Panel from './Panel';
-import Loader from './Loader';
+import { useSession } from './SessionProvider';
 
 interface ProfileProps {
     id?: string;
@@ -13,64 +13,27 @@ interface ProfileProps {
 }
 
 export default function Profile({ id, canEdit }: ProfileProps) {
-    const [user, setUser] = useState<any>({});
-    const [cleanUser, setCleanUser] = useState<any>({});
-    const [isLoading, setIsLoading] = useState(true);
+    const { session } = useSession();
     const [editMode, setEditMode] = useState(false);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                setIsLoading(true);
-                // TODO: Create a server action for finding users by ID
-                // For now, we'll use a placeholder
-                setUser({});
-                setCleanUser({});
-            } catch (error) {
-                console.error('Error fetching user:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchUser();
-        }
-    }, [id]);
-
     const handleEditClick = () => {
-        // Check if user is admin
-        const profile = localStorage.getItem('profile');
-        if (profile) {
-            try {
-                const userData = JSON.parse(profile);
-                if (userData.admin && canEdit) {
-                    setEditMode(!editMode);
-                }
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-            }
+        if (session?.user.admin && canEdit) {
+            setEditMode(!editMode);
         }
     };
 
-    if (isLoading) {
+    if (!session) {
         return (
             <Panel title="Profile" styleName="panel-sm">
-                <Loader />
+                <div>Not logged in</div>
             </Panel>
         );
     }
 
-    if (!user || Object.keys(user).length === 0) {
-        return (
-            <Panel title="Profile" styleName="panel-sm">
-                <div>User not found</div>
-            </Panel>
-        );
-    }
-
+    const user = session.user;
     const {
-        username,
+        name,
+        email,
         characterName,
         discordTag,
         playerClass,
@@ -85,8 +48,8 @@ export default function Profile({ id, canEdit }: ProfileProps) {
         <Panel title="Profile" styleName="panel-sm">
             <div className="profile-content">
                 <div className="profile-header">
-                    <h3>{characterName || username}</h3>
-                    {canEdit && (
+                    <h3>{characterName || name || email}</h3>
+                    {canEdit && session.user.admin && (
                         <button
                             className="proto-btn edit-btn"
                             onClick={handleEditClick}
@@ -99,8 +62,12 @@ export default function Profile({ id, canEdit }: ProfileProps) {
 
                 <div className="profile-details">
                     <div className="profile-row">
-                        <span className="label">Username:</span>
-                        <span className="value">{username}</span>
+                        <span className="label">Name:</span>
+                        <span className="value">{name || 'Not set'}</span>
+                    </div>
+                    <div className="profile-row">
+                        <span className="label">Email:</span>
+                        <span className="value">{email}</span>
                     </div>
                     <div className="profile-row">
                         <span className="label">Character Name:</span>

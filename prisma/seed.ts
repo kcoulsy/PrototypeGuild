@@ -1,5 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcryptjs');
+import { PrismaClient } from '@prisma/client';
+import { auth } from '../lib/auth';
 
 const prisma = new PrismaClient();
 
@@ -12,17 +12,33 @@ async function main() {
     });
 
     if (existingAdmin) {
-        console.log('✅ Admin user already exists:', existingAdmin.username);
+        console.log('✅ Admin user already exists:', existingAdmin.email);
         return;
     }
 
-    // Create admin user
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    // Create admin user using better-auth's signup method
+    console.log('🔐 Creating admin user with better-auth...');
 
-    const adminUser = await prisma.user.create({
+    const signupResult = await auth.api.signUpEmail({
+        body: {
+            email: 'admin@prototypeguild.com',
+            password: 'admin123',
+            name: 'Admin User',
+        },
+    });
+
+    if (!signupResult.user) {
+        console.error('❌ Failed to create admin user:', signupResult);
+        return;
+    }
+
+    console.log('Signup result:', signupResult);
+    const adminUser = signupResult.user;
+
+    // Update the user with additional guild-specific fields
+    const updatedAdminUser = await prisma.user.update({
+        where: { id: adminUser.id },
         data: {
-            username: 'admin',
-            password: hashedPassword,
             characterName: 'Admin',
             discordTag: 'Admin#0000',
             playerClass: 'Warrior',
@@ -42,8 +58,9 @@ async function main() {
 
     console.log('✅ Admin user created successfully!');
     console.log('📋 Admin Details:');
-    console.log('   Username: admin');
+    console.log('   Email: admin@prototypeguild.com');
     console.log('   Password: admin123');
+    console.log('   Name: Admin User');
     console.log('   Character: Admin (Warrior)');
     console.log('   Role: Guild Master');
     console.log('');

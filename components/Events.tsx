@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useAction } from 'next-safe-action/hooks';
 import { getEventsAction } from '@/lib/actions/events';
 import upperFirst from 'lodash/upperFirst';
-import moment from 'moment';
 import Link from 'next/link';
 
 import CreateEvent from './admin/CreateEvent';
@@ -157,9 +156,9 @@ export default function Events({ onEventsUpdate }: EventsProps) {
                                         </td>
                                         <td>
                                             {event.date &&
-                                                moment(event.date).format(
-                                                    'MM/DD/YYYY'
-                                                )}
+                                                new Date(
+                                                    event.date,
+                                                ).toLocaleDateString('en-US')}
                                         </td>
                                         <td>
                                             {event.creator.characterName ||

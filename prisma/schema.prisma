@@ -11,9 +11,16 @@ datasource db {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  username        String   @unique
-  password        String
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Custom fields for guild management
+  username        String? @unique
   characterName   String?
   discordTag      String?
   playerClass     String?
@@ -21,52 +28,100 @@ model User {
   rank            String?
   professionOne   String?
   professionTwo   String?
-  enabled         Boolean  @default(false)
+  enabled         Boolean @default(false)
   enabledBy       Int?
-  deleted         Boolean  @default(false)
-  admin           Boolean  @default(false)
+  deleted         Boolean @default(false)
+  admin           Boolean @default(false)
   applicationJSON String?
-  tokens          Token[]
-  eventsCreated   Event[]  @relation("EventCreator")
+
+  // Relations
+  accounts        Account[]
+  sessions        Session[]
+  eventsCreated   Event[]           @relation("EventCreator")
   eventAttendance EventAttendance[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
 
   @@map("users")
 }
 
-model Token {
-  id     Int    @id @default(autoincrement())
-  type   String
-  token  String
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
+// Better Auth required models
 
-  @@map("tokens")
+model Account {
+  id            String   @id @default(cuid())
+  userId        String
+  accountId     String
+  providerId    String
+  refresh_token String?
+  access_token  String?
+  expires_at    Int?
+  token_type    String?
+  scope         String?
+  id_token      String?
+  session_state String?
+  password      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+
+  @@unique([providerId, accountId])
+  @@map("accounts")
 }
 
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, value])
+  @@map("verifications")
+}
+
+// Legacy Token model (keeping for backward compatibility)
+
 model Event {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  type        String?
-  createdBy   Int
-  creator     User     @relation("EventCreator", fields: [createdBy], references: [id])
-  date        DateTime?
+  id              Int               @id @default(autoincrement())
+  title           String
+  description     String?
+  type            String?
+  createdBy       String
+  creator         User              @relation("EventCreator", fields: [createdBy], references: [id])
+  date            DateTime?
   eventAttendance EventAttendance[]
-  hidden      Boolean?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  hidden          Boolean?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 
   @@map("events")
 }
 
 model EventAttendance {
-  id      Int @id @default(autoincrement())
-  userId  Int
+  id      Int    @id @default(autoincrement())
+  userId  String
   eventId Int
-  user    User @relation(fields: [userId], references: [id])
-  event   Event @relation(fields: [eventId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+  event   Event  @relation(fields: [eventId], references: [id])
 
   @@unique([userId, eventId])
   @@map("event_attendance")
@@ -85,7 +140,7 @@ model Post {
 }
 
 model Recruitment {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   playerClass String?
   recruiting  Boolean?
 

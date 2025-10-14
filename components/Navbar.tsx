@@ -3,45 +3,16 @@
 import React, { Fragment } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSession } from './SessionProvider';
 
-interface NavbarProps {
-    loggedIn?: boolean;
-}
-
-export default function Navbar({ loggedIn }: NavbarProps) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+export default function Navbar() {
+    const { session, loading, signOut } = useSession();
     const router = useRouter();
 
-    useEffect(() => {
-        // Check authentication status from localStorage
-        const profile = localStorage.getItem('profile');
-        const token = localStorage.getItem('token');
-
-        if (profile && token) {
-            setIsLoggedIn(true);
-            try {
-                const userData = JSON.parse(profile);
-                setIsAdmin(userData.admin || false);
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-            }
-        } else {
-            setIsLoggedIn(false);
-            setIsAdmin(false);
-        }
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('profile');
-        setIsLoggedIn(false);
-        setIsAdmin(false);
+    const handleLogout = async () => {
+        await signOut();
         router.push('/');
     };
-
-    const actualLoggedIn = loggedIn !== undefined ? loggedIn : isLoggedIn;
 
     const loggedOutLinks = (
         <Fragment>
@@ -74,7 +45,7 @@ export default function Navbar({ loggedIn }: NavbarProps) {
         </Fragment>
     );
 
-    const links = actualLoggedIn ? loggedInLinks : loggedOutLinks;
+    const links = session ? loggedInLinks : loggedOutLinks;
 
     const adminLinks = (
         <Fragment>
@@ -83,6 +54,26 @@ export default function Navbar({ loggedIn }: NavbarProps) {
             </Link>
         </Fragment>
     );
+
+    if (loading) {
+        return (
+            <div className="proto-nav">
+                <div className="nav-container">
+                    <div className="nav-left">
+                        <Link href="/">
+                            <div className="nav-item">Home</div>
+                        </Link>
+                        <Link href="/about">
+                            <div className="nav-item">About</div>
+                        </Link>
+                    </div>
+                    <div className="nav-right">
+                        <div className="nav-item">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="proto-nav">
@@ -96,7 +87,7 @@ export default function Navbar({ loggedIn }: NavbarProps) {
                     </Link>
                 </div>
                 <div className="nav-right">
-                    {isAdmin && adminLinks}
+                    {session?.user.admin && adminLinks}
                     {links}
                 </div>
             </div>
