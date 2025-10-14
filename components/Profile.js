@@ -12,21 +12,21 @@ export default class Profile extends Component {
         user: {},
         cleanUser: {},
         isLoading: true,
-        editMode: false
+        editMode: false,
     };
 
     componentDidMount() {
         const { auth, id } = this.props;
 
-        auth.api('post', '/users/find', {
+        auth.api('post', '/api/users/find', {
             data: {
-                _id: id
-            }
-        }).then(res => {
+                _id: id,
+            },
+        }).then((res) => {
             this.setState({
                 user: res[0],
                 cleanUser: Object.assign({}, res[0]),
-                isLoading: false
+                isLoading: false,
             });
         });
     }
@@ -35,29 +35,29 @@ export default class Profile extends Component {
         const { auth, canEdit } = this.props;
 
         if (auth && auth.isAdmin && canEdit) {
-            this.setState(({editMode} )=> ({editMode: !editMode}));
+            this.setState(({ editMode }) => ({ editMode: !editMode }));
         }
     };
 
-    handleChange = ev => {
+    handleChange = (ev) => {
         const { name, value } = ev.target;
-        const {user} = this.state;
+        const { user } = this.state;
         user[name] = value;
         this.setState({ user });
     };
 
-    handleCancel = ev => {
+    handleCancel = (ev) => {
         const { cleanUser } = this.state;
 
         ev.preventDefault();
 
         this.setState({
             user: cleanUser,
-            editMode: false
+            editMode: false,
         });
     };
 
-    handleSubmit = ev => {
+    handleSubmit = (ev) => {
         const { auth } = this.props;
         const { user } = this.state;
 
@@ -68,13 +68,13 @@ export default class Profile extends Component {
             return;
         }
 
-        auth.api('patch', '/users', {
-            data: user
+        auth.api('patch', '/api/users/update', {
+            data: user,
         }).then(() => {
             this.setState({
                 editMode: false,
                 user,
-                cleanUser: Object.assign({}, user)
+                cleanUser: Object.assign({}, user),
             });
         });
     };
@@ -83,7 +83,7 @@ export default class Profile extends Component {
         const { user, cleanUser } = this.state;
         let isDirty = false;
 
-        Object.keys(user).forEach(key => {
+        Object.keys(user).forEach((key) => {
             if (user[key] !== cleanUser[key]) {
                 isDirty = true;
             }
@@ -151,7 +151,7 @@ export default class Profile extends Component {
                                                 onChange={this.handleChange}
                                                 name="playerClass"
                                             >
-                                                {CLASSES.map(playerClass => {
+                                                {CLASSES.map((playerClass) => {
                                                     return (
                                                         <option
                                                             key={playerClass}
@@ -178,7 +178,7 @@ export default class Profile extends Component {
                                                 onChange={this.handleChange}
                                                 name="playerRole"
                                             >
-                                                {ROLES.map(role => {
+                                                {ROLES.map((role) => {
                                                     return (
                                                         <option
                                                             key={role}
@@ -205,7 +205,7 @@ export default class Profile extends Component {
                                                 onChange={this.handleChange}
                                                 name="rank"
                                             >
-                                                {RANKS.map(rank => {
+                                                {RANKS.map((rank) => {
                                                     return (
                                                         <option
                                                             key={rank}
@@ -230,7 +230,7 @@ export default class Profile extends Component {
                                                 onChange={this.handleChange}
                                                 name="professionOne"
                                             >
-                                                {PROFESSIONS.map(prof => {
+                                                {PROFESSIONS.map((prof) => {
                                                     return (
                                                         <option
                                                             key={prof}
@@ -253,7 +253,7 @@ export default class Profile extends Component {
                                                 onChange={this.handleChange}
                                                 name="professionTwo"
                                             >
-                                                {PROFESSIONS.map(prof => {
+                                                {PROFESSIONS.map((prof) => {
                                                     return (
                                                         <option
                                                             key={prof}

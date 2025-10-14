@@ -9,27 +9,27 @@ export default class CreatePost extends Component {
     }
 
     state = {
-        title: ''
+        title: '',
     };
 
-    handleChange = ev => {
+    handleChange = (ev) => {
         const change = {};
         change[ev.target.name] = ev.target.value;
         this.setState(change);
     };
 
-    handleSubmit = async ev => {
+    handleSubmit = async (ev) => {
         const { auth, cb } = this.props;
         const formData = new FormData(ev.target);
 
         ev.preventDefault();
 
-        auth.api('post', '/post', {
+        auth.api('post', '/api/posts', {
             data: formData,
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(post => {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then((post) => {
             cb(post);
         });
     };

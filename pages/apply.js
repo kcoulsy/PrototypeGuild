@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Router from 'next/router';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-
 import { SITE_URL, RECAPTCHA_KEY } from '../constants/site';
 import AuthService from '../utils/AuthService';
 import Navbar from '../components/Navbar';
@@ -24,15 +23,15 @@ export default class Apply extends Component {
             value: '',
             experience: '',
             ui: '',
-            anythingElse: ''
+            anythingElse: '',
         },
         username: '',
         password: '',
         confirm: '',
-        error: ''
+        error: '',
     };
 
-    handleChange = ev => {
+    handleChange = (ev) => {
         const { error } = this.state;
         if (error.length) this.setError('');
 
@@ -42,12 +41,12 @@ export default class Apply extends Component {
         newState[field] = val;
 
         this.setState(() => {
-            return newState
-        })
+            return newState;
+        });
         // this.setState(newState);
     };
 
-    handleExtraInfoChange = ev => {
+    handleExtraInfoChange = (ev) => {
         const { error, applicationJSON } = this.state;
         if (error.length) this.setError('');
 
@@ -61,14 +60,14 @@ export default class Apply extends Component {
 
     handleSubmit = (ev) => {
         const data = this.state;
-        const {applicationJSON} = data;
+        const { applicationJSON } = data;
         data.applicationJSON = JSON.stringify(applicationJSON);
 
         ev.preventDefault();
 
         if (this.validate()) {
-            auth.api('post', '/users', {
-                data
+            auth.api('post', '/api/users', {
+                data,
             }).then(() => {
                 Router.push(SITE_URL);
             });
@@ -86,7 +85,7 @@ export default class Apply extends Component {
             confirm,
             recaptcha,
             professionOne,
-            professionTwo
+            professionTwo,
         } = this.state;
         if (!characterName.length) {
             this.setError('You must enter your character name!');
@@ -135,7 +134,7 @@ export default class Apply extends Component {
         return true;
     };
 
-    setError = msg => {
+    setError = (msg) => {
         this.setState({ error: msg });
     };
 
@@ -282,7 +281,7 @@ export default class Apply extends Component {
                             />
                             <ReCAPTCHA
                                 sitekey={RECAPTCHA_KEY}
-                                onChange={val =>
+                                onChange={(val) =>
                                     this.setState({ recaptcha: val })
                                 }
                             />

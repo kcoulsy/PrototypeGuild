@@ -1,22 +1,25 @@
 import axios from 'axios';
 import { RANK_GM, RANK_OFFICER } from '../constants/users';
-
-const BASE_URL = 'http://localhost:3001/';
+import { SITE_URL } from '../constants/site';
 
 export default class AuthService {
     constructor(domain) {
-        this.domain = domain || BASE_URL;
+        this.domain = domain || SITE_URL;
     }
 
     login = (username, password) => {
         // Get a token
-        return this.api('post', '/users/login', {
+        return this.api('post', '/api/users/login', {
             data: {
                 username,
-                password
+                password,
+            },
+        }).then((res) => {
+            // Extract token from response headers or response data
+            const token = res.token || res.headers?.['x-auth'];
+            if (token) {
+                this.setToken({ token });
             }
-        }).then(res => {
-            this.setToken(res.tokens[0]);
             this.setProfile(res);
             return Promise.resolve(res);
         });
@@ -28,7 +31,7 @@ export default class AuthService {
         return !!token;
     };
 
-    setProfile = profile => {
+    setProfile = (profile) => {
         // Saves profile data to localStorage
         localStorage.setItem('profile', JSON.stringify(profile));
     };
@@ -73,13 +76,13 @@ export default class AuthService {
 
     logout = () => {
         // Clear user token and profile data from localStorage
-        this.api('delete', '/users/logout').then(() => {
+        this.api('delete', '/api/users/logout').then(() => {
             localStorage.removeItem('token');
             localStorage.removeItem('profile');
         });
     };
 
-    _checkStatus = response => {
+    _checkStatus = (response) => {
         // raises an error in case response status is not a success
         if (response.status >= 200 && response.status < 300) {
             return response;
@@ -95,14 +98,14 @@ export default class AuthService {
 
         const headers = {
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         };
 
         if (this.loggedIn()) {
             headers['x-auth'] = this.getToken();
         }
         if (newOptions && newOptions.headers) {
-            Object.keys(newOptions.headers).forEach(key => {
+            Object.keys(newOptions.headers).forEach((key) => {
                 headers[key] = newOptions.headers[key];
             });
 
@@ -115,12 +118,16 @@ export default class AuthService {
                 url: endpoint,
                 baseUrl: this.domain,
                 headers,
-                ...newOptions
+                ...newOptions,
             })
-                .then(res => {
-                    return resolve(res.data);
+                .then((res) => {
+                    // Include headers in response for token extraction
+                    return resolve({
+                        ...res.data,
+                        headers: res.headers,
+                    });
                 })
-                .catch(err => {
+                .catch((err) => {
                     return reject(err);
                 });
         });

@@ -5,18 +5,25 @@ import Panel from '../Panel';
 
 export default class componentName extends Component {
     state = {
-        playerClasses: []
+        playerClasses: [],
     };
 
     componentDidMount() {
         const { auth } = this.props;
 
-        auth.api('get', '/recruitment').then(playerClasses => {
-            this.setState({ playerClasses });
+        auth.api('get', '/api/recruitment').then((playerClasses) => {
+            this.setState({ 
+                playerClasses: Array.isArray(playerClasses) ? playerClasses : []
+            });
+        }).catch((error) => {
+            console.error('Error fetching recruitment data:', error);
+            this.setState({ 
+                playerClasses: []
+            });
         });
     }
 
-    handleClick = ev => {
+    handleClick = (ev) => {
         ev.preventDefault();
         const { auth } = this.props;
         const { target } = ev;
@@ -24,14 +31,14 @@ export default class componentName extends Component {
         const type = target.getAttribute('data-type');
         const recruiting = type === 'open' ? !disabled : disabled;
 
-        auth.api('patch', '/recruitment', {
+        auth.api('patch', '/api/recruitment', {
             data: {
                 playerClass: name,
-                recruiting
-            }
-        }).then(res => {
+                recruiting,
+            },
+        }).then((res) => {
             const { playerClasses } = this.state;
-            const updatedClasses = playerClasses.map(player => {
+            const updatedClasses = playerClasses.map((player) => {
                 if (player.playerClass === name) {
                     return res.playerClass;
                 }
@@ -47,39 +54,37 @@ export default class componentName extends Component {
             <Panel title="Recruitment" styleName="no-padding">
                 <table className="proto-table no-hover recruitment-table">
                     <tbody>
-                        {playerClasses.map(
-                            ({ playerClass, recruiting }) => {
-                                return (
-                                    <tr key={playerClass}>
-                                        <td>{upperFirst(playerClass)}</td>
-                                        <td>
-                                            <button
-                                                name={playerClass}
-                                                className="proto-btn btn-success"
-                                                disabled={recruiting}
-                                                onClick={this.handleClick}
-                                                type="button"
-                                                data-type="open"
-                                            >
-                                                Open
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button
-                                                name={playerClass}
-                                                className="proto-btn btn-danger"
-                                                disabled={!recruiting}
-                                                onClick={this.handleClick}
-                                                type="button"
-                                                data-type="close"
-                                            >
-                                                Closed
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            }
-                        )}
+                        {playerClasses.map(({ playerClass, recruiting }) => {
+                            return (
+                                <tr key={playerClass}>
+                                    <td>{upperFirst(playerClass)}</td>
+                                    <td>
+                                        <button
+                                            name={playerClass}
+                                            className="proto-btn btn-success"
+                                            disabled={recruiting}
+                                            onClick={this.handleClick}
+                                            type="button"
+                                            data-type="open"
+                                        >
+                                            Open
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button
+                                            name={playerClass}
+                                            className="proto-btn btn-danger"
+                                            disabled={!recruiting}
+                                            onClick={this.handleClick}
+                                            type="button"
+                                            data-type="close"
+                                        >
+                                            Closed
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </Panel>

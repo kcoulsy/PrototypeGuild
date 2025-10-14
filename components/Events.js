@@ -15,7 +15,7 @@ export default class Events extends Component {
         events: [],
         createModalOpen: false,
         editEventId: '',
-        editEventModalOpen: false
+        editEventModalOpen: false,
     };
 
     componentDidMount() {
@@ -26,14 +26,22 @@ export default class Events extends Component {
         const { auth } = this.props;
 
         this.setState({
-            isLoading: true
+            isLoading: true,
         });
-        auth.api('get', '/events/find').then(res => {
-            this.setState({
-                isLoading: false,
-                events: res
+        auth.api('get', '/api/events')
+            .then((res) => {
+                this.setState({
+                    isLoading: false,
+                    events: Array.isArray(res) ? res : [],
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching events:', error);
+                this.setState({
+                    isLoading: false,
+                    events: [],
+                });
             });
-        });
     };
 
     isAdmin = () => {
@@ -44,7 +52,7 @@ export default class Events extends Component {
 
     closeCreateModal = () => {
         this.setState({
-            createModalOpen: false
+            createModalOpen: false,
         });
         this.fetchEvents();
     };
@@ -52,7 +60,7 @@ export default class Events extends Component {
     closeEditModal = () => {
         this.setState({
             editEventModalOpen: false,
-            editEventId: ''
+            editEventId: '',
         });
         this.fetchEvents();
     };
@@ -64,7 +72,7 @@ export default class Events extends Component {
             events,
             createModalOpen,
             editEventModalOpen,
-            editEventId
+            editEventId,
         } = this.state;
 
         return (
@@ -104,11 +112,11 @@ export default class Events extends Component {
                                 </tr>
                             )}
                             {events &&
-                                events.map(event => {
+                                events.map((event) => {
                                     return (
-                                        <tr key={event._id}>
+                                        <tr key={event.id}>
                                             <Link
-                                                href={`/event?id=${event._id}`}
+                                                href={`/event?id=${event.id}`}
                                             >
                                                 <td>
                                                     {upperFirst(event.title)}
@@ -116,14 +124,14 @@ export default class Events extends Component {
                                             </Link>
 
                                             <Link
-                                                href={`/event?id=${event._id}`}
+                                                href={`/event?id=${event.id}`}
                                             >
                                                 <td>
                                                     {upperFirst(event.type)}
                                                 </td>
                                             </Link>
                                             <Link
-                                                href={`/event?id=${event._id}`}
+                                                href={`/event?id=${event.id}`}
                                             >
                                                 <td>
                                                     {moment(event.date).format(
@@ -140,7 +148,7 @@ export default class Events extends Component {
                                                             this.setState({
                                                                 editEventModalOpen: true,
                                                                 editEventId:
-                                                                    event._id
+                                                                    event.id,
                                                             });
                                                             this.fetchEvents();
                                                         }}

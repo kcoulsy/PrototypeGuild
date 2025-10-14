@@ -17,23 +17,23 @@ class Post extends Component {
     state = {
         post: {},
         sideBarPosts: [],
-        isLoading: true
+        isLoading: true,
     };
 
     componentDidMount() {
-        const {id} = this.props;
+        const { id } = this.props;
 
-        auth.api('get', `/posts/${id}`).then(res => {
+        auth.api('get', `/posts/${id}`).then((res) => {
             this.setState({
                 post: res[0],
-                isLoading: false
+                isLoading: false,
             });
         });
-        auth.api('get', '/posts').then(res=> {
+        auth.api('get', '/api/posts').then((res) => {
             this.setState({
-                sideBarPosts: res
-            })
-        })
+                sideBarPosts: res,
+            });
+        });
     }
 
     render() {
@@ -65,7 +65,7 @@ class Post extends Component {
                             <p>{post.body}</p>
                         </div>
                         <div className="side-posts">
-                        <PostList posts={sideBarPosts} />
+                            <PostList posts={sideBarPosts} />
                         </div>
                     </Panel>
                 </div>

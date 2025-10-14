@@ -9,10 +9,10 @@ export default class CreateEvent extends Component {
         type: '',
         error: '',
         date: null,
-        focused: false
+        focused: false,
     };
 
-    handleChange = ev => {
+    handleChange = (ev) => {
         const { error } = this.state;
         if (error.length) this.setError('');
 
@@ -26,7 +26,7 @@ export default class CreateEvent extends Component {
         });
     };
 
-    handleSubmit = ev => {
+    handleSubmit = (ev) => {
         const { auth, cb } = this.props;
         const data = this.state;
         const { date } = data;
@@ -34,9 +34,9 @@ export default class CreateEvent extends Component {
         ev.preventDefault();
 
         if (this.validate()) {
-            auth.api('post', '/event', {
-                data
-            }).then(event => {
+            auth.api('post', '/api/events', {
+                data,
+            }).then((event) => {
                 cb(event);
             });
         }
@@ -63,7 +63,7 @@ export default class CreateEvent extends Component {
         return true;
     };
 
-    setError = msg => {
+    setError = (msg) => {
         this.setState({ error: msg });
     };
 
@@ -87,7 +87,7 @@ export default class CreateEvent extends Component {
                     />
                     <SingleDatePicker
                         date={date} // momentPropTypes.momentObj or null
-                        onDateChange={newDate =>
+                        onDateChange={(newDate) =>
                             this.setState({ date: newDate })
                         } // PropTypes.func.isRequired
                         focused={focused} // PropTypes.bool

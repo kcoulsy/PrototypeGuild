@@ -4,3 +4,4 @@
 /uploads
 /constants/site.js
 package-lock.json
+/prisma/dev.db

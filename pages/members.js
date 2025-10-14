@@ -13,22 +13,30 @@ class Members extends Component {
 
     state = {
         isLoading: true,
-        members: []
+        members: [],
     };
 
     componentDidMount() {
         const { auth } = this.props;
 
-        auth.api('post', '/users/find', {
+        auth.api('post', '/api/users/find', {
             data: {
-                enabled: true
-            }
-        }).then(res => {
-            this.setState({
-                isLoading: false,
-                members: res
+                enabled: true,
+            },
+        })
+            .then((res) => {
+                this.setState({
+                    isLoading: false,
+                    members: Array.isArray(res) ? res : [],
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching members:', error);
+                this.setState({
+                    isLoading: false,
+                    members: [],
+                });
             });
-        });
     }
 
     render() {
@@ -47,11 +55,11 @@ class Members extends Component {
                             <table className="proto-table class-colors">
                                 <tbody>
                                     {sortedMembers &&
-                                        sortedMembers.map(member => {
+                                        sortedMembers.map((member) => {
                                             return (
                                                 <Link
-                                                    key={member._id}
-                                                    href={`/profile?id=${member._id}`}
+                                                    key={member.id}
+                                                    href={`/profile?id=${member.id}`}
                                                 >
                                                     <tr
                                                         className={

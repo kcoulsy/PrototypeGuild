@@ -14,7 +14,7 @@ export default class EditEvent extends Component {
         error: '',
         date: null,
         focused: false,
-        isLoading: true
+        isLoading: true,
     };
 
     componentDidMount() {
@@ -24,19 +24,19 @@ export default class EditEvent extends Component {
     fetchEvent = () => {
         const { auth, id } = this.props;
 
-        auth.api('get', `/events/find/${id}`).then(res => {
+        auth.api('get', `/events/find/${id}`).then((res) => {
             const { title, description, date, type } = res[0];
             this.setState({
                 title,
                 description,
                 date: moment(date),
                 type,
-                isLoading: false
+                isLoading: false,
             });
         });
     };
 
-    handleChange = ev => {
+    handleChange = (ev) => {
         const { error } = this.state;
         if (error.length) this.setError('');
 
@@ -50,7 +50,7 @@ export default class EditEvent extends Component {
         });
     };
 
-    handleSubmit = ev => {
+    handleSubmit = (ev) => {
         const { auth, id, cb } = this.props;
         const data = this.state;
         const { date } = data;
@@ -59,9 +59,9 @@ export default class EditEvent extends Component {
         ev.preventDefault();
 
         if (this.validate()) {
-            auth.api('patch', '/event', {
-                data
-            }).then(event => {
+            auth.api('patch', '/api/events/update', {
+                data,
+            }).then((event) => {
                 cb(event);
             });
         }
@@ -88,37 +88,30 @@ export default class EditEvent extends Component {
         return true;
     };
 
-    handleRemove = ev => {
+    handleRemove = (ev) => {
         const { auth, id, cb } = this.props;
         ev.preventDefault();
         if (!this.validate()) {
             return;
         }
         if (window.confirm('Are you sure you want to remove this event?')) {
-            auth.api('patch', '/event/remove', {
+            auth.api('patch', '/api/events/remove', {
                 data: {
-                    _id: id
-                }
+                    _id: id,
+                },
             }).then(() => {
                 cb();
             });
         }
     };
 
-    setError = msg => {
+    setError = (msg) => {
         this.setState({ error: msg });
     };
 
     render() {
-        const {
-            error,
-            isLoading,
-            title,
-            description,
-            date,
-            focused,
-            type
-        } = this.state;
+        const { error, isLoading, title, description, date, focused, type } =
+            this.state;
 
         return (
             <Panel title="Create Event">
@@ -143,11 +136,11 @@ export default class EditEvent extends Component {
                         />
                         <SingleDatePicker
                             date={date} // momentPropTypes.momentObj or null
-                            onDateChange={newDate =>
+                            onDateChange={(newDate) =>
                                 this.setState({ date: newDate })
                             } // PropTypes.func.isRequired
                             focused={focused} // PropTypes.bool
-                            onFocusChange={data =>
+                            onFocusChange={(data) =>
                                 this.setState({ focused: data.focused })
                             } // PropTypes.func.isRequired
                             id="date-picker" // PropTypes.string.isRequired,

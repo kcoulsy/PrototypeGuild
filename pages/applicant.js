@@ -15,7 +15,7 @@ class Applicant extends Component {
     state = {
         accepted: false,
         declined: false,
-        isLoading: true
+        isLoading: true,
     };
 
     componentDidMount() {
@@ -24,16 +24,16 @@ class Applicant extends Component {
         if (!id) {
             this.setState({ user: null, isLoading: false });
         }
-        auth.api('post', '/applicants', {
+        auth.api('post', '/api/applicants', {
             data: {
-                _id: id
-            }
-        }).then(res => {
+                _id: id,
+            },
+        }).then((res) => {
             this.setState({ user: res[0], isLoading: false });
         });
     }
 
-    handleAccept = ev => {
+    handleAccept = (ev) => {
         const { auth } = this.props;
         const { user } = this.state;
         const { _id } = user;
@@ -41,17 +41,17 @@ class Applicant extends Component {
         ev.preventDefault();
 
         if (window.confirm('Are you sure?')) {
-            auth.api('patch', `applicants/accept/${_id}`, {
+            auth.api('patch', `/api/applicants/accept/${_id}`, {
                 data: {
-                    enabled: true
-                }
+                    enabled: true,
+                },
             }).then(() => {
                 this.setState({ accepted: true });
             });
         }
     };
 
-    handleDecline = ev => {
+    handleDecline = (ev) => {
         const { auth } = this.props;
         const { user } = this.state;
         const { _id } = user;
@@ -59,10 +59,10 @@ class Applicant extends Component {
         ev.preventDefault();
 
         if (window.confirm('Are you sure?')) {
-            auth.api('patch', `applicants/decline/${_id}`, {
+            auth.api('patch', `/api/applicants/decline/${_id}`, {
                 data: {
-                    deleted: true
-                }
+                    deleted: true,
+                },
             }).then(() => {
                 this.setState({ accepted: true });
             });
@@ -152,7 +152,7 @@ class Applicant extends Component {
             playerClass,
             playerRole,
             professionOne,
-            professionTwo
+            professionTwo,
         } = user;
 
         return (
@@ -189,7 +189,7 @@ class Applicant extends Component {
                                         {upperFirst(professionTwo)}
                                     </td>
                                 </tr>
-                                {Object.keys(application).map(key => {
+                                {Object.keys(application).map((key) => {
                                     return (
                                         <tr key={key}>
                                             <td>{key}</td>

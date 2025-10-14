@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  id              Int      @id @default(autoincrement())
   username        String   @unique
   password        String
   characterName   String?
@@ -22,7 +22,7 @@ model User {
   professionOne   String?
   professionTwo   String?
   enabled         Boolean  @default(false)
-  enabledBy       String?  @db.ObjectId
+  enabledBy       Int?
   deleted         Boolean  @default(false)
   admin           Boolean  @default(false)
   applicationJSON String?
@@ -36,21 +36,21 @@ model User {
 }
 
 model Token {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  id     Int    @id @default(autoincrement())
   type   String
   token  String
-  userId String @db.ObjectId
+  userId Int
   user   User   @relation(fields: [userId], references: [id])
 
   @@map("tokens")
 }
 
 model Event {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          Int      @id @default(autoincrement())
   title       String
   description String?
   type        String?
-  createdBy   String   @db.ObjectId
+  createdBy   Int
   creator     User     @relation("EventCreator", fields: [createdBy], references: [id])
   date        DateTime?
   eventAttendance EventAttendance[]
@@ -62,18 +62,18 @@ model Event {
 }
 
 model EventAttendance {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  eventId String @db.ObjectId
-  user    User   @relation(fields: [userId], references: [id])
-  event   Event  @relation(fields: [eventId], references: [id])
+  id      Int @id @default(autoincrement())
+  userId  Int
+  eventId Int
+  user    User @relation(fields: [userId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
 
   @@unique([userId, eventId])
   @@map("event_attendance")
 }
 
 model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int      @id @default(autoincrement())
   title     String
   body      String?
   imageUrl  String?
@@ -85,7 +85,7 @@ model Post {
 }
 
 model Recruitment {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          Int     @id @default(autoincrement())
   playerClass String?
   recruiting  Boolean?
 

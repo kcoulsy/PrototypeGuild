@@ -7,16 +7,16 @@ import Panel from '../Panel';
 export default class Applicants extends Component {
     state = {
         applicants: [],
-        isLoading: true
+        isLoading: true,
     };
 
     componentDidMount() {
         const { auth } = this.props;
-        auth.api('post', '/applicants', {
+        auth.api('post', '/api/applicants', {
             data: {
-                enabled: true
-            }
-        }).then(res => {
+                enabled: true,
+            },
+        }).then((res) => {
             this.setState({ applicants: res, isLoading: false });
         });
     }
@@ -37,7 +37,7 @@ export default class Applicants extends Component {
                 {applicants && applicants.length ? (
                     <table className="proto-table">
                         <tbody>
-                            {applicants.map(member => {
+                            {applicants.map((member) => {
                                 return (
                                     <Link
                                         key={member._id}

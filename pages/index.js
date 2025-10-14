@@ -13,14 +13,13 @@ export default class Index extends Component {
 
     state = {
         playerClasses: [],
-        posts: []
+        posts: [],
     };
 
     componentDidMount() {
-        auth.api('get', '/home')
-            .then(res => {
-                this.setState(res);
-            });
+        auth.api('get', '/api/home').then((res) => {
+            this.setState(res);
+        });
     }
 
     render() {
@@ -31,7 +30,10 @@ export default class Index extends Component {
                 <Navbar auth={auth} />
                 <div className="content">
                     <div className="proto-hero">
-                        <img src="/static/images/logo.png" alt="Prototype Guild Logo" />
+                        <img
+                            src="/static/images/logo.png"
+                            alt="Prototype Guild Logo"
+                        />
                         <h2>A Classic WoW guild</h2>
                     </div>
                     <NewRecruitment classValues={playerClasses} />

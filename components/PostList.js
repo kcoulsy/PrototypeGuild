@@ -7,7 +7,7 @@ import Modal from './utils/Modal';
 export default class PostList extends Component {
     state = {
         posts: [],
-        createPostOpen: false
+        createPostOpen: false,
     };
 
     componentDidMount() {
@@ -17,24 +17,29 @@ export default class PostList extends Component {
     fetchPosts = () => {
         const { auth } = this.props;
 
-        auth.api('get', '/posts').then(res => {
+        auth.api('get', '/api/posts').then((res) => {
             this.setState({
-                posts: res
+                posts: Array.isArray(res) ? res : [],
+            });
+        }).catch((error) => {
+            console.error('Error fetching posts:', error);
+            this.setState({
+                posts: [],
             });
         });
     };
 
-    removePost = ev => {
+    removePost = (ev) => {
         const { value } = ev.target;
         const { auth } = this.props;
 
         ev.preventDefault();
 
         if (window.confirm('Are you sure you want to delete this post?')) {
-            auth.api('patch', '/posts/remove', {
+            auth.api('patch', '/api/posts/remove', {
                 data: {
-                    _id: value
-                }
+                    _id: value,
+                },
             }).then(() => {
                 this.fetchPosts();
             });
@@ -43,7 +48,7 @@ export default class PostList extends Component {
 
     closeModal = () => {
         this.setState(({ createPostOpen }) => ({
-            createPostOpen: !createPostOpen
+            createPostOpen: !createPostOpen,
         }));
         this.fetchPosts();
     };
@@ -78,7 +83,7 @@ export default class PostList extends Component {
                                 </tr>
                             )}
                             {posts &&
-                                posts.map(post => {
+                                posts.map((post) => {
                                     return (
                                         <tr key={post.title}>
                                             <td>
@@ -90,7 +95,7 @@ export default class PostList extends Component {
                                             <td>{post.title}</td>
                                             <td>
                                                 <button
-                                                    value={post._id}
+                                                    value={post.id}
                                                     className="proto-btn"
                                                     type="button"
                                                     onClick={this.removePost}
