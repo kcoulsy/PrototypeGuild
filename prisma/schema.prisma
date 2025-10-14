@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  username        String   @unique
+  password        String
+  characterName   String?
+  discordTag      String?
+  playerClass     String?
+  playerRole      String?
+  rank            String?
+  professionOne   String?
+  professionTwo   String?
+  enabled         Boolean  @default(false)
+  enabledBy       String?  @db.ObjectId
+  deleted         Boolean  @default(false)
+  admin           Boolean  @default(false)
+  applicationJSON String?
+  tokens          Token[]
+  eventsCreated   Event[]  @relation("EventCreator")
+  eventAttendance EventAttendance[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Token {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  type   String
+  token  String
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("tokens")
+}
+
+model Event {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  type        String?
+  createdBy   String   @db.ObjectId
+  creator     User     @relation("EventCreator", fields: [createdBy], references: [id])
+  date        DateTime?
+  eventAttendance EventAttendance[]
+  hidden      Boolean?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("events")
+}
+
+model EventAttendance {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @db.ObjectId
+  eventId String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+  @@map("event_attendance")
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  body      String?
+  imageUrl  String?
+  hidden    Boolean?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model Recruitment {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  playerClass String?
+  recruiting  Boolean?
+
+  @@map("recruitments")
+}
