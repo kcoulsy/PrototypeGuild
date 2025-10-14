@@ -51,7 +51,7 @@ export default function ApplyPage() {
     const handleChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
+        >,
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => {
@@ -62,7 +62,7 @@ export default function ApplyPage() {
     };
 
     const handleExtraInfoChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({

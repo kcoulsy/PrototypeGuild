@@ -58,7 +58,7 @@ export const loginAction = action
             // Verify password
             const isValidPassword = await bcrypt.compare(
                 password,
-                user.password
+                user.password,
             );
             if (!isValidPassword) {
                 throw new Error('Invalid credentials');
@@ -72,7 +72,7 @@ export const loginAction = action
             // Create new token
             const token = jwt.sign(
                 { id: user.id, type: 'x-auth' },
-                process.env.JWT_SECRET!
+                process.env.JWT_SECRET!,
             );
 
             // Save token to database
@@ -103,7 +103,7 @@ export const loginAction = action
             };
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Login failed'
+                error instanceof Error ? error.message : 'Login failed',
             );
         }
     });
@@ -164,7 +164,7 @@ export const createUserAction = action
             // Create token
             const token = jwt.sign(
                 { id: user.id, type: 'x-auth' },
-                process.env.JWT_SECRET!
+                process.env.JWT_SECRET!,
             );
 
             // Save token to database
@@ -195,7 +195,7 @@ export const createUserAction = action
             };
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'User creation failed'
+                error instanceof Error ? error.message : 'User creation failed',
             );
         }
     });
@@ -247,7 +247,41 @@ export const updateUserAction = action
             };
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'User update failed'
+                error instanceof Error ? error.message : 'User update failed',
             );
         }
     });
+
+export const getMembersAction = async () => {
+    try {
+        const members = await prisma.user.findMany({
+            where: {
+                enabled: true,
+                deleted: false,
+            },
+            select: {
+                id: true,
+                username: true,
+                characterName: true,
+                discordTag: true,
+                playerClass: true,
+                playerRole: true,
+                rank: true,
+                professionOne: true,
+                professionTwo: true,
+                enabled: true,
+                admin: true,
+            },
+            orderBy: { characterName: 'asc' },
+        });
+
+        return {
+            success: true,
+            members,
+        };
+    } catch (error) {
+        throw new Error(
+            error instanceof Error ? error.message : 'Failed to fetch members',
+        );
+    }
+};

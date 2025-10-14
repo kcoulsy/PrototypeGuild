@@ -1,31 +1,45 @@
-'use client';
-
+import React, { Suspense } from 'react';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Profile from '@/components/Profile';
-import Events from '@/components/Events';
+import ServerProfile from '@/components/ServerProfile';
+import ServerEvents from '@/components/Events';
 import UpdatePassword from '@/components/UpdatePassword';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import { auth } from '@/lib/auth';
+import Loader from '@/components/Loader';
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+    // Get session from better-auth
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    // Redirect to login if not authenticated
+    if (!session) {
+        redirect('/login');
+    }
+
     return (
-        <ProtectedRoute>
-            <div className="page-dashboard">
-                <Navbar />
-                <div className="content">
-                    <div className="container">
-                        <h2>Dashboard</h2>
-                        <div className="dashboard-content">
-                            <div className="sidebar">
-                                <Profile />
-                                <UpdatePassword requirePrevious />
-                            </div>
-                            <div className="main-content">
-                                <Events />
-                            </div>
+        <div className="page-dashboard">
+            <Navbar />
+            <div className="content">
+                <div className="container">
+                    <h2>Dashboard</h2>
+                    <div className="dashboard-content">
+                        <div className="sidebar">
+                            <Suspense fallback={<Loader />}>
+                                <ServerProfile />
+                            </Suspense>
+                            <UpdatePassword requirePrevious />
+                        </div>
+                        <div className="main-content">
+                            <Suspense fallback={<Loader />}>
+                                <ServerEvents />
+                            </Suspense>
                         </div>
                     </div>
                 </div>
             </div>
-        </ProtectedRoute>
+        </div>
     );
 }

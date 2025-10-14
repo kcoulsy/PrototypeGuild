@@ -32,7 +32,7 @@ export default function ApplicantPage({ params }: ApplicantPageProps) {
             const result = await getApplicantsAction();
             if (result.success) {
                 const applicant = result.applicants.find(
-                    (app: any) => app.id.toString() === params.id
+                    (app: any) => app.id.toString() === params.id,
                 );
                 setUser(applicant);
             }

@@ -1,8 +1,10 @@
 'use server';
 
 import { z } from 'zod';
+import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import { createSafeActionClient } from 'next-safe-action';
+import { auth } from '@/lib/auth';
 
 const action = createSafeActionClient();
 
@@ -20,6 +22,20 @@ export const updateRecruitmentAction = action
         const { id, playerClass, recruiting } = parsedInput;
 
         try {
+            // Get session from better-auth
+            const session = await auth.api.getSession({
+                headers: await headers(),
+            });
+
+            if (!session) {
+                throw new Error('Not authenticated');
+            }
+
+            // Check if user is admin
+            if (!session.user.admin) {
+                throw new Error('Not authorized');
+            }
+
             const recruitment = await prisma.recruitment.update({
                 where: { id },
                 data: {
@@ -36,7 +52,7 @@ export const updateRecruitmentAction = action
             throw new Error(
                 error instanceof Error
                     ? error.message
-                    : 'Recruitment update failed'
+                    : 'Recruitment update failed',
             );
         }
     });
@@ -55,7 +71,7 @@ export const getRecruitmentAction = async () => {
         throw new Error(
             error instanceof Error
                 ? error.message
-                : 'Failed to fetch recruitment data'
+                : 'Failed to fetch recruitment data',
         );
     }
 };

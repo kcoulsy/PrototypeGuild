@@ -1,46 +1,52 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import { useAction } from 'next-safe-action/hooks';
+import React from 'react';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import upperFirst from 'lodash/upperFirst';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Panel from '@/components/Panel';
-import Loader from '@/components/Loader';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import sortFunc from '@/utils/memberSort';
 
-export default function MembersPage() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [members, setMembers] = useState<any[]>([]);
-    const router = useRouter();
+export default async function MembersPage() {
+    // Get session from better-auth
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-    // We need to create a server action for finding users
-    // For now, let's use a simple fetch
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                setIsLoading(true);
-                // TODO: Create a proper server action for finding users
-                // For now, we'll use a placeholder
-                setMembers([]);
-            } catch (error) {
-                console.error('Error fetching members:', error);
-                setMembers([]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // Redirect to login if not authenticated
+    if (!session) {
+        redirect('/login');
+    }
 
-        // Check if user is logged in
-        const profile = localStorage.getItem('profile');
-        if (!profile) {
-            router.push('/login');
-            return;
-        }
-
-        fetchMembers();
-    }, [router]);
+    // Fetch members data
+    let members: any[] = [];
+    try {
+        const result = await prisma.user.findMany({
+            where: {
+                enabled: true,
+                deleted: false,
+            },
+            select: {
+                id: true,
+                username: true,
+                characterName: true,
+                discordTag: true,
+                playerClass: true,
+                playerRole: true,
+                rank: true,
+                professionOne: true,
+                professionTwo: true,
+                enabled: true,
+                admin: true,
+            },
+        });
+        members = result;
+    } catch (error) {
+        console.error('Error fetching members:', error);
+        members = [];
+    }
 
     const sortedMembers = members.sort(sortFunc);
 
@@ -49,51 +55,41 @@ export default function MembersPage() {
             <Navbar />
             <div className="content">
                 <Panel title="Members" styleName="panel-md no-padding">
-                    {isLoading ? (
-                        <Loader />
-                    ) : (
-                        <table className="proto-table class-colors">
-                            <tbody>
-                                {sortedMembers &&
-                                    sortedMembers.map((member: any) => {
-                                        return (
-                                            <tr key={member.id}>
-                                                <td>
-                                                    <Link
-                                                        href={`/profile?id=${member.id}`}
+                    <table className="proto-table class-colors">
+                        <tbody>
+                            {sortedMembers &&
+                                sortedMembers.map((member: any) => {
+                                    return (
+                                        <tr key={member.id}>
+                                            <td>
+                                                <Link
+                                                    href={`/profile?id=${member.id}`}
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        className={
+                                                            member.playerClass
+                                                        }
                                                     >
-                                                        <button
-                                                            type="button"
-                                                            className={
-                                                                member.playerClass
-                                                            }
-                                                        >
-                                                            {upperFirst(
-                                                                member.characterName ||
-                                                                    member.username
-                                                            )}
-                                                        </button>
-                                                    </Link>
-                                                </td>
-                                                <td>
-                                                    {upperFirst(
-                                                        member.playerClass
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {upperFirst(
-                                                        member.playerRole
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {upperFirst(member.rank)}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                            </tbody>
-                        </table>
-                    )}
+                                                        {upperFirst(
+                                                            member.characterName ||
+                                                                member.username,
+                                                        )}
+                                                    </button>
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                {upperFirst(member.playerClass)}
+                                            </td>
+                                            <td>
+                                                {upperFirst(member.playerRole)}
+                                            </td>
+                                            <td>{upperFirst(member.rank)}</td>
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>
                 </Panel>
             </div>
         </div>

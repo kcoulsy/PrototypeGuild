@@ -1,8 +1,10 @@
 'use server';
 
 import { z } from 'zod';
+import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import { createSafeActionClient } from 'next-safe-action';
+import { auth } from '@/lib/auth';
 
 const action = createSafeActionClient();
 
@@ -24,6 +26,15 @@ export const createPostAction = action
         const { title, body, imageUrl } = parsedInput;
 
         try {
+            // Get session from better-auth
+            const session = await auth.api.getSession({
+                headers: await headers(),
+            });
+
+            if (!session) {
+                throw new Error('Not authenticated');
+            }
+
             const post = await prisma.post.create({
                 data: {
                     title,
@@ -39,7 +50,7 @@ export const createPostAction = action
             };
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Post creation failed'
+                error instanceof Error ? error.message : 'Post creation failed',
             );
         }
     });
@@ -50,6 +61,15 @@ export const removePostAction = action
         const { id } = parsedInput;
 
         try {
+            // Get session from better-auth
+            const session = await auth.api.getSession({
+                headers: await headers(),
+            });
+
+            if (!session) {
+                throw new Error('Not authenticated');
+            }
+
             const post = await prisma.post.update({
                 where: { id },
                 data: { hidden: true },
@@ -61,7 +81,7 @@ export const removePostAction = action
             };
         } catch (error) {
             throw new Error(
-                error instanceof Error ? error.message : 'Post removal failed'
+                error instanceof Error ? error.message : 'Post removal failed',
             );
         }
     });
@@ -79,7 +99,7 @@ export const getPostsAction = async () => {
         };
     } catch (error) {
         throw new Error(
-            error instanceof Error ? error.message : 'Failed to fetch posts'
+            error instanceof Error ? error.message : 'Failed to fetch posts',
         );
     }
 };

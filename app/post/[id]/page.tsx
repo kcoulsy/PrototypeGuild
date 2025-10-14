@@ -24,7 +24,7 @@ export default function PostPage({ params }: PostPageProps) {
             const result = await getPostsAction();
             if (result.success) {
                 const foundPost = result.posts.find(
-                    (p: any) => p.id.toString() === params.id
+                    (p: any) => p.id.toString() === params.id,
                 );
                 setPost(foundPost);
             }

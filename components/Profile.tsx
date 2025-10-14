@@ -1,26 +1,14 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
+import { headers } from 'next/headers';
 import upperFirst from 'lodash/upperFirst';
-import { CLASSES, ROLES, RANKS } from '../constants/users';
-import { PROFESSIONS } from '../constants/professions';
 import Panel from './Panel';
-import { useSession } from './SessionProvider';
+import { auth } from '@/lib/auth';
 
-interface ProfileProps {
-    id?: string;
-    canEdit?: boolean;
-}
-
-export default function Profile({ id, canEdit }: ProfileProps) {
-    const { session } = useSession();
-    const [editMode, setEditMode] = useState(false);
-
-    const handleEditClick = () => {
-        if (session?.user.admin && canEdit) {
-            setEditMode(!editMode);
-        }
-    };
+export default async function Profile() {
+    // Get session from better-auth
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
     if (!session) {
         return (
@@ -49,15 +37,6 @@ export default function Profile({ id, canEdit }: ProfileProps) {
             <div className="profile-content">
                 <div className="profile-header">
                     <h3>{characterName || name || email}</h3>
-                    {canEdit && session.user.admin && (
-                        <button
-                            className="proto-btn edit-btn"
-                            onClick={handleEditClick}
-                            type="button"
-                        >
-                            {editMode ? 'Cancel' : 'Edit'}
-                        </button>
-                    )}
                 </div>
 
                 <div className="profile-details">

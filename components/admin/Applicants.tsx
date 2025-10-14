@@ -1,39 +1,52 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import { useAction } from 'next-safe-action/hooks';
-import { getApplicantsAction } from '@/lib/actions/applicants';
+import React from 'react';
+import { headers } from 'next/headers';
 import Link from 'next/link';
-import Loader from '../Loader';
 import Panel from '../Panel';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
-export default function Applicants() {
-    const [applicants, setApplicants] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+export default async function Applicants() {
+    // Get session from better-auth
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
-    const fetchApplicants = async () => {
-        try {
-            const result = await getApplicantsAction();
-            if (result.success) {
-                setApplicants(result.applicants);
-            }
-        } catch (error) {
-            console.error('Error fetching applicants:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchApplicants();
-    }, []);
-
-    if (isLoading) {
+    if (!session) {
         return (
             <Panel title="Applicants" styleName="no-padding">
-                <Loader />
+                <div>Not logged in</div>
             </Panel>
         );
+    }
+
+    // Fetch applicants data
+    let applicants: any[] = [];
+    try {
+        const result = await prisma.user.findMany({
+            where: {
+                enabled: false,
+                deleted: false,
+            },
+            select: {
+                id: true,
+                username: true,
+                characterName: true,
+                discordTag: true,
+                playerClass: true,
+                playerRole: true,
+                rank: true,
+                professionOne: true,
+                professionTwo: true,
+                enabled: true,
+                applicationJSON: true,
+                createdAt: true,
+            },
+            orderBy: { createdAt: 'desc' },
+        });
+        applicants = result;
+    } catch (error) {
+        console.error('Error fetching applicants:', error);
+        applicants = [];
     }
 
     return (
