@@ -1,29 +1,15 @@
 import React, { Suspense } from 'react';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Events from '@/components/Events';
 import ServerApplicants from '@/components/admin/Applicants';
 import ServerRecruitment from '@/components/admin/Recruitment';
-import ServerPostList from '@/components/ServerPostList';
-import { auth } from '@/lib/auth';
+import ServerPostList from '@/components/PostList';
+import { requireAdmin } from '@/lib/helpers/auth';
 import Loader from '@/components/Loader';
 
 export default async function AdminPage() {
-    // Get session from better-auth
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    // Redirect to login if not authenticated
-    if (!session) {
-        redirect('/login');
-    }
-
-    // Check if user is admin
-    if (!session.user.admin) {
-        redirect('/dashboard');
-    }
+    // Require admin access - redirects to login if not authenticated, or dashboard if not admin
+    const session = await requireAdmin();
 
     return (
         <div className="page-dashboard">

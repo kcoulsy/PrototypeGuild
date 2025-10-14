@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { createUserAction } from '@/lib/actions/users';
+import { createUserAction } from '@/actions/users/createUser';
 import { useRouter } from 'next/navigation';
 // import ReCAPTCHA from 'react-google-recaptcha';
 import Navbar from '@/components/Navbar';

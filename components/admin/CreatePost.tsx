@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { createPostAction } from '@/lib/actions/posts';
+import { createPostAction } from '@/actions/posts/createPost';
 import Panel from '../Panel';
 
 interface CreatePostProps {
@@ -29,7 +29,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
     });
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));

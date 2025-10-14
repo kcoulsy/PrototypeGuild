@@ -1,23 +1,14 @@
 import React, { Suspense } from 'react';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import ServerProfile from '@/components/ServerProfile';
+import ServerProfile from '@/components/Profile';
 import ServerEvents from '@/components/Events';
 import UpdatePassword from '@/components/UpdatePassword';
-import { auth } from '@/lib/auth';
+import { requireAuth } from '@/lib/helpers/auth';
 import Loader from '@/components/Loader';
 
 export default async function DashboardPage() {
-    // Get session from better-auth
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    // Redirect to login if not authenticated
-    if (!session) {
-        redirect('/login');
-    }
+    // Require authentication - redirects to login if not authenticated
+    const session = await requireAuth();
 
     return (
         <div className="page-dashboard">

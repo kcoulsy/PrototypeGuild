@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { removePostAction } from '@/lib/actions/posts';
+import { removePostAction } from '@/actions/posts/removePost';
 import CreatePost from './admin/CreatePost';
 import Modal from './utils/Modal';
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { updateRecruitmentAction } from '@/lib/actions/recruitment';
+import { updateRecruitmentAction } from '@/actions/recruitment/updateRecruitment';
 import upperFirst from 'lodash/upperFirst';
 
 interface RecruitmentData {

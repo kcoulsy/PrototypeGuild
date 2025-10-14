@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { createEventAction } from '@/lib/actions/events';
+import { createEventAction } from '@/actions/events/createEvent';
 import Panel from '../Panel';
 
 interface CreateEventProps {

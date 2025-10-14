@@ -1,6 +1,6 @@
 import React from 'react';
-import { getPostsAction } from '@/lib/actions/posts';
-import { getRecruitmentAction } from '@/lib/actions/recruitment';
+import { getPostsAction } from '@/actions/posts/getPosts';
+import { getRecruitmentAction } from '@/actions/recruitment/getRecruitment';
 import Navbar from '@/components/Navbar';
 import SkewedImageRow from '@/components/SkewedImageRow';
 import NewRecruitment from '@/components/NewRecruitment';

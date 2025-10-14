@@ -1,26 +1,15 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 import upperFirst from 'lodash/upperFirst';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Panel from '@/components/Panel';
-import { auth } from '@/lib/auth';
+import { requireAuth } from '@/lib/helpers/auth';
 import { prisma } from '@/lib/prisma';
 import sortFunc from '@/utils/memberSort';
 
 export default async function MembersPage() {
-    // Get session from better-auth
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
+    await requireAuth();
 
-    // Redirect to login if not authenticated
-    if (!session) {
-        redirect('/login');
-    }
-
-    // Fetch members data
     let members: any[] = [];
     try {
         const result = await prisma.user.findMany({

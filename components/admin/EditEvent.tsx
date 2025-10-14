@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { getEventsAction, updateEventAction } from '@/lib/actions/events';
+import { getEventsAction } from '@/actions/events/getEvents';
+import { updateEventAction } from '@/actions/events/updateEvent';
 import Panel from '../Panel';
 import Loader from '../Loader';
 

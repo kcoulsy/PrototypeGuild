@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { getEventsAction } from '@/lib/actions/events';
+import { getEventsAction } from '@/actions/events/getEvents';
 import upperFirst from 'lodash/upperFirst';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

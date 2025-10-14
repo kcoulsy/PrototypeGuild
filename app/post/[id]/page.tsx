@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import { getPostsAction } from '@/lib/actions/posts';
+import { getPostsAction } from '@/actions/posts/getPosts';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Panel from '@/components/Panel';

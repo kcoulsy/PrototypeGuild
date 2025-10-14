@@ -2,11 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAction } from 'next-safe-action/hooks';
-import {
-    getApplicantsAction,
-    acceptApplicantAction,
-    declineApplicantAction,
-} from '@/lib/actions/applicants';
+import { getApplicantsAction } from '@/actions/applicants/getApplicants';
+import { acceptApplicantAction } from '@/actions/applicants/acceptApplicant';
+import { declineApplicantAction } from '@/actions/applicants/declineApplicant';
 import upperFirst from 'lodash/upperFirst';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

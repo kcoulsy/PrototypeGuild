@@ -3,11 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
-import {
-    getApplicantsAction,
-    acceptApplicantAction,
-    declineApplicantAction,
-} from '@/lib/actions/applicants';
+import { getApplicantsAction } from '@/actions/applicants/getApplicants';
+import { acceptApplicantAction } from '@/actions/applicants/acceptApplicant';
+import { declineApplicantAction } from '@/actions/applicants/declineApplicant';
 
 export default function ApplicantsPage() {
     const [user, setUser] = useState<any>(null);
@@ -140,7 +138,7 @@ export default function ApplicantsPage() {
                                             </td>
                                             <td>
                                                 {new Date(
-                                                    applicant.createdAt
+                                                    applicant.createdAt,
                                                 ).toLocaleDateString()}
                                             </td>
                                             <td>
@@ -148,7 +146,7 @@ export default function ApplicantsPage() {
                                                     <button
                                                         onClick={() =>
                                                             handleAccept(
-                                                                applicant.id
+                                                                applicant.id,
                                                             )
                                                         }
                                                         className="accept-btn"
@@ -158,7 +156,7 @@ export default function ApplicantsPage() {
                                                     <button
                                                         onClick={() =>
                                                             handleDecline(
-                                                                applicant.id
+                                                                applicant.id,
                                                             )
                                                         }
                                                         className="decline-btn"
